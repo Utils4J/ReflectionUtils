@@ -1,6 +1,5 @@
 package de.cyklon.reflection.entities;
 
-import de.cyklon.reflection.entities.impl.ReflectEntityImpl;
 import de.cyklon.reflection.entities.impl.ReflectClassImpl;
 import de.cyklon.reflection.exception.ExecutionException;
 import de.cyklon.reflection.exception.FieldNotFoundException;
