@@ -1,4 +1,4 @@
-package de.cyklon.reflection;
+package de.cyklon.reflection.entities;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -9,7 +9,7 @@ public interface ReflectField<D, R> extends ReflectEntity<D, R> {
 
 	@NotNull Field getField();
 
-	@Nullable R getValue(D obj);
+	@Nullable R getValue(@NotNull D obj);
 
 	@Nullable
 	default R getStaticValue() {
