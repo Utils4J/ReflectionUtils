@@ -17,7 +17,7 @@ public interface Annotatable {
 	@Nullable
 	default <T extends Annotation> T getAnnotation(@NotNull Class<T> annotation) {
 		return Arrays.stream(getAnnotations())
-				.filter(a -> a.getClass().equals(annotation))
+				.filter(a -> a.annotationType().equals(annotation))
 				.map(annotation::cast)
 				.findFirst()
 				.orElse(null);
