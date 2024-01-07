@@ -41,8 +41,8 @@ publishing {
     }
     publications {
         maven(MavenPublication) {
-            groupId = "de.mineking"
-            artifactId = "DiscordUtils"
+            groupId = "de.cyklon"
+            artifactId = "ReflectionUtils"
             version = release ? this.version : commit
 
             from components.java
