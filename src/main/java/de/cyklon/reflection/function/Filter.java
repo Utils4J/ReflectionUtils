@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.annotation.Annotation;
 import java.util.Collection;
 
+@FunctionalInterface
 public interface Filter<T> {
 
 	@NotNull
