@@ -120,7 +120,7 @@ public class ReflectClassImpl<D> extends ReflectEntityImpl<D, D> implements Refl
 
 	@Override
 	public @NotNull String getName() {
-		return declaringClass.getName();
+		return declaringClass.getSimpleName();
 	}
 
 	@Override
