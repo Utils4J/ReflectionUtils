@@ -12,6 +12,7 @@ public interface ReflectField<D, R> extends ReflectEntity<D, R> {
 	@Nullable R getValue(@NotNull D obj);
 
 	@Nullable
+	@SuppressWarnings("ConstantConditions")
 	default R getStaticValue() {
 		return getValue(null);
 	}
