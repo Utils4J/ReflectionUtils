@@ -53,7 +53,7 @@ public class ReflectMethodImpl<D, R> extends ReflectMemberImpl<D, R> implements 
 
 	@NotNull
 	@Override
-	public EnumSet<Modifier> getModifiers() throws UnsupportedOperationException {
+	public EnumSet<Modifier> getModifiers() {
 		return Modifier.parse(method.getModifiers());
 	}
 

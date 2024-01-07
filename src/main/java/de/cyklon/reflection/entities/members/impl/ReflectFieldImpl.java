@@ -39,7 +39,7 @@ public class ReflectFieldImpl<D, R> extends ReflectMemberImpl<D, R> implements R
 
 	@NotNull
 	@Override
-	public EnumSet<Modifier> getModifiers() throws UnsupportedOperationException {
+	public EnumSet<Modifier> getModifiers() {
 		return Modifier.parse(field.getModifiers());
 	}
 

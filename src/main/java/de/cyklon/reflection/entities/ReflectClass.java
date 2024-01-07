@@ -37,16 +37,16 @@ public interface ReflectClass<D> extends MemberContainer<D>, Type, ReflectEntity
 	Class<?> getInternal();
 
 	@NotNull
-	ReflectClass<?> getArrayComponent() throws UnsupportedOperationException;
+	ReflectClass<?> getArrayComponent() throws IllegalStateException;
 
 	@NotNull
-	ReflectClass<?> getActualArrayComponent() throws UnsupportedOperationException;
+	ReflectClass<?> getActualArrayComponent();
 
 	@NotNull
 	List<? extends ReflectClass<?>> getTypeParameters();
 
 
-	@NotNull <E extends Enum<E>> List<E> getEnumConstants() throws UnsupportedOperationException;
+	@NotNull <E extends Enum<E>> List<E> getEnumConstants() throws IllegalStateException;
 
 
 	@NotNull
@@ -63,10 +63,10 @@ public interface ReflectClass<D> extends MemberContainer<D>, Type, ReflectEntity
 	Set<? extends ReflectClass<?>> getSubclasses(@NotNull Filter<ReflectClass<?>> filter);
 
 	@NotNull
-	D[] newArrayInstance(int... dimensions) throws UnsupportedOperationException;
+	D[] newArrayInstance(int... dimensions) throws IllegalStateException;
 
 	@NotNull
-	D newInstance(@NotNull Object... params) throws ExecutionException, UnsupportedOperationException;
+	D newInstance(@NotNull Object... params) throws ExecutionException, IllegalStateException;
 
 	@NotNull <R> Optional<ReflectField<D, R>> getOptionalField(@NotNull Class<R> returnType, @NotNull String fieldName);
 
