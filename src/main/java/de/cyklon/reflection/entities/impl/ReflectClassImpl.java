@@ -1,6 +1,7 @@
 package de.cyklon.reflection.entities.impl;
 
 import de.cyklon.reflection.entities.ReflectClass;
+import de.cyklon.reflection.entities.ReflectPackage;
 import de.cyklon.reflection.entities.members.ReflectConstructor;
 import de.cyklon.reflection.entities.members.ReflectField;
 import de.cyklon.reflection.entities.members.ReflectMethod;
@@ -12,6 +13,7 @@ import de.cyklon.reflection.function.Filter;
 import de.cyklon.reflection.types.Modifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Unmodifiable;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
@@ -78,6 +80,7 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 
 	@NotNull
 	@Override
+	@Unmodifiable
 	public List<? extends ReflectClass<?>> getTypeParameters() {
 		if (!(type instanceof ParameterizedType pt)) return Collections.emptyList();
 		return Arrays.stream(pt.getActualTypeArguments())
@@ -87,6 +90,7 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 
 	@NotNull
 	@Override
+	@Unmodifiable
 	@SuppressWarnings("unchecked")
 	public <E extends Enum<E>> List<E> getEnumConstants() throws UnsupportedOperationException {
 		if (clazz == null || !clazz.isEnum()) throw new UnsupportedOperationException();
@@ -111,43 +115,53 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 
 	@NotNull
 	@Override
+	public ReflectPackage getPackage() {
+		return ReflectPackage.get(clazz.getPackageName());
+	}
+
+	@NotNull
+	@Override
+	@Unmodifiable
 	public Set<? extends ReflectClass<?>> getSubclasses(@NotNull Filter<ReflectClass<?>> filter) {
 		if (clazz == null) return Collections.emptySet();
 		return Arrays.stream(clazz.getClasses())
 				.map(ReflectClassImpl::new)
 				.filter(filter::filter)
-				.collect(Collectors.toSet());
+				.collect(Collectors.toUnmodifiableSet());
 	}
 
 	@NotNull
 	@Override
+	@Unmodifiable
 	@SuppressWarnings("unchecked")
 	public Set<? extends ReflectConstructor<D>> getConstructors(@NotNull Filter<ReflectConstructor<?>> filter) {
 		if (clazz == null) return Collections.emptySet();
 		return Arrays.stream(clazz.getDeclaredConstructors())
 				.map(c -> new ReflectConstructorImpl<>(this, (Constructor<D>) c))
 				.filter(filter::filter)
-				.collect(Collectors.toSet());
+				.collect(Collectors.toUnmodifiableSet());
 	}
 
 	@NotNull
 	@Override
+	@Unmodifiable
 	public Set<? extends ReflectField<D, ?>> getFields(@NotNull Filter<ReflectField<?, ?>> filter) {
 		if (clazz == null) return Collections.emptySet();
 		return Arrays.stream(clazz.getDeclaredFields())
 				.map(f -> new ReflectFieldImpl<>(this, f))
 				.filter(filter::filter)
-				.collect(Collectors.toSet());
+				.collect(Collectors.toUnmodifiableSet());
 	}
 
 	@NotNull
 	@Override
+	@Unmodifiable
 	public Set<? extends ReflectMethod<D, ?>> getMethods(@NotNull Filter<ReflectMethod<?, ?>> filter) {
 		if (clazz == null) return Collections.emptySet();
 		return Arrays.stream(clazz.getDeclaredMethods())
 				.map(m -> new ReflectMethodImpl<>(this, m))
 				.filter(filter::filter)
-				.collect(Collectors.toSet());
+				.collect(Collectors.toUnmodifiableSet());
 	}
 
 	private Constructor<D> getConstructor(Object[] params) {

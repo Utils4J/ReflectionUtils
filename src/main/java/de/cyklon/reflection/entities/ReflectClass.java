@@ -57,6 +57,9 @@ public interface ReflectClass<D> extends MemberContainer<D>, Type, ReflectEntity
 	ReflectClass<?> getParentClass();
 
 	@NotNull
+	ReflectPackage getPackage();
+
+	@NotNull
 	Set<? extends ReflectClass<?>> getSubclasses(@NotNull Filter<ReflectClass<?>> filter);
 
 	@NotNull
