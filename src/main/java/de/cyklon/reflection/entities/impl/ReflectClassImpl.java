@@ -5,14 +5,16 @@ import de.cyklon.reflection.entities.ReflectField;
 import de.cyklon.reflection.entities.ReflectMethod;
 import de.cyklon.reflection.exception.ExecutionException;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Optional;
 
 public class ReflectClassImpl<D> extends ReflectEntityImpl<D, D> implements ReflectClass<D> {
-	public ReflectClassImpl(@NotNull Class<D> declaringClass) {
+	private ReflectClassImpl(@NotNull Class<D> declaringClass) {
 		super(declaringClass, declaringClass);
 	}
 
@@ -57,5 +59,15 @@ public class ReflectClassImpl<D> extends ReflectEntityImpl<D, D> implements Refl
 		} catch(NoSuchMethodException e) {
 			return Optional.empty();
 		}
+	}
+
+	@Override
+	public Annotation[] getAnnotations() {
+		return declaringClass.getAnnotations();
+	}
+
+	@Override
+	public Annotation[] getDeclaredAnnotations() {
+		return declaringClass.getDeclaredAnnotations();
 	}
 }

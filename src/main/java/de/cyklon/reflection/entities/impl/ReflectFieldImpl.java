@@ -4,9 +4,10 @@ import de.cyklon.reflection.entities.ReflectField;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
-public class ReflectFieldImpl<D, R> extends ReflectEntityImpl<D, R> implements ReflectField<D, R> {
+class ReflectFieldImpl<D, R> extends ReflectEntityImpl<D, R> implements ReflectField<D, R> {
 	private final Field field;
 
 	public ReflectFieldImpl(@NotNull Class<D> declaringClass, @NotNull Class<R> returnType, @NotNull Field field) {
@@ -31,5 +32,15 @@ public class ReflectFieldImpl<D, R> extends ReflectEntityImpl<D, R> implements R
 		} catch(IllegalAccessException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	@Override
+	public Annotation[] getAnnotations() {
+		return field.getAnnotations();
+	}
+
+	@Override
+	public Annotation[] getDeclaredAnnotations() {
+		return field.getDeclaredAnnotations();
 	}
 }

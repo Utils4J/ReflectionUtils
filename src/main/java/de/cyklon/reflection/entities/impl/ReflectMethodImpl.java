@@ -5,10 +5,11 @@ import de.cyklon.reflection.exception.ExecutionException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class ReflectMethodImpl<D, R> extends ReflectEntityImpl<D, R> implements ReflectMethod<D, R> {
+class ReflectMethodImpl<D, R> extends ReflectEntityImpl<D, R> implements ReflectMethod<D, R> {
 	private final Method method;
 
 	public ReflectMethodImpl(@NotNull Class<D> declaringClass, @NotNull Class<R> returnType, @NotNull Method method) {
@@ -34,5 +35,15 @@ public class ReflectMethodImpl<D, R> extends ReflectEntityImpl<D, R> implements 
 		} catch(InvocationTargetException e) {
 			throw new ExecutionException(e.getCause());
 		}
+	}
+
+	@Override
+	public Annotation[] getAnnotations() {
+		return method.getAnnotations();
+	}
+
+	@Override
+	public Annotation[] getDeclaredAnnotations() {
+		return method.getDeclaredAnnotations();
 	}
 }
