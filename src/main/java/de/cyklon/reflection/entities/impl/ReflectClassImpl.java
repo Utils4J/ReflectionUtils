@@ -97,8 +97,8 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 
 	@NotNull
 	@Override
-	public EnumSet<Modifier> getModifiers() throws UnsupportedOperationException {
-		if(clazz == null) throw new UnsupportedOperationException();
+	public EnumSet<Modifier> getModifiers() {
+		if(clazz == null) return EnumSet.noneOf(Modifier.class);
 		return Modifier.parse(clazz.getModifiers());
 	}
 
