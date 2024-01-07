@@ -20,6 +20,11 @@ class ReflectConstructorImpl<D> extends ReflectEntityImpl<D, D> implements Refle
 		this.constructor = constructor;
 	}
 
+	@Override
+	public @NotNull String getName() {
+		return constructor.getName();
+	}
+
 	@NotNull
 	@Override
 	public Constructor<D> getConstructor() {
