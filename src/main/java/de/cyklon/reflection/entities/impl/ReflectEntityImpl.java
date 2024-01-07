@@ -3,7 +3,7 @@ package de.cyklon.reflection.entities.impl;
 import de.cyklon.reflection.entities.ReflectEntity;
 import org.jetbrains.annotations.NotNull;
 
-public class ReflectEntityImpl<D, R> implements ReflectEntity<D, R> {
+abstract class ReflectEntityImpl<D, R> implements ReflectEntity<D, R> {
 	protected final Class<D> declaringClass;
 	protected final Class<R> returnType;
 
