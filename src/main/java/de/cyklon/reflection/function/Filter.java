@@ -27,6 +27,11 @@ public interface Filter<T> {
 	}
 
 	@NotNull
+	static <T extends Class<?>> Filter<T> isSubClass(@NotNull Class<T> clazz) {
+		return clazz::isAssignableFrom;
+	}
+
+	@NotNull
 	static <T> Filter<T> all() {
 		return obj -> true;
 	}
