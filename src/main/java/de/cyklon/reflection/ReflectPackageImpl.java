@@ -58,6 +58,10 @@ class ReflectPackageImpl implements ReflectPackage {
 				.collect(Collectors.toSet());
 	}
 
+	@Override
+	public @NotNull Package getPackage() {
+		return pkg;
+	}
 
 	@NotNull
 	@Override
@@ -116,5 +120,15 @@ class ReflectPackageImpl implements ReflectPackage {
 	@Override
 	public @NotNull String getName() {
 		return pkg.getName();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return obj instanceof ReflectPackage rp && rp.getPackage().equals(pkg);
+	}
+
+	@Override
+	public String toString() {
+		return pkg.toString();
 	}
 }
