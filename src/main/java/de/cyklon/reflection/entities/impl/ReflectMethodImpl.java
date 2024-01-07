@@ -1,6 +1,7 @@
 package de.cyklon.reflection.entities.impl;
 
 import de.cyklon.reflection.entities.ReflectMethod;
+import de.cyklon.reflection.entities.ReflectParameter;
 import de.cyklon.reflection.exception.ExecutionException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -8,6 +9,8 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
 
 class ReflectMethodImpl<D, R> extends ReflectEntityImpl<D, R> implements ReflectMethod<D, R> {
 	private final Method method;
@@ -22,6 +25,13 @@ class ReflectMethodImpl<D, R> extends ReflectEntityImpl<D, R> implements Reflect
 	@Override
 	public Method getMethod() {
 		return method;
+	}
+
+	@Override
+	public List<? extends ReflectParameter<D, Object>> getParameters() {
+		return Arrays.stream(method.getParameters())
+				.map(p -> new ReflectParameterImpl<>(p, this))
+				.toList();
 	}
 
 	@Override

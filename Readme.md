@@ -1,4 +1,4 @@
-![[Java CI]](https://github.com/Utils4J/ReflectionuUtils/actions/workflows/check.yml/badge.svg)
+![[Java CI]](https://github.com/Utils4J/ReflectionUtils/actions/workflows/check.yml/badge.svg)
 ![[Latest Version]](https://maven.mineking.dev/api/badge/latest/releases/de/cyklon/ReflectionUtils?prefix=v&name=Latest%20Version&color=0374b5)
 
 # Installation

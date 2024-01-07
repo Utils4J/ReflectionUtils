@@ -2,8 +2,8 @@ package de.cyklon.reflection.exception;
 
 import org.jetbrains.annotations.NotNull;
 
-public class FieldNotFoundException extends NotFoundException {
+public class FieldNotFoundException extends MemberNotFoundException {
 	public FieldNotFoundException(@NotNull Class<?> parent, @NotNull String name) {
-		super(name);
+		super(parent, name);
 	}
 }
