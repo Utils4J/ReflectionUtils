@@ -32,6 +32,7 @@ public interface Filter<T> {
 	}
 
 	@NotNull
+	@SuppressWarnings("unchecked")
 	static <T> Filter<T> allOf(@NotNull Collection<Filter<T>> filters) {
 		return allOf(all(), filters.toArray(Filter[]::new));
 	}
@@ -44,6 +45,7 @@ public interface Filter<T> {
 	}
 
 	@NotNull
+	@SuppressWarnings("unchecked")
 	static <T> Filter<T> anyOf(@NotNull Collection<Filter<T>> filters) {
 		return anyOf(all(), filters.toArray(Filter[]::new));
 	}
