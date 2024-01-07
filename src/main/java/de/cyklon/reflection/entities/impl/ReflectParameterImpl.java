@@ -49,6 +49,11 @@ public class ReflectParameterImpl<D, R> extends ReflectEntityImpl<D, R> implemen
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		return obj instanceof ReflectParameter<?,?> rp && rp.getParameter().equals(parameter);
+	}
+
+	@Override
 	public String toString() {
 		return parameter.toString();
 	}

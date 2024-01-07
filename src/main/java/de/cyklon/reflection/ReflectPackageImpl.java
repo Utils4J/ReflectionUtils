@@ -23,7 +23,8 @@ class ReflectPackageImpl implements ReflectPackage {
 	private final Package pkg;
 
 	private ReflectPackageImpl(@NotNull String packageName) {
-		this.pkg = Package.getPackage(packageName);
+		this.pkg = ClassLoader.getSystemClassLoader().getDefinedPackage(packageName);
+		if (pkg == null) throw new NotFoundException(packageName);
 	}
 
 	@NotNull
@@ -58,6 +59,10 @@ class ReflectPackageImpl implements ReflectPackage {
 				.collect(Collectors.toSet());
 	}
 
+	@Override
+	public @NotNull Package getPackage() {
+		return pkg;
+	}
 
 	@NotNull
 	@Override
@@ -87,6 +92,23 @@ class ReflectPackageImpl implements ReflectPackage {
 	}
 
 	@Override
+	public @NotNull @Unmodifiable Set<? extends ReflectPackage> getPackages() {
+		String packageName = getName();
+		try (InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream(packageName.replaceAll("\\.", "/"))) {
+			if (in == null) throw new NotFoundException(packageName);
+
+			try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
+				return reader.lines()
+						.filter(l -> !l.contains("."))
+						.map(l -> get(String.format("%s.%s", packageName, l)))
+						.collect(Collectors.toUnmodifiableSet());
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
 	public Annotation[] getAnnotations() {
 		return pkg.getAnnotations();
 	}
@@ -99,5 +121,15 @@ class ReflectPackageImpl implements ReflectPackage {
 	@Override
 	public @NotNull String getName() {
 		return pkg.getName();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return obj instanceof ReflectPackage rp && rp.getPackage().equals(pkg);
+	}
+
+	@Override
+	public String toString() {
+		return pkg.toString();
 	}
 }

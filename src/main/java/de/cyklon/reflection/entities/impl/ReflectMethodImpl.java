@@ -65,6 +65,11 @@ class ReflectMethodImpl<D, R> extends ReflectEntityImpl<D, R> implements Reflect
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		return obj instanceof ReflectMethod<?,?> rm && rm.getMethod().equals(method);
+	}
+
+	@Override
 	public String toString() {
 		return method.toString();
 	}

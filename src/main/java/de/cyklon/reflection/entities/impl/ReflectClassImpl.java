@@ -219,6 +219,11 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		return obj instanceof ReflectClass<?> rc && rc.getDeclaringClass().equals(declaringClass);
+	}
+
+	@Override
 	public String toString() {
 		return getFullName();
 	}
