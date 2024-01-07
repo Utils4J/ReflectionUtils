@@ -28,7 +28,7 @@ class ReflectMethodImpl<D, R> extends ReflectEntityImpl<D, R> implements Reflect
 	}
 
 	@Override
-	public List<? extends ReflectParameter<D, Object>> getParameters() {
+	public @NotNull List<? extends ReflectParameter<D, Object>> getParameters() {
 		return Arrays.stream(method.getParameters())
 				.map(p -> new ReflectParameterImpl<>(p, this))
 				.toList();

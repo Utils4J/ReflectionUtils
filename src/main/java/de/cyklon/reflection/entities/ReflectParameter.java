@@ -9,5 +9,5 @@ public interface ReflectParameter<D, R> extends ReflectEntity<D, R> {
 	Parameter getParameter();
 
 	@NotNull
-	ReflectMethod<D, ?> getDeclaringMethod();
+	AbstractMethod<D, ?> getDeclaringMethod();
 }

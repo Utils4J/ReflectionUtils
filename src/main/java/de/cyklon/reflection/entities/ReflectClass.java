@@ -4,20 +4,29 @@ import de.cyklon.reflection.entities.impl.ReflectClassImpl;
 import de.cyklon.reflection.exception.ExecutionException;
 import de.cyklon.reflection.exception.FieldNotFoundException;
 import de.cyklon.reflection.exception.MethodNotFoundException;
+import de.cyklon.reflection.function.Filter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
+import java.util.Set;
 
-public interface ReflectClass<D> extends ReflectEntity<D, D> {
+public interface ReflectClass<D> extends ReflectEntity<D, D>, MemberContainer<D> {
 
 	@NotNull
 	static <D> ReflectClass<D> wrap(Class<D> clazz) {
 		return ReflectClassImpl.wrap(clazz);
 	}
 
+	@Nullable
+	ReflectClass<?> getParentClass();
+
+	@NotNull
+	Set<? extends ReflectClass<?>> getSubclasses(@NotNull Filter<ReflectClass<?>> filter);
+
+
 	@NotNull
 	D newInstance(@NotNull Object... params) throws ExecutionException;
-
 
 	@NotNull
 	<R> Optional<ReflectField<D, R>> getOptionalField(@NotNull Class<R> returnType, @NotNull String fieldName);

@@ -1,5 +1,6 @@
 package de.cyklon.reflection.entities.impl;
 
+import de.cyklon.reflection.entities.AbstractMethod;
 import de.cyklon.reflection.entities.ReflectMethod;
 import de.cyklon.reflection.entities.ReflectParameter;
 import org.jetbrains.annotations.NotNull;
@@ -9,10 +10,10 @@ import java.lang.reflect.Parameter;
 
 public class ReflectParameterImpl<D, R> extends ReflectEntityImpl<D, R> implements ReflectParameter<D, R> {
 	private final Parameter parameter;
-	private final ReflectMethod<D, ?> method;
+	private final AbstractMethod<D, ?> method;
 
 	@SuppressWarnings("unchecked")
-	public ReflectParameterImpl(@NotNull Parameter parameter, @NotNull ReflectMethod<D, ?> method) {
+	public ReflectParameterImpl(@NotNull Parameter parameter, @NotNull AbstractMethod<D, ?> method) {
 		super(method.getDeclaringClass(), (Class<R>) parameter.getType());
 
 		this.parameter = parameter;
@@ -27,7 +28,7 @@ public class ReflectParameterImpl<D, R> extends ReflectEntityImpl<D, R> implemen
 
 	@Override
 	@NotNull
-	public ReflectMethod<D, ?> getDeclaringMethod() {
+	public AbstractMethod<D, ?> getDeclaringMethod() {
 		return method;
 	}
 

@@ -7,12 +7,10 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.reflect.Method;
 import java.util.List;
 
-public interface ReflectMethod<D, R> extends ReflectEntity<D, R> {
+public interface ReflectMethod<D, R> extends AbstractMethod<D, R> {
 
 	@NotNull
 	Method getMethod();
-
-	List<? extends ReflectParameter<D, ?>> getParameters();
 
 	@Nullable
 	R invoke(@NotNull D obj, @NotNull Object... args) throws ExecutionException;
