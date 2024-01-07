@@ -62,16 +62,16 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 
 	@NotNull
 	@Override
-	public ReflectClass<?> getArrayComponent() throws UnsupportedOperationException {
+	public ReflectClass<?> getArrayComponent() throws IllegalStateException {
 		if (clazz != null && clazz.isArray()) return wrap(clazz.getComponentType());
 		if (type instanceof GenericArrayType at) return wrap(at.getGenericComponentType());
 
-		throw new UnsupportedOperationException();
+		throw new IllegalStateException("This ReflectClass does not represent an array!");
 	}
 
 	@NotNull
 	@Override
-	public ReflectClass<?> getActualArrayComponent() throws UnsupportedOperationException {
+	public ReflectClass<?> getActualArrayComponent() {
 		if (clazz != null && !clazz.isArray()) return this;
 		else return getArrayComponent().getActualArrayComponent();
 	}
@@ -88,8 +88,8 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@NotNull
 	@Override
 	@SuppressWarnings("unchecked")
-	public <E extends Enum<E>> List<E> getEnumConstants() throws UnsupportedOperationException {
-		if (clazz == null || !clazz.isEnum()) throw new UnsupportedOperationException();
+	public <E extends Enum<E>> List<E> getEnumConstants() throws IllegalStateException {
+		if (clazz == null || !clazz.isEnum()) throw new IllegalStateException("This ReflectClass does not represent an enum!");
 		return Arrays.stream(clazz.getEnumConstants())
 				.map(e -> (E) e)
 				.toList();
@@ -161,16 +161,16 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@NotNull
 	@Override
 	@SuppressWarnings("unchecked")
-	public D[] newArrayInstance(int... dimensions) {
-		if (clazz != null && !clazz.isArray()) throw new UnsupportedOperationException();
+	public D[] newArrayInstance(int... dimensions) throws IllegalStateException {
+		if (clazz != null && !clazz.isArray()) throw new IllegalStateException("This ReflectClass does not represent an array");
 
 		return (D[]) Array.newInstance(getActualArrayComponent().getInternal(), dimensions);
 	}
 
 	@Override
 	@NotNull
-	public D newInstance(@NotNull Object... params) throws ExecutionException, UnsupportedOperationException {
-		if (clazz == null || clazz.isArray()) throw new UnsupportedOperationException();
+	public D newInstance(@NotNull Object... params) throws ExecutionException, IllegalStateException {
+		if (clazz == null || clazz.isArray()) throw new IllegalStateException("Cannot use newInstance on array type. Use newArrayInstance instead!");
 
 		try {
 			return getConstructor(params).newInstance(params);
