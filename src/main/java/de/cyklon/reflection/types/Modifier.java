@@ -7,23 +7,27 @@ import java.util.EnumSet;
 import java.util.stream.Collectors;
 
 public enum Modifier {
-	PUBLIC(1),
-	PRIVATE(2),
-	PROTECTED(4),
-	STATIC(8),
-	FINAL(16),
-	SYNCHRONIZED(32),
-	VOLATILE(64),
-	TRANSIENT(128),
-	NATIVE(256),
-	INTERFACE(512),
-	ABSTRACT(1024),
-	STRICT(2048);
+	PUBLIC,
+	PRIVATE,
+	PROTECTED,
+	STATIC,
+	FINAL,
+	SYNCHRONIZED,
+	VOLATILE,
+	TRANSIENT,
+	NATIVE,
+	INTERFACE,
+	ABSTRACT,
+	STRICT;
 
 	private final int id;
 
 	Modifier(int id) {
 		this.id = id;
+	}
+
+	Modifier() {
+		id = 1 << ordinal();
 	}
 
 	public int getId() {
