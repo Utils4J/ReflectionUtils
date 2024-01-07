@@ -23,7 +23,8 @@ class ReflectPackageImpl implements ReflectPackage {
 	private final Package pkg;
 
 	private ReflectPackageImpl(@NotNull String packageName) {
-		this.pkg = Package.getPackage(packageName);
+		this.pkg = ClassLoader.getSystemClassLoader().getDefinedPackage(packageName);
+		if (pkg == null) throw new NotFoundException(packageName);
 	}
 
 	@NotNull
@@ -99,7 +100,7 @@ class ReflectPackageImpl implements ReflectPackage {
 			try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
 				return reader.lines()
 						.filter(l -> !l.contains("."))
-						.map(ReflectPackageImpl::get)
+						.map(l -> get(String.format("%s.%s", packageName, l)))
 						.collect(Collectors.toUnmodifiableSet());
 			}
 		} catch (IOException e) {
