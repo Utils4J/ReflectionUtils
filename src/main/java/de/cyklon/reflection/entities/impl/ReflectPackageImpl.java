@@ -30,35 +30,40 @@ public class ReflectPackageImpl implements ReflectPackage {
 	}
 
 	@NotNull
+	@SuppressWarnings("ConstantConditions")
 	public static ReflectPackage get(@NotNull String packageName) {
-		return new ReflectPackageImpl(packageName);
+		if (ReflectPackage.BASE_PACKAGE == null) return new ReflectPackageImpl(packageName);
+		return packageName.isBlank() ? ReflectPackage.BASE_PACKAGE : new ReflectPackageImpl(packageName);
 	}
 
 	@NotNull
 	@Override
+	@Unmodifiable
 	@SuppressWarnings("unchecked")
 	public Set<? extends ReflectConstructor<Object>> getConstructors(@NotNull Filter<ReflectConstructor<?>> filter) {
 		return (Set<? extends ReflectConstructor<Object>>) getClasses().stream()
 				.flatMap(c -> c.getConstructors(filter).stream())
-				.collect(Collectors.toSet());
+				.collect(Collectors.toUnmodifiableSet());
 	}
 
 	@NotNull
 	@Override
+	@Unmodifiable
 	@SuppressWarnings("unchecked")
 	public Set<? extends ReflectMethod<Object, ?>> getMethods(@NotNull Filter<ReflectMethod<?, ?>> filter) {
 		return (Set<? extends ReflectMethod<Object, ?>>) getClasses().stream()
 				.flatMap(c -> c.getMethods(filter).stream())
-				.collect(Collectors.toSet());
+				.collect(Collectors.toUnmodifiableSet());
 	}
 
 	@NotNull
 	@Override
+	@Unmodifiable
 	@SuppressWarnings("unchecked")
 	public Set<? extends ReflectField<Object, ?>> getFields(@NotNull Filter<ReflectField<?, ?>> filter) {
 		return (Set<? extends ReflectField<Object, ?>>) getClasses().stream()
 				.flatMap(c -> c.getFields(filter).stream())
-				.collect(Collectors.toSet());
+				.collect(Collectors.toUnmodifiableSet());
 	}
 
 	@Override
@@ -93,8 +98,10 @@ public class ReflectPackageImpl implements ReflectPackage {
 		}
 	}
 
+	@NotNull
 	@Override
-	public @NotNull @Unmodifiable Set<? extends ReflectPackage> getPackages() {
+	@Unmodifiable
+	public Set<? extends ReflectPackage> getPackages() {
 		String packageName = getName();
 		try (InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream(packageName.replaceAll("\\.", "/"))) {
 			if (in == null) throw new NotFoundException(packageName, "package", "");
@@ -108,6 +115,13 @@ public class ReflectPackageImpl implements ReflectPackage {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	@Override
+	public @NotNull ReflectPackage getParent() {
+		if (this.equals(BASE_PACKAGE)) throw new IllegalStateException("Base Package has no parent!");
+		String currentName = getName();
+		return get(currentName.substring(0, currentName.lastIndexOf('.')));
 	}
 
 	@Override
@@ -127,7 +141,7 @@ public class ReflectPackageImpl implements ReflectPackage {
 
 	@Override
 	public boolean equals(Object obj) {
-		return obj instanceof ReflectPackage rp && rp.getPackage().equals(pkg);
+		return obj instanceof ReflectPackage rp && rp.getPackage().getName().equals(pkg.getName());
 	}
 
 	@Override
