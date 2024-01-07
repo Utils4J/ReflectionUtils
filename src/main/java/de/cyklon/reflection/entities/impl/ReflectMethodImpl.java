@@ -46,4 +46,9 @@ class ReflectMethodImpl<D, R> extends ReflectEntityImpl<D, R> implements Reflect
 	public Annotation[] getDeclaredAnnotations() {
 		return method.getDeclaredAnnotations();
 	}
+
+	@Override
+	public @NotNull String getName() {
+		return method.getName();
+	}
 }

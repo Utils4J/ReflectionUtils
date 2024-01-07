@@ -1,6 +1,7 @@
 package de.cyklon.reflection.function;
 
 import de.cyklon.reflection.Annotatable;
+import de.cyklon.reflection.Nameable;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -13,6 +14,16 @@ public interface Filter<T> {
 	@NotNull
 	static <T extends Annotatable> Filter<T> hasAnnotation(@NotNull Class<? extends Annotation> annotation) {
 		return a -> a.hasAnnotation(annotation);
+	}
+
+	@NotNull
+	static <T extends Nameable> Filter<T> hasName(@NotNull String name) {
+		return n -> n.getName().equals(name);
+	}
+
+	@NotNull
+	static <T extends Nameable> Filter<T> matchesName(@NotNull String regex) {
+		return n -> n.getName().matches(regex);
 	}
 
 	@NotNull

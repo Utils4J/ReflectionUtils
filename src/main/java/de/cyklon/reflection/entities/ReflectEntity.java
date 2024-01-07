@@ -1,9 +1,10 @@
 package de.cyklon.reflection.entities;
 
 import de.cyklon.reflection.Annotatable;
+import de.cyklon.reflection.Nameable;
 import org.jetbrains.annotations.NotNull;
 
-public interface ReflectEntity<D, R> extends Annotatable {
+public interface ReflectEntity<D, R> extends Annotatable, Nameable {
 
 	@NotNull
 	Class<R> getReturnType();

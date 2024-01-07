@@ -70,4 +70,9 @@ public class ReflectClassImpl<D> extends ReflectEntityImpl<D, D> implements Refl
 	public Annotation[] getDeclaredAnnotations() {
 		return declaringClass.getDeclaredAnnotations();
 	}
+
+	@Override
+	public @NotNull String getName() {
+		return declaringClass.getName();
+	}
 }

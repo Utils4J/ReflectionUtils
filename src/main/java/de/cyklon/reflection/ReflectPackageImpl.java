@@ -29,7 +29,7 @@ class ReflectPackageImpl implements ReflectPackage {
 	@Override
 	@Unmodifiable
 	public Set<Class<?>> getClasses() {
-		String packageName = pkg.getName().replaceAll("\\.", "/");
+		String packageName = getName().replaceAll("\\.", "/");
 		try (InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream(packageName)) {
 			if (in==null) throw new NotFoundException(packageName);
 
@@ -52,5 +52,10 @@ class ReflectPackageImpl implements ReflectPackage {
 	@Override
 	public Annotation[] getDeclaredAnnotations() {
 		return pkg.getDeclaredAnnotations();
+	}
+
+	@Override
+	public @NotNull String getName() {
+		return pkg.getName();
 	}
 }
