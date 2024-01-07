@@ -5,6 +5,6 @@ import org.jetbrains.annotations.NotNull;
 
 public class FieldNotFoundException extends MemberNotFoundException {
 	public FieldNotFoundException(@NotNull ReflectClass<?> parent, @NotNull String name) {
-		super(parent, name);
+		super(parent, name, "field");
 	}
 }

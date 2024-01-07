@@ -70,7 +70,7 @@ class ReflectPackageImpl implements ReflectPackage {
 
 	private static Set<Class<?>> getClasses(String packageName) {
 		try (InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream(packageName.replaceAll("\\.", "/"))) {
-			if (in == null) throw new NotFoundException(packageName);
+			if (in == null) throw new NotFoundException(packageName, "package", "");
 
 			try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
 				Set<Class<?>> result = new HashSet<>();

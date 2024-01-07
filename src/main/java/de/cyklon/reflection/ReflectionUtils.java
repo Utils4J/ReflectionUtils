@@ -14,7 +14,7 @@ public final class ReflectionUtils {
 		try {
 			return Class.forName(path);
 		} catch (ClassNotFoundException e) {
-			throw new NotFoundException(path);
+			throw new NotFoundException(path, "class", packageName);
 		}
 	}
 
