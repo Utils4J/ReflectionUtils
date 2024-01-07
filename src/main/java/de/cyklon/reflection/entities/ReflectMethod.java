@@ -1,5 +1,6 @@
-package de.cyklon.reflection;
+package de.cyklon.reflection.entities;
 
+import de.cyklon.reflection.exception.ExecutionException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -11,10 +12,10 @@ public interface ReflectMethod<D, R> extends ReflectEntity<D, R> {
 	Method getMethod();
 
 	@Nullable
-	R invoke(D obj, Object... args);
+	R invoke(@NotNull D obj, @NotNull Object... args) throws ExecutionException;
 
 	@Nullable
-	default R invokeStatic(Object... args) {
+	default R invokeStatic(@NotNull Object... args) throws ExecutionException {
 		return invoke(null, args);
 	}
 }
