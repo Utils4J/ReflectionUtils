@@ -45,7 +45,7 @@ public class ReflectClassImpl<D> extends ReflectEntityImpl<D, D> implements Refl
 	@NotNull
 	@Override
 	@SuppressWarnings("unchecked")
-	public Set<? extends ReflectConstructor<D>> getConstructors(@NotNull Filter<ReflectConstructor<D>> filter) {
+	public Set<? extends ReflectConstructor<D>> getConstructors(@NotNull Filter<ReflectConstructor<?>> filter) {
 		return Arrays.stream(declaringClass.getDeclaredConstructors())
 				.map(c -> new ReflectConstructorImpl<>(declaringClass, (Constructor<D>) c))
 				.filter(filter::filter)
@@ -54,7 +54,7 @@ public class ReflectClassImpl<D> extends ReflectEntityImpl<D, D> implements Refl
 
 	@NotNull
 	@Override
-	public Set<? extends ReflectField<D, ?>> getFields(@NotNull Filter<ReflectField<D, ?>> filter) {
+	public Set<? extends ReflectField<D, ?>> getFields(@NotNull Filter<ReflectField<?, ?>> filter) {
 		return Arrays.stream(declaringClass.getDeclaredFields())
 				.map(f -> new ReflectFieldImpl<>(declaringClass, Object.class, f))
 				.filter(filter::filter)
@@ -63,7 +63,7 @@ public class ReflectClassImpl<D> extends ReflectEntityImpl<D, D> implements Refl
 
 	@NotNull
 	@Override
-	public Set<? extends ReflectMethod<D, ?>> getMethods(@NotNull Filter<ReflectMethod<D, ?>> filter) {
+	public Set<? extends ReflectMethod<D, ?>> getMethods(@NotNull Filter<ReflectMethod<?, ?>> filter) {
 		return Arrays.stream(declaringClass.getDeclaredMethods())
 				.map(m -> new ReflectMethodImpl<>(declaringClass, Object.class, m))
 				.filter(filter::filter)
@@ -121,5 +121,10 @@ public class ReflectClassImpl<D> extends ReflectEntityImpl<D, D> implements Refl
 	@Override
 	public @NotNull String getName() {
 		return declaringClass.getName();
+	}
+
+	@Override
+	public String toString() {
+		return declaringClass.toString();
 	}
 }

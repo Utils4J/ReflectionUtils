@@ -61,4 +61,9 @@ class ReflectMethodImpl<D, R> extends ReflectEntityImpl<D, R> implements Reflect
 	public @NotNull String getName() {
 		return method.getName();
 	}
+
+	@Override
+	public String toString() {
+		return method.toString();
+	}
 }

@@ -48,4 +48,9 @@ class ReflectFieldImpl<D, R> extends ReflectEntityImpl<D, R> implements ReflectF
 	public @NotNull String getName() {
 		return field.getName();
 	}
+
+	@Override
+	public String toString() {
+		return field.toString();
+	}
 }

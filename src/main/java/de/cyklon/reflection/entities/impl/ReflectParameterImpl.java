@@ -47,4 +47,9 @@ public class ReflectParameterImpl<D, R> extends ReflectEntityImpl<D, R> implemen
 	public @NotNull String getName() {
 		return parameter.getName();
 	}
+
+	@Override
+	public String toString() {
+		return parameter.toString();
+	}
 }

@@ -62,4 +62,9 @@ class ReflectConstructorImpl<D> extends ReflectEntityImpl<D, D> implements Refle
 	public Annotation[] getDeclaredAnnotations() {
 		return constructor.getDeclaredAnnotations();
 	}
+
+	@Override
+	public String toString() {
+		return constructor.toString();
+	}
 }
