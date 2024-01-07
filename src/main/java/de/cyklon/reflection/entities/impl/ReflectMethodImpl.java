@@ -40,9 +40,9 @@ class ReflectMethodImpl<D, R> extends ReflectEntityImpl<D, R> implements Reflect
 	public R invoke(@Nullable D obj, @NotNull Object... args) throws ExecutionException {
 		try {
 			return (R) method.invoke(obj, args);
-		} catch(IllegalAccessException e) {
+		} catch (IllegalAccessException e) {
 			throw new RuntimeException(e);
-		} catch(InvocationTargetException e) {
+		} catch (InvocationTargetException e) {
 			throw new ExecutionException(e.getCause());
 		}
 	}

@@ -33,11 +33,11 @@ public interface Annotatable {
 	}
 
 	default boolean hasAnnotation(@NotNull Class<? extends Annotation> annotation) {
-		return getAnnotation(annotation)!=null;
+		return getAnnotation(annotation) != null;
 	}
 
 	default boolean hasDeclaredAnnotation(@NotNull Class<? extends Annotation> annotation) {
-		return getDeclaredAnnotation(annotation)!=null;
+		return getDeclaredAnnotation(annotation) != null;
 	}
 
 }

@@ -44,9 +44,9 @@ class ReflectConstructorImpl<D> extends ReflectEntityImpl<D, D> implements Refle
 	public D newInstance(@NotNull Object... args) {
 		try {
 			return constructor.newInstance(args);
-		} catch(IllegalAccessException | InstantiationException e) {
+		} catch (IllegalAccessException | InstantiationException e) {
 			throw new RuntimeException(e);
-		} catch(InvocationTargetException e) {
+		} catch (InvocationTargetException e) {
 			throw new ExecutionException(e.getCause());
 		}
 	}

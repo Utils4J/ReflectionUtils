@@ -1,7 +1,6 @@
 package de.cyklon.reflection.entities.impl;
 
 import de.cyklon.reflection.entities.AbstractMethod;
-import de.cyklon.reflection.entities.ReflectMethod;
 import de.cyklon.reflection.entities.ReflectParameter;
 import org.jetbrains.annotations.NotNull;
 

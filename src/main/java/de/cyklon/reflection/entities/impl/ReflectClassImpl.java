@@ -85,7 +85,7 @@ public class ReflectClassImpl<D> extends ReflectEntityImpl<D, D> implements Refl
 			return getConstructor(params).newInstance(params);
 		} catch (InstantiationException | IllegalAccessException e) {
 			throw new RuntimeException();
-		} catch(InvocationTargetException e) {
+		} catch (InvocationTargetException e) {
 			throw new ExecutionException(e);
 		}
 	}
@@ -103,7 +103,7 @@ public class ReflectClassImpl<D> extends ReflectEntityImpl<D, D> implements Refl
 	public @NotNull <R> Optional<ReflectMethod<D, R>> getOptionalMethod(@NotNull Class<R> returnType, @NotNull String methodName, @NotNull Class<?>... paramTypes) {
 		try {
 			return Optional.of(new ReflectMethodImpl<>(declaringClass, returnType, declaringClass.getMethod(methodName, paramTypes)));
-		} catch(NoSuchMethodException e) {
+		} catch (NoSuchMethodException e) {
 			return Optional.empty();
 		}
 	}

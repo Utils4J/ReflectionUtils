@@ -29,7 +29,7 @@ class ReflectFieldImpl<D, R> extends ReflectEntityImpl<D, R> implements ReflectF
 	public R getValue(@Nullable D obj) {
 		try {
 			return (R) field.get(obj);
-		} catch(IllegalAccessException e) {
+		} catch (IllegalAccessException e) {
 			throw new RuntimeException(e);
 		}
 	}

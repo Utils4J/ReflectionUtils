@@ -28,8 +28,7 @@ public interface ReflectClass<D> extends ReflectEntity<D, D>, MemberContainer<D>
 	@NotNull
 	D newInstance(@NotNull Object... params) throws ExecutionException;
 
-	@NotNull
-	<R> Optional<ReflectField<D, R>> getOptionalField(@NotNull Class<R> returnType, @NotNull String fieldName);
+	@NotNull <R> Optional<ReflectField<D, R>> getOptionalField(@NotNull Class<R> returnType, @NotNull String fieldName);
 
 	@NotNull
 	default Optional<ReflectField<D, Object>> getOptionalField(@NotNull String fieldName) {
@@ -47,8 +46,7 @@ public interface ReflectClass<D> extends ReflectEntity<D, D>, MemberContainer<D>
 	}
 
 
-	@NotNull
-	<R> Optional<ReflectMethod<D, R>> getOptionalMethod(@NotNull Class<R> returnType, @NotNull String methodName, @NotNull Class<?>... paramTypes);
+	@NotNull <R> Optional<ReflectMethod<D, R>> getOptionalMethod(@NotNull Class<R> returnType, @NotNull String methodName, @NotNull Class<?>... paramTypes);
 
 	@NotNull
 	default Optional<ReflectMethod<D, Object>> getOptionalMethod(@NotNull String methodName, @NotNull Class<?>... paramTypes) {
