@@ -1,4 +1,4 @@
-package de.cyklon.reflection;
+package de.cyklon.reflection.types;
 
 import org.jetbrains.annotations.NotNull;
 

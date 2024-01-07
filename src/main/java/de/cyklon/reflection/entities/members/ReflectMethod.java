@@ -1,5 +1,6 @@
-package de.cyklon.reflection.entities;
+package de.cyklon.reflection.entities.members;
 
+import de.cyklon.reflection.types.AbstractMethod;
 import de.cyklon.reflection.exception.ExecutionException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

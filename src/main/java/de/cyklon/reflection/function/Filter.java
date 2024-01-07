@@ -1,7 +1,7 @@
 package de.cyklon.reflection.function;
 
-import de.cyklon.reflection.Annotatable;
-import de.cyklon.reflection.Nameable;
+import de.cyklon.reflection.types.Annotatable;
+import de.cyklon.reflection.types.Nameable;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

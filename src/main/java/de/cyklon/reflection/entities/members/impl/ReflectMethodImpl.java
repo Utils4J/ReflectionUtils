@@ -1,19 +1,21 @@
-package de.cyklon.reflection.entities.impl;
+package de.cyklon.reflection.entities.members.impl;
 
 import de.cyklon.reflection.entities.ReflectClass;
-import de.cyklon.reflection.entities.ReflectMethod;
-import de.cyklon.reflection.entities.ReflectParameter;
+import de.cyklon.reflection.entities.members.ReflectMethod;
+import de.cyklon.reflection.entities.members.ReflectParameter;
 import de.cyklon.reflection.exception.ExecutionException;
+import de.cyklon.reflection.types.Modifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.stream.IntStream;
 
-class ReflectMethodImpl<D, R> extends ReflectEntityImpl<D, R> implements ReflectMethod<D, R> {
+public class ReflectMethodImpl<D, R> extends ReflectMemberImpl<D, R> implements ReflectMethod<D, R> {
 	private final Method method;
 
 	public ReflectMethodImpl(@NotNull ReflectClass<D> declaringClass, @NotNull Method method) {
@@ -47,6 +49,12 @@ class ReflectMethodImpl<D, R> extends ReflectEntityImpl<D, R> implements Reflect
 		} catch (InvocationTargetException e) {
 			throw new ExecutionException(e.getCause());
 		}
+	}
+
+	@NotNull
+	@Override
+	public EnumSet<Modifier> getModifiers() throws UnsupportedOperationException {
+		return Modifier.parse(method.getModifiers());
 	}
 
 	@Override

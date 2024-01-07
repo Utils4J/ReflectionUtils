@@ -1,14 +1,16 @@
-package de.cyklon.reflection.entities.impl;
+package de.cyklon.reflection.entities.members.impl;
 
 import de.cyklon.reflection.entities.ReflectClass;
-import de.cyklon.reflection.entities.ReflectField;
+import de.cyklon.reflection.entities.members.ReflectField;
+import de.cyklon.reflection.types.Modifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.util.EnumSet;
 
-class ReflectFieldImpl<D, R> extends ReflectEntityImpl<D, R> implements ReflectField<D, R> {
+public class ReflectFieldImpl<D, R> extends ReflectMemberImpl<D, R> implements ReflectField<D, R> {
 	private final Field field;
 
 	public ReflectFieldImpl(@NotNull ReflectClass<D> declaringClass, @NotNull Field field) {
@@ -33,6 +35,12 @@ class ReflectFieldImpl<D, R> extends ReflectEntityImpl<D, R> implements ReflectF
 		} catch (IllegalAccessException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	@NotNull
+	@Override
+	public EnumSet<Modifier> getModifiers() throws UnsupportedOperationException {
+		return Modifier.parse(field.getModifiers());
 	}
 
 	@Override

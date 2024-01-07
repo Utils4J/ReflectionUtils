@@ -1,5 +1,8 @@
-package de.cyklon.reflection.entities;
+package de.cyklon.reflection.types;
 
+import de.cyklon.reflection.entities.members.ReflectConstructor;
+import de.cyklon.reflection.entities.members.ReflectField;
+import de.cyklon.reflection.entities.members.ReflectMethod;
 import de.cyklon.reflection.function.Filter;
 import org.jetbrains.annotations.NotNull;
 

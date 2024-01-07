@@ -1,14 +1,16 @@
-package de.cyklon.reflection.entities.impl;
+package de.cyklon.reflection.entities.members.impl;
 
-import de.cyklon.reflection.entities.AbstractMethod;
+import de.cyklon.reflection.types.AbstractMethod;
 import de.cyklon.reflection.entities.ReflectClass;
-import de.cyklon.reflection.entities.ReflectParameter;
+import de.cyklon.reflection.entities.members.ReflectParameter;
+import de.cyklon.reflection.types.Modifier;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Parameter;
+import java.util.EnumSet;
 
-public class ReflectParameterImpl<D, R> extends ReflectEntityImpl<D, R> implements ReflectParameter<D, R> {
+public class ReflectParameterImpl<D, R> extends ReflectMemberImpl<D, R> implements ReflectParameter<D, R> {
 	private final Parameter parameter;
 	private final AbstractMethod<D, ?> method;
 
@@ -29,6 +31,12 @@ public class ReflectParameterImpl<D, R> extends ReflectEntityImpl<D, R> implemen
 	@NotNull
 	public AbstractMethod<D, ?> getDeclaringMethod() {
 		return method;
+	}
+
+	@NotNull
+	@Override
+	public EnumSet<Modifier> getModifiers() {
+		return Modifier.parse(parameter.getModifiers());
 	}
 
 	@NotNull

@@ -1,10 +1,11 @@
-package de.cyklon.reflection.entities;
+package de.cyklon.reflection.entities.members;
 
+import de.cyklon.reflection.types.AbstractMethod;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Parameter;
 
-public interface ReflectParameter<D, R> extends ReflectEntity<D, R> {
+public interface ReflectParameter<D, R> extends ReflectMember<D, R> {
 	@NotNull
 	Parameter getParameter();
 

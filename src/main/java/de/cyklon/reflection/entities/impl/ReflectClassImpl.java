@@ -1,11 +1,15 @@
 package de.cyklon.reflection.entities.impl;
 
 import de.cyklon.reflection.entities.ReflectClass;
-import de.cyklon.reflection.entities.ReflectConstructor;
-import de.cyklon.reflection.entities.ReflectField;
-import de.cyklon.reflection.entities.ReflectMethod;
+import de.cyklon.reflection.entities.members.ReflectConstructor;
+import de.cyklon.reflection.entities.members.ReflectField;
+import de.cyklon.reflection.entities.members.ReflectMethod;
+import de.cyklon.reflection.entities.members.impl.ReflectConstructorImpl;
+import de.cyklon.reflection.entities.members.impl.ReflectFieldImpl;
+import de.cyklon.reflection.entities.members.impl.ReflectMethodImpl;
 import de.cyklon.reflection.exception.ExecutionException;
 import de.cyklon.reflection.function.Filter;
+import de.cyklon.reflection.types.Modifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -89,6 +93,13 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 		return Arrays.stream(clazz.getEnumConstants())
 				.map(e -> (E) e)
 				.toList();
+	}
+
+	@NotNull
+	@Override
+	public EnumSet<Modifier> getModifiers() throws UnsupportedOperationException {
+		if(clazz == null) throw new UnsupportedOperationException();
+		return Modifier.parse(clazz.getModifiers());
 	}
 
 	@Nullable

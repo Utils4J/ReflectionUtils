@@ -1,11 +1,11 @@
-package de.cyklon.reflection.entities;
+package de.cyklon.reflection.entities.members;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
 
-public interface ReflectField<D, R> extends ReflectEntity<D, R> {
+public interface ReflectField<D, R> extends ReflectMember<D, R> {
 
 	@NotNull Field getField();
 

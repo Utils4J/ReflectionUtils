@@ -1,18 +1,20 @@
-package de.cyklon.reflection.entities.impl;
+package de.cyklon.reflection.entities.members.impl;
 
 import de.cyklon.reflection.entities.ReflectClass;
-import de.cyklon.reflection.entities.ReflectConstructor;
-import de.cyklon.reflection.entities.ReflectParameter;
+import de.cyklon.reflection.entities.members.ReflectConstructor;
+import de.cyklon.reflection.entities.members.ReflectParameter;
 import de.cyklon.reflection.exception.ExecutionException;
+import de.cyklon.reflection.types.Modifier;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.stream.IntStream;
 
-class ReflectConstructorImpl<D> extends ReflectEntityImpl<D, D> implements ReflectConstructor<D> {
+public class ReflectConstructorImpl<D> extends ReflectMemberImpl<D, D> implements ReflectConstructor<D> {
 	private final Constructor<D> constructor;
 
 	public ReflectConstructorImpl(@NotNull ReflectClass<D> declaringClass, @NotNull Constructor<D> constructor) {
@@ -50,6 +52,12 @@ class ReflectConstructorImpl<D> extends ReflectEntityImpl<D, D> implements Refle
 		} catch (InvocationTargetException e) {
 			throw new ExecutionException(e.getCause());
 		}
+	}
+
+	@NotNull
+	@Override
+	public EnumSet<Modifier> getModifiers() {
+		return Modifier.parse(constructor.getModifiers());
 	}
 
 	@NotNull

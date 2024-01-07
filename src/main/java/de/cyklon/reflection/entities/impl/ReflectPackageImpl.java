@@ -1,9 +1,11 @@
-package de.cyklon.reflection;
+package de.cyklon.reflection.entities.impl;
 
+import de.cyklon.reflection.ReflectionUtils;
 import de.cyklon.reflection.entities.ReflectClass;
-import de.cyklon.reflection.entities.ReflectConstructor;
-import de.cyklon.reflection.entities.ReflectField;
-import de.cyklon.reflection.entities.ReflectMethod;
+import de.cyklon.reflection.entities.ReflectPackage;
+import de.cyklon.reflection.entities.members.ReflectConstructor;
+import de.cyklon.reflection.entities.members.ReflectField;
+import de.cyklon.reflection.entities.members.ReflectMethod;
 import de.cyklon.reflection.exception.NotFoundException;
 import de.cyklon.reflection.function.Filter;
 import org.jetbrains.annotations.NotNull;
@@ -18,7 +20,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-class ReflectPackageImpl implements ReflectPackage {
+public class ReflectPackageImpl implements ReflectPackage {
 
 	private final Package pkg;
 
@@ -28,7 +30,7 @@ class ReflectPackageImpl implements ReflectPackage {
 	}
 
 	@NotNull
-	static ReflectPackage get(@NotNull String packageName) {
+	public static ReflectPackage get(@NotNull String packageName) {
 		return new ReflectPackageImpl(packageName);
 	}
 
