@@ -124,6 +124,11 @@ public class ReflectClassImpl<D> extends ReflectEntityImpl<D, D> implements Refl
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		return obj instanceof ReflectClass<?> rc && rc.getDeclaringClass().equals(declaringClass);
+	}
+
+	@Override
 	public String toString() {
 		return declaringClass.toString();
 	}

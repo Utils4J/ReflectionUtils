@@ -64,6 +64,11 @@ class ReflectConstructorImpl<D> extends ReflectEntityImpl<D, D> implements Refle
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		return obj instanceof ReflectConstructor<?> rc && rc.getConstructor().equals(constructor);
+	}
+
+	@Override
 	public String toString() {
 		return constructor.toString();
 	}
