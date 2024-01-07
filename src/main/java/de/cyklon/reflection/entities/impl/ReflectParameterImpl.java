@@ -1,6 +1,7 @@
 package de.cyklon.reflection.entities.impl;
 
 import de.cyklon.reflection.entities.AbstractMethod;
+import de.cyklon.reflection.entities.ReflectClass;
 import de.cyklon.reflection.entities.ReflectParameter;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,9 +12,8 @@ public class ReflectParameterImpl<D, R> extends ReflectEntityImpl<D, R> implemen
 	private final Parameter parameter;
 	private final AbstractMethod<D, ?> method;
 
-	@SuppressWarnings("unchecked")
-	public ReflectParameterImpl(@NotNull Parameter parameter, @NotNull AbstractMethod<D, ?> method) {
-		super(method.getDeclaringClass(), (Class<R>) parameter.getType());
+	public ReflectParameterImpl(@NotNull Parameter parameter, @NotNull ReflectClass<R> type, @NotNull AbstractMethod<D, ?> method) {
+		super(method.getDeclaringClass(), type);
 
 		this.parameter = parameter;
 		this.method = method;

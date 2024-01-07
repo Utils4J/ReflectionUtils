@@ -1,5 +1,6 @@
 package de.cyklon.reflection.entities.impl;
 
+import de.cyklon.reflection.entities.ReflectClass;
 import de.cyklon.reflection.entities.ReflectField;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -10,8 +11,8 @@ import java.lang.reflect.Field;
 class ReflectFieldImpl<D, R> extends ReflectEntityImpl<D, R> implements ReflectField<D, R> {
 	private final Field field;
 
-	public ReflectFieldImpl(@NotNull Class<D> declaringClass, @NotNull Class<R> returnType, @NotNull Field field) {
-		super(declaringClass, returnType);
+	public ReflectFieldImpl(@NotNull ReflectClass<D> declaringClass, @NotNull Field field) {
+		super(declaringClass, ReflectClass.wrap(field.getGenericType()));
 
 		field.setAccessible(true);
 		this.field = field;
@@ -44,8 +45,9 @@ class ReflectFieldImpl<D, R> extends ReflectEntityImpl<D, R> implements ReflectF
 		return field.getDeclaredAnnotations();
 	}
 
+	@NotNull
 	@Override
-	public @NotNull String getName() {
+	public String getName() {
 		return field.getName();
 	}
 

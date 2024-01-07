@@ -1,5 +1,7 @@
 package de.cyklon.reflection.entities;
 
+import de.cyklon.reflection.Annotatable;
+import de.cyklon.reflection.Nameable;
 import de.cyklon.reflection.entities.impl.ReflectClassImpl;
 import de.cyklon.reflection.exception.ExecutionException;
 import de.cyklon.reflection.exception.FieldNotFoundException;
@@ -8,15 +10,46 @@ import de.cyklon.reflection.function.Filter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.Type;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-public interface ReflectClass<D> extends ReflectEntity<D, D>, MemberContainer<D> {
-
+public interface ReflectClass<D> extends MemberContainer<D>, Type, Nameable, Annotatable {
 	@NotNull
-	static <D> ReflectClass<D> wrap(Class<D> clazz) {
+	static <D> ReflectClass<D> wrap(@NotNull Class<D> clazz) {
 		return ReflectClassImpl.wrap(clazz);
 	}
+
+	@NotNull
+	static <D> ReflectClass<D> wrap(@NotNull Type type) {
+		return ReflectClassImpl.wrap(type);
+	}
+
+
+	@NotNull
+	Type getType();
+
+	@Nullable
+	Class<?> getInternal();
+
+	@NotNull
+	ReflectClass<?> getArrayComponent() throws UnsupportedOperationException;
+
+	@NotNull
+	ReflectClass<?> getActualArrayComponent() throws UnsupportedOperationException;
+
+	@NotNull
+	List<? extends ReflectClass<?>> getTypeParameters();
+
+
+	@NotNull
+	<E extends Enum<E>> List<E> getEnumConstants() throws UnsupportedOperationException;
+
+
+	@NotNull
+	String getFullName();
+
 
 	@Nullable
 	ReflectClass<?> getParentClass();
@@ -24,9 +57,11 @@ public interface ReflectClass<D> extends ReflectEntity<D, D>, MemberContainer<D>
 	@NotNull
 	Set<? extends ReflectClass<?>> getSubclasses(@NotNull Filter<ReflectClass<?>> filter);
 
+	@NotNull
+	D[] newArrayInstance(int... dimensions) throws UnsupportedOperationException;
 
 	@NotNull
-	D newInstance(@NotNull Object... params) throws ExecutionException;
+	D newInstance(@NotNull Object... params) throws ExecutionException, UnsupportedOperationException;
 
 	@NotNull <R> Optional<ReflectField<D, R>> getOptionalField(@NotNull Class<R> returnType, @NotNull String fieldName);
 
@@ -37,7 +72,7 @@ public interface ReflectClass<D> extends ReflectEntity<D, D>, MemberContainer<D>
 
 	@NotNull
 	default <R> ReflectField<D, R> getField(@NotNull Class<R> returnType, @NotNull String fieldName) throws FieldNotFoundException {
-		return getOptionalField(returnType, fieldName).orElseThrow(() -> new FieldNotFoundException(getDeclaringClass(), fieldName));
+		return getOptionalField(returnType, fieldName).orElseThrow(() -> new FieldNotFoundException(this, fieldName));
 	}
 
 	@NotNull
@@ -54,7 +89,7 @@ public interface ReflectClass<D> extends ReflectEntity<D, D>, MemberContainer<D>
 	}
 
 	default <R> ReflectMethod<D, R> getMethod(@NotNull Class<R> returnType, @NotNull String methodName, @NotNull Class<?>... paramTypes) throws MethodNotFoundException {
-		return getOptionalMethod(returnType, methodName, paramTypes).orElseThrow(() -> new MethodNotFoundException(getDeclaringClass(), methodName));
+		return getOptionalMethod(returnType, methodName, paramTypes).orElseThrow(() -> new MethodNotFoundException(this, methodName));
 	}
 
 	default ReflectMethod<D, Object> getMethod(@NotNull String methodName, @NotNull Class<?>... paramTypes) throws MethodNotFoundException {

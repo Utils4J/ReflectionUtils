@@ -1,17 +1,18 @@
 package de.cyklon.reflection.exception;
 
+import de.cyklon.reflection.entities.ReflectClass;
 import org.jetbrains.annotations.NotNull;
 
 public class MemberNotFoundException extends NotFoundException {
-	private final Class<?> parent;
+	private final ReflectClass<?> parent;
 
-	public MemberNotFoundException(@NotNull Class<?> parent, @NotNull String name) {
+	public MemberNotFoundException(@NotNull ReflectClass<?> parent, @NotNull String name) {
 		super(name);
 		this.parent = parent;
 	}
 
 	@NotNull
-	public Class<?> getParent() {
+	public ReflectClass<?> getParent() {
 		return parent;
 	}
 }

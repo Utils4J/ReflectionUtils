@@ -1,5 +1,6 @@
 package de.cyklon.reflection.entities.impl;
 
+import de.cyklon.reflection.entities.ReflectClass;
 import de.cyklon.reflection.entities.ReflectConstructor;
 import de.cyklon.reflection.entities.ReflectParameter;
 import de.cyklon.reflection.exception.ExecutionException;
@@ -8,13 +9,13 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 class ReflectConstructorImpl<D> extends ReflectEntityImpl<D, D> implements ReflectConstructor<D> {
 	private final Constructor<D> constructor;
 
-	public ReflectConstructorImpl(@NotNull Class<D> declaringClass, @NotNull Constructor<D> constructor) {
+	public ReflectConstructorImpl(@NotNull ReflectClass<D> declaringClass, @NotNull Constructor<D> constructor) {
 		super(declaringClass, declaringClass);
 		constructor.setAccessible(true);
 		this.constructor = constructor;
@@ -34,8 +35,8 @@ class ReflectConstructorImpl<D> extends ReflectEntityImpl<D, D> implements Refle
 	@NotNull
 	@Override
 	public List<? extends ReflectParameter<D, Object>> getParameters() {
-		return Arrays.stream(constructor.getParameters())
-				.map(p -> new ReflectParameterImpl<>(p, this))
+		return IntStream.range(0, constructor.getParameterCount())
+				.mapToObj(i -> new ReflectParameterImpl<>(constructor.getParameters()[i], ReflectClass.wrap(constructor.getGenericParameterTypes()[i]), this))
 				.toList();
 	}
 

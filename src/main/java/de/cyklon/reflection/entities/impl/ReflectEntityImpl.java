@@ -1,26 +1,27 @@
 package de.cyklon.reflection.entities.impl;
 
+import de.cyklon.reflection.entities.ReflectClass;
 import de.cyklon.reflection.entities.ReflectEntity;
 import org.jetbrains.annotations.NotNull;
 
 abstract class ReflectEntityImpl<D, R> implements ReflectEntity<D, R> {
-	protected final Class<D> declaringClass;
-	protected final Class<R> returnType;
+	protected final ReflectClass<D> declaringClass;
+	protected final ReflectClass<R> returnType;
 
-	public ReflectEntityImpl(@NotNull Class<D> declaringClass, @NotNull Class<R> returnType) {
+	public ReflectEntityImpl(@NotNull ReflectClass<D> declaringClass, @NotNull ReflectClass<R> returnType) {
 		this.declaringClass = declaringClass;
 		this.returnType = returnType;
 	}
 
 	@NotNull
 	@Override
-	public Class<D> getDeclaringClass() {
+	public ReflectClass<D> getDeclaringClass() {
 		return declaringClass;
 	}
 
 	@NotNull
 	@Override
-	public Class<R> getReturnType() {
+	public ReflectClass<R> getReturnType() {
 		return returnType;
 	}
 }

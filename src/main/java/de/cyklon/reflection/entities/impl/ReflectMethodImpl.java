@@ -1,5 +1,6 @@
 package de.cyklon.reflection.entities.impl;
 
+import de.cyklon.reflection.entities.ReflectClass;
 import de.cyklon.reflection.entities.ReflectMethod;
 import de.cyklon.reflection.entities.ReflectParameter;
 import de.cyklon.reflection.exception.ExecutionException;
@@ -9,14 +10,14 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 class ReflectMethodImpl<D, R> extends ReflectEntityImpl<D, R> implements ReflectMethod<D, R> {
 	private final Method method;
 
-	public ReflectMethodImpl(@NotNull Class<D> declaringClass, @NotNull Class<R> returnType, @NotNull Method method) {
-		super(declaringClass, returnType);
+	public ReflectMethodImpl(@NotNull ReflectClass<D> declaringClass, @NotNull Method method) {
+		super(declaringClass, ReflectClass.wrap(method.getGenericReturnType()));
 		method.setAccessible(true);
 		this.method = method;
 	}
@@ -27,10 +28,11 @@ class ReflectMethodImpl<D, R> extends ReflectEntityImpl<D, R> implements Reflect
 		return method;
 	}
 
+	@NotNull
 	@Override
-	public @NotNull List<? extends ReflectParameter<D, Object>> getParameters() {
-		return Arrays.stream(method.getParameters())
-				.map(p -> new ReflectParameterImpl<>(p, this))
+	public List<? extends ReflectParameter<D, Object>> getParameters() {
+		return IntStream.range(0, method.getParameterCount())
+				.mapToObj(i -> new ReflectParameterImpl<>(method.getParameters()[i], ReflectClass.wrap(method.getGenericParameterTypes()[i]), this))
 				.toList();
 	}
 

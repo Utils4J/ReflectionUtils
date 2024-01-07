@@ -7,9 +7,9 @@ import org.jetbrains.annotations.NotNull;
 public interface ReflectEntity<D, R> extends Annotatable, Nameable {
 
 	@NotNull
-	Class<R> getReturnType();
+	ReflectClass<R> getReturnType();
 
 	@NotNull
-	Class<D> getDeclaringClass();
+	ReflectClass<D> getDeclaringClass();
 }
 
