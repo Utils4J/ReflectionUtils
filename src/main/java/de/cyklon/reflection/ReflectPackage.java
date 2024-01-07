@@ -28,4 +28,17 @@ public interface ReflectPackage extends Annotatable, Nameable, MemberContainer<O
 				.collect(Collectors.toUnmodifiableSet());
 	}
 
+	@NotNull
+	@Unmodifiable
+	Set<? extends ReflectPackage> getPackages();
+
+	@NotNull
+	@Unmodifiable
+	default Set<? extends ReflectPackage> getPackages(@NotNull Filter<ReflectPackage> filter) {
+		return getPackages().stream()
+				.filter(filter::filter)
+				.collect(Collectors.toUnmodifiableSet());
+	}
+
+
 }

@@ -87,6 +87,23 @@ class ReflectPackageImpl implements ReflectPackage {
 	}
 
 	@Override
+	public @NotNull @Unmodifiable Set<? extends ReflectPackage> getPackages() {
+		String packageName = getName();
+		try (InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream(packageName.replaceAll("\\.", "/"))) {
+			if (in == null) throw new NotFoundException(packageName);
+
+			try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
+				return reader.lines()
+						.filter(l -> !l.contains("."))
+						.map(ReflectPackageImpl::get)
+						.collect(Collectors.toUnmodifiableSet());
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
 	public Annotation[] getAnnotations() {
 		return pkg.getAnnotations();
 	}
