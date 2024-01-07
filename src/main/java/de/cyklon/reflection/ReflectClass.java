@@ -5,6 +5,11 @@ import org.jetbrains.annotations.NotNull;
 public interface ReflectClass<D> extends ReflectEntity<D, D> {
 
 	@NotNull
+	static <D> ReflectClass<D> wrap(Class<D> clazz) {
+		return ReflectClassImpl.wrap(clazz);
+	}
+
+	@NotNull
 	D newInstance(Object... params);
 
 	@NotNull
