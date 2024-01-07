@@ -54,7 +54,7 @@ class ReflectFieldImpl<D, R> extends ReflectEntityImpl<D, R> implements ReflectF
 
 	@Override
 	public boolean equals(Object obj) {
-		return obj instanceof ReflectField<?,?> rf && rf.getField().equals(field);
+		return obj instanceof ReflectField<?, ?> rf && rf.getField().equals(field);
 	}
 
 	@Override

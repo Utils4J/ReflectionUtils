@@ -21,9 +21,9 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@Nullable
 	@SuppressWarnings("unchecked")
 	private static <D> Class<D> getClazz(@NotNull Type type) {
-		if(type instanceof Class<?> c) return (Class<D>) c;
-		else if(type instanceof ParameterizedType pt) return getClazz(pt.getRawType());
-		else if(type instanceof GenericArrayType) return null;
+		if (type instanceof Class<?> c) return (Class<D>) c;
+		else if (type instanceof ParameterizedType pt) return getClazz(pt.getRawType());
+		else if (type instanceof GenericArrayType) return null;
 
 		throw new IllegalArgumentException();
 	}
@@ -59,8 +59,8 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@NotNull
 	@Override
 	public ReflectClass<?> getArrayComponent() throws UnsupportedOperationException {
-		if(clazz != null && clazz.isArray()) return wrap(clazz.getComponentType());
-		if(type instanceof GenericArrayType at) return wrap(at.getGenericComponentType());
+		if (clazz != null && clazz.isArray()) return wrap(clazz.getComponentType());
+		if (type instanceof GenericArrayType at) return wrap(at.getGenericComponentType());
 
 		throw new UnsupportedOperationException();
 	}
@@ -68,14 +68,14 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@NotNull
 	@Override
 	public ReflectClass<?> getActualArrayComponent() throws UnsupportedOperationException {
-		if(clazz != null && !clazz.isArray()) return this;
+		if (clazz != null && !clazz.isArray()) return this;
 		else return getArrayComponent().getActualArrayComponent();
 	}
 
 	@NotNull
 	@Override
 	public List<? extends ReflectClass<?>> getTypeParameters() {
-		if(!(type instanceof ParameterizedType pt)) return Collections.emptyList();
+		if (!(type instanceof ParameterizedType pt)) return Collections.emptyList();
 		return Arrays.stream(pt.getActualTypeArguments())
 				.map(ReflectClass::wrap)
 				.toList();
@@ -85,7 +85,7 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@Override
 	@SuppressWarnings("unchecked")
 	public <E extends Enum<E>> List<E> getEnumConstants() throws UnsupportedOperationException {
-		if(clazz == null || !clazz.isEnum()) throw new UnsupportedOperationException();
+		if (clazz == null || !clazz.isEnum()) throw new UnsupportedOperationException();
 		return Arrays.stream(clazz.getEnumConstants())
 				.map(e -> (E) e)
 				.toList();
@@ -94,14 +94,14 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@Nullable
 	@Override
 	public ReflectClass<?> getParentClass() {
-		if(clazz == null) return null;
+		if (clazz == null) return null;
 		return clazz.getSuperclass() == null ? null : wrap(clazz.getSuperclass());
 	}
 
 	@NotNull
 	@Override
 	public Set<? extends ReflectClass<?>> getSubclasses(@NotNull Filter<ReflectClass<?>> filter) {
-		if(clazz == null) return Collections.emptySet();
+		if (clazz == null) return Collections.emptySet();
 		return Arrays.stream(clazz.getClasses())
 				.map(ReflectClassImpl::new)
 				.filter(filter::filter)
@@ -112,7 +112,7 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@Override
 	@SuppressWarnings("unchecked")
 	public Set<? extends ReflectConstructor<D>> getConstructors(@NotNull Filter<ReflectConstructor<?>> filter) {
-		if(clazz == null) return Collections.emptySet();
+		if (clazz == null) return Collections.emptySet();
 		return Arrays.stream(clazz.getDeclaredConstructors())
 				.map(c -> new ReflectConstructorImpl<>(this, (Constructor<D>) c))
 				.filter(filter::filter)
@@ -122,7 +122,7 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@NotNull
 	@Override
 	public Set<? extends ReflectField<D, ?>> getFields(@NotNull Filter<ReflectField<?, ?>> filter) {
-		if(clazz == null) return Collections.emptySet();
+		if (clazz == null) return Collections.emptySet();
 		return Arrays.stream(clazz.getDeclaredFields())
 				.map(f -> new ReflectFieldImpl<>(this, f))
 				.filter(filter::filter)
@@ -132,7 +132,7 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@NotNull
 	@Override
 	public Set<? extends ReflectMethod<D, ?>> getMethods(@NotNull Filter<ReflectMethod<?, ?>> filter) {
-		if(clazz == null) return Collections.emptySet();
+		if (clazz == null) return Collections.emptySet();
 		return Arrays.stream(clazz.getDeclaredMethods())
 				.map(m -> new ReflectMethodImpl<>(this, m))
 				.filter(filter::filter)
@@ -151,7 +151,7 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@Override
 	@SuppressWarnings("unchecked")
 	public D[] newArrayInstance(int... dimensions) {
-		if(clazz != null && !clazz.isArray()) throw new UnsupportedOperationException();
+		if (clazz != null && !clazz.isArray()) throw new UnsupportedOperationException();
 
 		return (D[]) Array.newInstance(getActualArrayComponent().getInternal(), dimensions);
 	}
@@ -159,7 +159,7 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@Override
 	@NotNull
 	public D newInstance(@NotNull Object... params) throws ExecutionException, UnsupportedOperationException {
-		if(clazz == null || clazz.isArray()) throw new UnsupportedOperationException();
+		if (clazz == null || clazz.isArray()) throw new UnsupportedOperationException();
 
 		try {
 			return getConstructor(params).newInstance(params);
@@ -190,13 +190,13 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 
 	@Override
 	public Annotation[] getAnnotations() {
-		if(clazz == null) return new Annotation[0];
+		if (clazz == null) return new Annotation[0];
 		return clazz.getAnnotations();
 	}
 
 	@Override
 	public Annotation[] getDeclaredAnnotations() {
-		if(clazz == null) return new Annotation[0];
+		if (clazz == null) return new Annotation[0];
 		return clazz.getDeclaredAnnotations();
 	}
 
@@ -208,7 +208,7 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@NotNull
 	@Override
 	public String getName() {
-		if(clazz != null) return clazz.getSimpleName();
+		if (clazz != null) return clazz.getSimpleName();
 		else return getArrayComponent().getName() + "[]";
 	}
 

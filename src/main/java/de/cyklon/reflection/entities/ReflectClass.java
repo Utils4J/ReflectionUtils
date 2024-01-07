@@ -43,8 +43,7 @@ public interface ReflectClass<D> extends MemberContainer<D>, Type, Nameable, Ann
 	List<? extends ReflectClass<?>> getTypeParameters();
 
 
-	@NotNull
-	<E extends Enum<E>> List<E> getEnumConstants() throws UnsupportedOperationException;
+	@NotNull <E extends Enum<E>> List<E> getEnumConstants() throws UnsupportedOperationException;
 
 
 	@NotNull
