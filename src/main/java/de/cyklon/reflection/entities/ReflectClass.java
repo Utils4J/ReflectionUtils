@@ -8,6 +8,7 @@ import de.cyklon.reflection.exception.ExecutionException;
 import de.cyklon.reflection.exception.FieldNotFoundException;
 import de.cyklon.reflection.exception.MethodNotFoundException;
 import de.cyklon.reflection.function.Filter;
+import de.cyklon.reflection.types.Modifiable;
 import de.cyklon.reflection.types.ReflectEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -17,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-public interface ReflectClass<D> extends MemberContainer<D>, Type, ReflectEntity {
+public interface ReflectClass<D> extends MemberContainer<D>, Type, ReflectEntity, Modifiable {
 	@NotNull
 	static <D> ReflectClass<D> wrap(@NotNull Class<D> clazz) {
 		return ReflectClassImpl.wrap(clazz);

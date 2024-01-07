@@ -5,13 +5,14 @@ import de.cyklon.reflection.function.Filter;
 import de.cyklon.reflection.types.Annotatable;
 import de.cyklon.reflection.types.MemberContainer;
 import de.cyklon.reflection.types.Nameable;
+import de.cyklon.reflection.types.ReflectEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public interface ReflectPackage extends Annotatable, Nameable, MemberContainer<Object> {
+public interface ReflectPackage extends MemberContainer<Object>, ReflectEntity {
 
 	@NotNull
 	static ReflectPackage get(@NotNull String packageName) {
