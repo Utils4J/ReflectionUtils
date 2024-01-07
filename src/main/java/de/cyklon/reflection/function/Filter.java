@@ -65,6 +65,10 @@ public interface Filter<T> {
 
 	boolean filter(@NotNull T obj);
 
+	default boolean filterInverted(@NotNull T obj) {
+		return !filter(obj);
+	}
+
 	@Contract("null -> false")
 	default boolean apply(@Nullable T obj) {
 		return obj != null && filter(obj);
