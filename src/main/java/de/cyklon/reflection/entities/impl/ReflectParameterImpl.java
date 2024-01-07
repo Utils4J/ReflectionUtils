@@ -43,4 +43,9 @@ public class ReflectParameterImpl<D, R> extends ReflectEntityImpl<D, R> implemen
 	public Annotation[] getDeclaredAnnotations() {
 		return parameter.getDeclaredAnnotations();
 	}
+
+	@Override
+	public @NotNull String getName() {
+		return parameter.getName();
+	}
 }

@@ -7,7 +7,7 @@ import org.jetbrains.annotations.Unmodifiable;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public interface ReflectPackage extends Annotatable {
+public interface ReflectPackage extends Annotatable, Nameable {
 
 
 	@NotNull

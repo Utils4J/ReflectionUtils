@@ -43,4 +43,9 @@ class ReflectFieldImpl<D, R> extends ReflectEntityImpl<D, R> implements ReflectF
 	public Annotation[] getDeclaredAnnotations() {
 		return field.getDeclaredAnnotations();
 	}
+
+	@Override
+	public @NotNull String getName() {
+		return field.getName();
+	}
 }

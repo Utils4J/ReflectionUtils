@@ -1,6 +1,7 @@
 package de.cyklon.reflection.function;
 
 import de.cyklon.reflection.Annotatable;
+import de.cyklon.reflection.Nameable;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -8,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.annotation.Annotation;
 import java.util.Collection;
 
+@FunctionalInterface
 public interface Filter<T> {
 
 	@NotNull
@@ -16,11 +18,27 @@ public interface Filter<T> {
 	}
 
 	@NotNull
+	static <T extends Nameable> Filter<T> hasName(@NotNull String name) {
+		return n -> n.getName().equals(name);
+	}
+
+	@NotNull
+	static <T extends Nameable> Filter<T> matchesName(@NotNull String regex) {
+		return n -> n.getName().matches(regex);
+	}
+
+	@NotNull
+	static <T extends Class<?>> Filter<T> isSubClass(@NotNull Class<T> clazz) {
+		return clazz::isAssignableFrom;
+	}
+
+	@NotNull
 	static <T> Filter<T> all() {
 		return obj -> true;
 	}
 
 	@NotNull
+	@SuppressWarnings("unchecked")
 	static <T> Filter<T> allOf(@NotNull Collection<Filter<T>> filters) {
 		return allOf(all(), filters.toArray(Filter[]::new));
 	}
@@ -33,6 +51,7 @@ public interface Filter<T> {
 	}
 
 	@NotNull
+	@SuppressWarnings("unchecked")
 	static <T> Filter<T> anyOf(@NotNull Collection<Filter<T>> filters) {
 		return anyOf(all(), filters.toArray(Filter[]::new));
 	}
