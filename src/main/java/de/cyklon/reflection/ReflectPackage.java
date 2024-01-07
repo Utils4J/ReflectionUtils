@@ -17,6 +17,9 @@ public interface ReflectPackage extends Annotatable, Nameable, MemberContainer<O
 	}
 
 	@NotNull
+	Package getPackage();
+
+	@NotNull
 	@Unmodifiable
 	Set<? extends ReflectClass<?>> getClasses();
 
