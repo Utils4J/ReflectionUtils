@@ -24,7 +24,7 @@ class ReflectPackageImpl implements ReflectPackage {
 
 	private ReflectPackageImpl(@NotNull String packageName) {
 		this.pkg = ClassLoader.getSystemClassLoader().getDefinedPackage(packageName);
-		if (pkg == null) throw new NotFoundException(packageName);
+		if (pkg == null) throw new NotFoundException(packageName, "package", "");
 	}
 
 	@NotNull
@@ -95,7 +95,7 @@ class ReflectPackageImpl implements ReflectPackage {
 	public @NotNull @Unmodifiable Set<? extends ReflectPackage> getPackages() {
 		String packageName = getName();
 		try (InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream(packageName.replaceAll("\\.", "/"))) {
-			if (in == null) throw new NotFoundException(packageName);
+			if (in == null) throw new NotFoundException(packageName, "package", "");
 
 			try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
 				return reader.lines()
