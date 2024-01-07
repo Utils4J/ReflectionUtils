@@ -22,12 +22,8 @@ public enum Modifier {
 
 	private final int id;
 
-	Modifier(int id) {
-		this.id = id;
-	}
-
 	Modifier() {
-		id = 1 << ordinal();
+		this.id = 1 << ordinal();
 	}
 
 	public int getId() {
