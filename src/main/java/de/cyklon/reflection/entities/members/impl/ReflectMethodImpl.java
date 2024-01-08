@@ -25,6 +25,12 @@ public class ReflectMethodImpl<D, R> extends ReflectMemberImpl<D, R> implements 
 	}
 
 	@NotNull
+	@SuppressWarnings("unchecked")
+	public static <D, R> ReflectMethod<D, R> wrap(@NotNull Method method) {
+		return new ReflectMethodImpl<>(ReflectClass.wrap((Class<D>) method.getDeclaringClass()), method);
+	}
+
+	@NotNull
 	@Override
 	public Method getMethod() {
 		return method;

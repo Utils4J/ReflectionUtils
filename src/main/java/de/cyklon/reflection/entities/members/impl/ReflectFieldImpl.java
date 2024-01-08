@@ -20,6 +20,12 @@ public class ReflectFieldImpl<D, R> extends ReflectMemberImpl<D, R> implements R
 		this.field = field;
 	}
 
+	@NotNull
+	@SuppressWarnings("unchecked")
+	public static <D, R> ReflectField<D, R> wrap(@NotNull Field field) {
+		return new ReflectFieldImpl<>(ReflectClass.wrap((Class<D>) field.getDeclaringClass()), field);
+	}
+
 	@Override
 	@NotNull
 	public Field getField() {
