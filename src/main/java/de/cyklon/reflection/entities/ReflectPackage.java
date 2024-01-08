@@ -12,6 +12,8 @@ import java.util.stream.Collectors;
 
 public interface ReflectPackage extends MemberContainer<Object>, ReflectEntity {
 
+	ReflectPackage BASE_PACKAGE = get("");
+
 	@NotNull
 	static ReflectPackage get(@NotNull String packageName) {
 		return ReflectPackageImpl.get(packageName);
@@ -43,6 +45,9 @@ public interface ReflectPackage extends MemberContainer<Object>, ReflectEntity {
 				.filter(filter::filter)
 				.collect(Collectors.toUnmodifiableSet());
 	}
+
+	@NotNull
+	ReflectPackage getParent();
 
 
 }
