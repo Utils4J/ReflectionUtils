@@ -62,18 +62,20 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 
 	@NotNull
 	@Override
-	public ReflectClass<?> getArrayComponent() throws IllegalStateException {
-		if (clazz != null && clazz.isArray()) return wrap(clazz.getComponentType());
-		if (type instanceof GenericArrayType at) return wrap(at.getGenericComponentType());
+	public ArrayInfo getArrayInfo() throws IllegalStateException {
+		if(!isArray()) throw new IllegalStateException("This ReflectClass does not represent an array!");
 
-		throw new IllegalStateException("This ReflectClass does not represent an array!");
-	}
+		int i = 0;
+		ReflectClass<?> component = this;
 
-	@NotNull
-	@Override
-	public ReflectClass<?> getActualArrayComponent() {
-		if (clazz != null && !clazz.isArray()) return this;
-		else return getArrayComponent().getActualArrayComponent();
+		while(component.isArray()) {
+			if (component.getInternal() != null && component.getInternal().isArray()) component = wrap(clazz.getComponentType());
+			if (component.getType() instanceof GenericArrayType at) component = wrap(at.getGenericComponentType());
+
+			i++;
+		}
+
+		return new ArrayInfo(component, i);
 	}
 
 	@NotNull
@@ -179,7 +181,12 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	public D[] newArrayInstance(int... dimensions) throws IllegalStateException {
 		if (!isArray()) throw new IllegalStateException("This ReflectClass does not represent an array");
 
-		return (D[]) Array.newInstance(getActualArrayComponent().getInternal(), dimensions);
+		ArrayInfo info = getArrayInfo();
+
+		int[] newDimensions = new int[dimensions.length + info.depth()];
+		System.arraycopy(dimensions, 0, newDimensions, info.depth(), dimensions.length);
+
+		return (D[]) Array.newInstance(info.component().getInternal(), newDimensions);
 	}
 
 	@Override
@@ -235,7 +242,7 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@Override
 	public String getName() {
 		if (clazz != null) return clazz.getSimpleName();
-		else return getArrayComponent().getName() + "[]";
+		else return getArrayInfo().component().getName() + "[]";
 	}
 
 	@NotNull

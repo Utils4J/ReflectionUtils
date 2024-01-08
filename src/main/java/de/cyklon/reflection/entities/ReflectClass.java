@@ -37,10 +37,7 @@ public interface ReflectClass<D> extends MemberContainer<D>, Type, ReflectEntity
 	Class<?> getInternal();
 
 	@NotNull
-	ReflectClass<?> getArrayComponent() throws IllegalStateException;
-
-	@NotNull
-	ReflectClass<?> getActualArrayComponent();
+	ArrayInfo getArrayInfo() throws IllegalStateException;
 
 	@NotNull
 	List<? extends ReflectClass<?>> getTypeParameters();
@@ -104,4 +101,6 @@ public interface ReflectClass<D> extends MemberContainer<D>, Type, ReflectEntity
 	default ReflectMethod<D, Object> getMethod(@NotNull String methodName, @NotNull Class<?>... paramTypes) throws MethodNotFoundException {
 		return getMethod(Object.class, methodName, paramTypes);
 	}
+
+	record ArrayInfo(@NotNull ReflectClass<?> component, int depth) {}
 }
