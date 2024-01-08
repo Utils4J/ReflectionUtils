@@ -164,7 +164,7 @@ public class ReflectPackageImpl implements ReflectPackage {
 
 	@Override
 	public boolean equals(Object obj) {
-		return obj instanceof ReflectPackage rp && rp.getPackage().getName().equals(pkg.getName());
+		return obj instanceof ReflectPackage rp && rp.getName().equals(getName());
 	}
 
 	@Override
