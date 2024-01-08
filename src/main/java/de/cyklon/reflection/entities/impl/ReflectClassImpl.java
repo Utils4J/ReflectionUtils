@@ -89,10 +89,25 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@Override
 	@SuppressWarnings("unchecked")
 	public <E extends Enum<E>> List<E> getEnumConstants() throws IllegalStateException {
-		if (clazz == null || !clazz.isEnum()) throw new IllegalStateException("This ReflectClass does not represent an enum!");
+		if (!isEnum()) throw new IllegalStateException("This ReflectClass does not represent an enum!");
 		return Arrays.stream(clazz.getEnumConstants())
 				.map(e -> (E) e)
 				.toList();
+	}
+
+	@Override
+	public boolean isPrimitive() {
+		return clazz != null && clazz.isPrimitive();
+	}
+
+	@Override
+	public boolean isArray() {
+		return clazz == null || clazz.isArray();
+	}
+
+	@Override
+	public boolean isEnum() {
+		return clazz != null && clazz.isEnum();
 	}
 
 	@NotNull
@@ -162,7 +177,7 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@Override
 	@SuppressWarnings("unchecked")
 	public D[] newArrayInstance(int... dimensions) throws IllegalStateException {
-		if (clazz != null && !clazz.isArray()) throw new IllegalStateException("This ReflectClass does not represent an array");
+		if (!isArray()) throw new IllegalStateException("This ReflectClass does not represent an array");
 
 		return (D[]) Array.newInstance(getActualArrayComponent().getInternal(), dimensions);
 	}
@@ -170,7 +185,7 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@Override
 	@NotNull
 	public D newInstance(@NotNull Object... params) throws ExecutionException, IllegalStateException {
-		if (clazz == null || clazz.isArray()) throw new IllegalStateException("Cannot use newInstance on array type. Use newArrayInstance instead!");
+		if (isArray()) throw new IllegalStateException("Cannot use newInstance on array type. Use newArrayInstance instead!");
 
 		try {
 			return getConstructor(params).newInstance(params);

@@ -49,6 +49,13 @@ public interface ReflectClass<D> extends MemberContainer<D>, Type, ReflectEntity
 	@NotNull <E extends Enum<E>> List<E> getEnumConstants() throws IllegalStateException;
 
 
+	boolean isPrimitive();
+
+	boolean isArray();
+
+	boolean isEnum();
+
+
 	@NotNull
 	String getFullName();
 
