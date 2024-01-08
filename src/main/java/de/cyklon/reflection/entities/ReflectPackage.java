@@ -19,6 +19,8 @@ public interface ReflectPackage extends MemberContainer<Object>, ReflectEntity {
 		return ReflectPackageImpl.get(packageName);
 	}
 
+	boolean isLoaded();
+
 	@NotNull
 	Package getPackage();
 

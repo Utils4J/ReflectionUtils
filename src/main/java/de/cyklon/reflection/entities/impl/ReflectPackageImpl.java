@@ -22,11 +22,13 @@ import java.util.stream.Collectors;
 
 public class ReflectPackageImpl implements ReflectPackage {
 
+	private final String packageName;
 	private final Package pkg;
 
 	private ReflectPackageImpl(@NotNull String packageName) {
+		this.packageName = packageName;
 		this.pkg = ClassLoader.getSystemClassLoader().getDefinedPackage(packageName);
-		if (pkg == null) throw new NotFoundException(packageName, "package", "");
+		if (pkg == null && checkPackage(packageName)) throw new NotFoundException(packageName, "package", "");
 	}
 
 	@NotNull
@@ -34,6 +36,24 @@ public class ReflectPackageImpl implements ReflectPackage {
 	public static ReflectPackage get(@NotNull String packageName) {
 		if (ReflectPackage.BASE_PACKAGE == null) return new ReflectPackageImpl(packageName);
 		return packageName.isBlank() ? ReflectPackage.BASE_PACKAGE : new ReflectPackageImpl(packageName);
+	}
+
+	//returns true if package was not found
+	private static boolean checkPackage(String packageName) {
+		try (InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream(packageName.replaceAll("\\.", "/"))) {
+			return in==null;
+		} catch (IOException e) {
+			return true;
+		}
+	}
+
+	@Override
+	public boolean isLoaded() {
+		return pkg != null;
+	}
+
+	private void checkLoaded() {
+		if (!isLoaded()) throw new IllegalStateException("Can not execute this method to an unloaded package");
 	}
 
 	@NotNull
@@ -68,6 +88,7 @@ public class ReflectPackageImpl implements ReflectPackage {
 
 	@Override
 	public @NotNull Package getPackage() {
+		checkLoaded();
 		return pkg;
 	}
 
@@ -126,17 +147,19 @@ public class ReflectPackageImpl implements ReflectPackage {
 
 	@Override
 	public Annotation[] getAnnotations() {
+		checkLoaded();
 		return pkg.getAnnotations();
 	}
 
 	@Override
 	public Annotation[] getDeclaredAnnotations() {
+		checkLoaded();
 		return pkg.getDeclaredAnnotations();
 	}
 
 	@Override
 	public @NotNull String getName() {
-		return pkg.getName();
+		return isLoaded() ? pkg.getName() : packageName;
 	}
 
 	@Override
@@ -146,6 +169,6 @@ public class ReflectPackageImpl implements ReflectPackage {
 
 	@Override
 	public String toString() {
-		return pkg.toString();
+		return isLoaded() ? pkg.toString() : String.format("package %s", packageName);
 	}
 }
