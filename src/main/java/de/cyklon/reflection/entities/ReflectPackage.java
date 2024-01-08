@@ -2,9 +2,7 @@ package de.cyklon.reflection.entities;
 
 import de.cyklon.reflection.entities.impl.ReflectPackageImpl;
 import de.cyklon.reflection.function.Filter;
-import de.cyklon.reflection.types.Annotatable;
 import de.cyklon.reflection.types.MemberContainer;
-import de.cyklon.reflection.types.Nameable;
 import de.cyklon.reflection.types.ReflectEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;

@@ -63,13 +63,14 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@NotNull
 	@Override
 	public ArrayInfo getArrayInfo() throws IllegalStateException {
-		if(!isArray()) throw new IllegalStateException("This ReflectClass does not represent an array!");
+		if (!isArray()) throw new IllegalStateException("This ReflectClass does not represent an array!");
 
 		int i = 0;
 		ReflectClass<?> component = this;
 
-		while(component.isArray()) {
-			if (component.getInternal() != null && component.getInternal().isArray()) component = wrap(clazz.getComponentType());
+		while (component.isArray()) {
+			if (component.getInternal() != null && component.getInternal().isArray())
+				component = wrap(clazz.getComponentType());
 			if (component.getType() instanceof GenericArrayType at) component = wrap(at.getGenericComponentType());
 
 			i++;
@@ -115,7 +116,7 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@NotNull
 	@Override
 	public EnumSet<Modifier> getModifiers() {
-		if(clazz == null) return EnumSet.noneOf(Modifier.class);
+		if (clazz == null) return EnumSet.noneOf(Modifier.class);
 		return Modifier.parse(clazz.getModifiers());
 	}
 
@@ -192,7 +193,8 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@Override
 	@NotNull
 	public D newInstance(@NotNull Object... params) throws ExecutionException, IllegalStateException {
-		if (isArray()) throw new IllegalStateException("Cannot use newInstance on array type. Use newArrayInstance instead!");
+		if (isArray())
+			throw new IllegalStateException("Cannot use newInstance on array type. Use newArrayInstance instead!");
 
 		try {
 			return getConstructor(params).newInstance(params);

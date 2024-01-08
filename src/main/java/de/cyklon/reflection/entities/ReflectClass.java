@@ -1,13 +1,13 @@
 package de.cyklon.reflection.entities;
 
 import de.cyklon.reflection.entities.impl.ReflectClassImpl;
-import de.cyklon.reflection.types.MemberContainer;
 import de.cyklon.reflection.entities.members.ReflectField;
 import de.cyklon.reflection.entities.members.ReflectMethod;
 import de.cyklon.reflection.exception.ExecutionException;
 import de.cyklon.reflection.exception.FieldNotFoundException;
 import de.cyklon.reflection.exception.MethodNotFoundException;
 import de.cyklon.reflection.function.Filter;
+import de.cyklon.reflection.types.MemberContainer;
 import de.cyklon.reflection.types.Modifiable;
 import de.cyklon.reflection.types.ReflectEntity;
 import org.jetbrains.annotations.NotNull;
@@ -102,5 +102,6 @@ public interface ReflectClass<D> extends MemberContainer<D>, Type, ReflectEntity
 		return getMethod(Object.class, methodName, paramTypes);
 	}
 
-	record ArrayInfo(@NotNull ReflectClass<?> component, int depth) {}
+	record ArrayInfo(@NotNull ReflectClass<?> component, int depth) {
+	}
 }

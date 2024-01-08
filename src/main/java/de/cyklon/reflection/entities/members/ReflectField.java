@@ -1,6 +1,5 @@
 package de.cyklon.reflection.entities.members;
 
-import de.cyklon.reflection.entities.ReflectClass;
 import de.cyklon.reflection.entities.members.impl.ReflectFieldImpl;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

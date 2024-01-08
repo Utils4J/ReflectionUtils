@@ -1,8 +1,8 @@
 package de.cyklon.reflection.entities.members.impl;
 
-import de.cyklon.reflection.types.AbstractMethod;
 import de.cyklon.reflection.entities.ReflectClass;
 import de.cyklon.reflection.entities.members.ReflectParameter;
+import de.cyklon.reflection.types.AbstractMethod;
 import de.cyklon.reflection.types.Modifier;
 import org.jetbrains.annotations.NotNull;
 
