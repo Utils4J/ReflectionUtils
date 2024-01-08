@@ -198,10 +198,7 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 
 		ArrayInfo info = getArrayInfo();
 
-		int[] newDimensions = new int[dimensions.length + info.depth()];
-		System.arraycopy(dimensions, 0, newDimensions, info.depth(), dimensions.length);
-
-		return (D[]) Array.newInstance(info.component().getInternal(), newDimensions);
+		return (D[]) Array.newInstance(info.component().getInternal(), Arrays.copyOf(dimensions, dimensions.length + info.depth()));
 	}
 
 	@Override
