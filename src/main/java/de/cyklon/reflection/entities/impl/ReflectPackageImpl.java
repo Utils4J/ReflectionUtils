@@ -53,7 +53,7 @@ public class ReflectPackageImpl implements ReflectPackage {
 	}
 
 	private void checkLoaded() {
-		if (!isLoaded()) throw new IllegalStateException("Can not execute this method to an unloaded package");
+		if (!isLoaded()) throw new IllegalStateException(String.format("Can not execute this method to an unloaded package. Package %s is not loaded yet", packageName));
 	}
 
 	@NotNull
