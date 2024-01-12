@@ -28,8 +28,8 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@SuppressWarnings("unchecked")
 	private static <D> Class<D> getClazz(@NotNull Type type) {
 		if (type instanceof Class<?> c) return (Class<D>) c;
-		else if (type instanceof ParameterizedType pt) return getClazz(pt.getRawType());
-		else if (type instanceof GenericArrayType) return null;
+		if (type instanceof ParameterizedType pt) return getClazz(pt.getRawType());
+		if (type instanceof GenericArrayType) return null;
 
 		throw new IllegalArgumentException();
 	}
