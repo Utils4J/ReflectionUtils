@@ -1,5 +1,6 @@
 package de.cyklon.reflection.function;
 
+import de.cyklon.reflection.entities.ReflectPackage;
 import de.cyklon.reflection.types.Annotatable;
 import de.cyklon.reflection.types.Nameable;
 import org.jetbrains.annotations.Contract;
@@ -8,9 +9,25 @@ import org.jetbrains.annotations.Nullable;
 
 import java.lang.annotation.Annotation;
 import java.util.Collection;
+import java.util.function.Predicate;
 
 @FunctionalInterface
 public interface Filter<T> {
+
+	@NotNull
+	static <T> Filter<T> filterNullable(Predicate<T> predicate) {
+		return new Filter<T>() {
+			@Override
+			public boolean test(@NotNull T obj) {
+				return true;
+			}
+
+			@Override
+			public boolean filter(@Nullable T obj) {
+				return predicate.test(obj);
+			}
+		};
+	}
 
 	@NotNull
 	static <T extends Annotatable> Filter<T> hasAnnotation(@NotNull Class<? extends Annotation> annotation) {
@@ -33,8 +50,18 @@ public interface Filter<T> {
 	}
 
 	@NotNull
-	static <T> Filter<T> all() {
+	static <T extends ReflectPackage> Filter<T> isLoaded() {
+		return ReflectPackage::isLoaded;
+	}
+
+	@NotNull
+	static <T> Filter<T> notNull() {
 		return obj -> true;
+	}
+
+	@NotNull
+	static <T> Filter<T> all() {
+		return filterNullable(obj -> true);
 	}
 
 	@NotNull
@@ -63,34 +90,34 @@ public interface Filter<T> {
 		return filter;
 	}
 
-	boolean filter(@NotNull T obj);
+	@Contract("null -> false")
+	default boolean filter(@Nullable T obj) {
+		return obj != null && test(obj);
+	}
 
 	default boolean filterInverted(@NotNull T obj) {
 		return !filter(obj);
 	}
 
-	@Contract("null -> false")
-	default boolean apply(@Nullable T obj) {
-		return obj != null && filter(obj);
-	}
+	boolean test(@NotNull T obj);
 
 	@NotNull
 	default Filter<T> not() {
-		return obj -> !filter(obj);
+		return filterNullable(obj -> !filter(obj));
 	}
 
 	@NotNull
 	default Filter<T> and(@NotNull Filter<T> other) {
-		return obj -> filter(obj) && other.filter(obj);
+		return filterNullable(obj -> filter(obj) && other.filter(obj));
 	}
 
 	@NotNull
 	default Filter<T> or(@NotNull Filter<T> other) {
-		return obj -> filter(obj) || other.filter(obj);
+		return filterNullable(obj -> filter(obj) || other.filter(obj));
 	}
 
 	@NotNull
 	default Filter<T> xOr(@NotNull Filter<T> other) {
-		return obj -> filter(obj) ^ other.filter(obj);
+		return filterNullable(obj -> filter(obj) ^ other.filter(obj));
 	}
 }
