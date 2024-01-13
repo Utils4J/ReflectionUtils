@@ -10,11 +10,14 @@ public final class ReflectionUtils {
 
 	public static Class<?> getClass(@NotNull String packageName, @NotNull String className) throws NotFoundException {
 		int i = className.lastIndexOf('.');
-		String path = String.format("%s.%s", packageName, className.substring(0, i == -1 ? className.length() : i));
+		return getClass(String.format("%s.%s", packageName, className.substring(0, i == -1 ? className.length() : i)));
+	}
+
+	public static Class<?> getClass(@NotNull String className) {
 		try {
-			return Class.forName(path);
+			return Class.forName(className);
 		} catch (ClassNotFoundException e) {
-			throw new NotFoundException(path, "class", packageName);
+			throw new NotFoundException(className, "class", className.substring(0, className.lastIndexOf('.')));
 		}
 	}
 
