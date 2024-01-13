@@ -1,5 +1,6 @@
 package de.cyklon.reflection.entities;
 
+import de.cyklon.reflection.ReflectionUtils;
 import de.cyklon.reflection.entities.impl.ReflectClassImpl;
 import de.cyklon.reflection.entities.members.ReflectField;
 import de.cyklon.reflection.entities.members.ReflectMethod;
@@ -27,6 +28,18 @@ public interface ReflectClass<D> extends MemberContainer<D>, Type, ReflectEntity
 	@NotNull
 	static <D> ReflectClass<D> wrap(@NotNull Type type) {
 		return ReflectClassImpl.wrap(type);
+	}
+
+	@NotNull
+	@SuppressWarnings("unchecked")
+	static <D> ReflectClass<D> getClass(D obj) {
+		return wrap((Class<D>) obj.getClass());
+	}
+
+	@NotNull
+	@SuppressWarnings("unchecked")
+	static <D> ReflectClass<D> forName(String className) {
+		return wrap((Class<D>) ReflectionUtils.getClass(className));
 	}
 
 
