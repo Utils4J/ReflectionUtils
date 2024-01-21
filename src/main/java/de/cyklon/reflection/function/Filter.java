@@ -1,8 +1,7 @@
 package de.cyklon.reflection.function;
 
 import de.cyklon.reflection.entities.ReflectPackage;
-import de.cyklon.reflection.types.Annotatable;
-import de.cyklon.reflection.types.Nameable;
+import de.cyklon.reflection.types.*;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -27,6 +26,16 @@ public interface Filter<T> {
 				return predicate.test(obj);
 			}
 		};
+	}
+
+	@NotNull
+	static <T extends Modifiable> Filter<T> hasModifier(@NotNull Modifier modifier) {
+		return m -> m.hasModifier(modifier);
+	}
+
+	@NotNull
+	static <T extends AbstractMethod<?, ?>> Filter<T> hasNoArgs() {
+		return m -> m.getParameters().size()==0;
 	}
 
 	@NotNull
