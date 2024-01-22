@@ -35,7 +35,7 @@ public interface Filter<T> {
 
 	@NotNull
 	static <T extends AbstractMethod<?, ?>> Filter<T> hasNoArgs() {
-		return m -> m.getParameters().size()==0;
+		return m -> m.getParameters().isEmpty();
 	}
 
 	@NotNull
