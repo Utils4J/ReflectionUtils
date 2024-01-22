@@ -15,7 +15,7 @@ public interface Filter<T> {
 
 	@NotNull
 	static <T> Filter<T> filterNullable(Predicate<T> predicate) {
-		return new Filter<T>() {
+		return new Filter<>() {
 			@Override
 			public boolean test(@NotNull T obj) {
 				return true;
