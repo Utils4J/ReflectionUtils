@@ -32,13 +32,13 @@ public interface ReflectClass<D> extends MemberContainer<D>, Type, ReflectEntity
 
 	@NotNull
 	@SuppressWarnings("unchecked")
-	static <D> ReflectClass<D> getClass(D obj) {
+	static <D> ReflectClass<D> getClass(@NotNull D obj) {
 		return wrap((Class<D>) obj.getClass());
 	}
 
 	@NotNull
 	@SuppressWarnings("unchecked")
-	static <D> ReflectClass<D> forName(String className) {
+	static <D> ReflectClass<D> forName(@NotNull String className) {
 		return wrap((Class<D>) ReflectionUtils.getClass(className));
 	}
 
