@@ -151,7 +151,7 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@NotNull
 	@Override
 	@SuppressWarnings("unchecked")
-	public Set<? extends ReflectConstructor<D>> getConstructors(@NotNull Filter<ReflectConstructor<?>> filter) {
+	public Set<? extends ReflectConstructor<D>> getConstructors(@NotNull Filter<ReflectConstructor<? extends D>> filter) {
 		return Arrays.stream(clazz.getDeclaredConstructors())
 				.map(c -> new ReflectConstructorImpl<>(this, (Constructor<D>) c))
 				.filter(filter::filter)
@@ -160,7 +160,7 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 
 	@NotNull
 	@Override
-	public Set<? extends ReflectField<D, ?>> getFields(@NotNull Filter<ReflectField<?, ?>> filter) {
+	public Set<? extends ReflectField<D, ?>> getFields(@NotNull Filter<ReflectField<? extends D, ?>> filter) {
 		return Arrays.stream(clazz.getDeclaredFields())
 				.map(f -> new ReflectFieldImpl<>(this, f))
 				.filter(filter::filter)
@@ -169,7 +169,7 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 
 	@NotNull
 	@Override
-	public Set<? extends ReflectMethod<D, ?>> getMethods(@NotNull Filter<ReflectMethod<?, ?>> filter) {
+	public Set<? extends ReflectMethod<D, ?>> getMethods(@NotNull Filter<ReflectMethod<? extends D, ?>> filter) {
 		return Arrays.stream(clazz.getDeclaredMethods())
 				.map(m -> new ReflectMethodImpl<>(this, m))
 				.filter(filter::filter)
