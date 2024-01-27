@@ -126,8 +126,10 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 
 	@Nullable
 	@Override
-	public ReflectClass<?> getParentClass() {
-		return clazz.getSuperclass() == null ? null : wrap(clazz.getSuperclass());
+	@SuppressWarnings("unchecked")
+	public <T> ReflectClass<T> getParentClass() {
+		Class<T> temp = (Class<T>) clazz.getSuperclass();
+		return temp == null ? null : wrap(temp);
 	}
 
 	@NotNull

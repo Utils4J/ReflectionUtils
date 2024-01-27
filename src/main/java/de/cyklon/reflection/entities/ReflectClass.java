@@ -71,7 +71,7 @@ public interface ReflectClass<D> extends MemberContainer<D>, Type, ReflectEntity
 
 
 	@Nullable
-	ReflectClass<?> getParentClass();
+	<T> ReflectClass<T> getParentClass();
 
 	@NotNull
 	ReflectPackage getPackage();
