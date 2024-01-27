@@ -24,29 +24,29 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	private final Class<D> clazz;
 	private final Type type;
 
-	@Nullable
+	@NotNull
 	@SuppressWarnings("unchecked")
 	private static <D> Class<D> getClazz(@NotNull Type type) {
 		if (type instanceof Class<?> c) return (Class<D>) c;
 		if (type instanceof ParameterizedType pt) return getClazz(pt.getRawType());
-		if (type instanceof GenericArrayType) return null;
+		if (type instanceof GenericArrayType gt) return (Class<D>) Array.newInstance(getClazz(gt.getGenericComponentType()), 0).getClass();
 
 		throw new IllegalArgumentException();
 	}
 
-	private ReflectClassImpl(@NotNull Type type) {
+	private ReflectClassImpl(@NotNull Type type, @NotNull Class<D> clazz) {
 		this.type = type;
-		this.clazz = getClazz(type);
+		this.clazz = clazz;
 	}
 
 	@NotNull
 	public static <D> ReflectClass<D> wrap(@NotNull Type type) {
-		return new ReflectClassImpl<>(type);
+		return new ReflectClassImpl<>(type, getClazz(type));
 	}
 
 	@NotNull
 	public static <D> ReflectClass<D> wrap(@NotNull Class<D> clazz) {
-		return new ReflectClassImpl<>(clazz);
+		return new ReflectClassImpl<>(clazz, clazz);
 	}
 
 	@NotNull
@@ -55,7 +55,7 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 		return type;
 	}
 
-	@Nullable
+	@NotNull
 	@Override
 	public Class<?> getInternal() {
 		return clazz;
@@ -71,9 +71,10 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 		ReflectClass<?> component = this;
 
 		while (component.isArray()) {
-			if (component.getInternal() != null && component.getInternal().isArray())
-				component = wrap(clazz.getComponentType());
+			component.getInternal();
+
 			if (component.getType() instanceof GenericArrayType at) component = wrap(at.getGenericComponentType());
+			else if (component.isArray()) component = wrap(clazz.getComponentType());
 
 			i++;
 		}
@@ -104,30 +105,28 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 
 	@Override
 	public boolean isPrimitive() {
-		return clazz != null && clazz.isPrimitive();
+		return clazz.isPrimitive();
 	}
 
 	@Override
 	public boolean isArray() {
-		return clazz == null || clazz.isArray();
+		return clazz.isArray();
 	}
 
 	@Override
 	public boolean isEnum() {
-		return clazz != null && clazz.isEnum();
+		return clazz.isEnum();
 	}
 
 	@NotNull
 	@Override
 	public EnumSet<Modifier> getModifiers() {
-		if (clazz == null) return EnumSet.noneOf(Modifier.class);
 		return Modifier.parse(clazz.getModifiers());
 	}
 
 	@Nullable
 	@Override
 	public ReflectClass<?> getParentClass() {
-		if (clazz == null) return null;
 		return clazz.getSuperclass() == null ? null : wrap(clazz.getSuperclass());
 	}
 
@@ -141,9 +140,8 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@Override
 	@Unmodifiable
 	public Set<? extends ReflectClass<?>> getSubclasses(@NotNull Filter<ReflectClass<?>> filter) {
-		if (clazz == null) return Collections.emptySet();
 		return Arrays.stream(clazz.getClasses())
-				.map(ReflectClassImpl::new)
+				.map(ReflectClassImpl::wrap)
 				.filter(filter::filter)
 				.collect(Collectors.toUnmodifiableSet());
 	}
@@ -153,7 +151,6 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@Unmodifiable
 	@SuppressWarnings("unchecked")
 	public Set<? extends ReflectConstructor<D>> getConstructors(@NotNull Filter<ReflectConstructor<?>> filter) {
-		if (clazz == null) return Collections.emptySet();
 		return Arrays.stream(clazz.getDeclaredConstructors())
 				.map(c -> new ReflectConstructorImpl<>(this, (Constructor<D>) c))
 				.filter(filter::filter)
@@ -164,7 +161,6 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@Override
 	@Unmodifiable
 	public Set<? extends ReflectField<D, ?>> getFields(@NotNull Filter<ReflectField<?, ?>> filter) {
-		if (clazz == null) return Collections.emptySet();
 		return Arrays.stream(clazz.getDeclaredFields())
 				.map(f -> new ReflectFieldImpl<>(this, f))
 				.filter(filter::filter)
@@ -175,7 +171,6 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@Override
 	@Unmodifiable
 	public Set<? extends ReflectMethod<D, ?>> getMethods(@NotNull Filter<ReflectMethod<?, ?>> filter) {
-		if (clazz == null) return Collections.emptySet();
 		return Arrays.stream(clazz.getDeclaredMethods())
 				.map(m -> new ReflectMethodImpl<>(this, m))
 				.filter(filter::filter)
@@ -204,8 +199,7 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@Override
 	@NotNull
 	public D newInstance(@NotNull Object... params) throws ExecutionException, IllegalStateException {
-		if (isArray())
-			throw new IllegalStateException("Cannot use newInstance on array type. Use newArrayInstance instead!");
+		if (isArray()) throw new IllegalStateException("Cannot use newInstance on array type. Use newArrayInstance instead!");
 
 		try {
 			return getConstructor(params).newInstance(params);
@@ -236,13 +230,11 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 
 	@Override
 	public Annotation[] getAnnotations() {
-		if (clazz == null) return new Annotation[0];
 		return clazz.getAnnotations();
 	}
 
 	@Override
 	public Annotation[] getDeclaredAnnotations() {
-		if (clazz == null) return new Annotation[0];
 		return clazz.getDeclaredAnnotations();
 	}
 
@@ -254,7 +246,7 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@NotNull
 	@Override
 	public String getName() {
-		if (clazz != null) return clazz.getSimpleName();
+		if (!clazz.isArray()) return clazz.getSimpleName();
 		else return getArrayInfo().component().getName() + "[]";
 	}
 
