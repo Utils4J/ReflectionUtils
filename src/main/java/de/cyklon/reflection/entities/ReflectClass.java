@@ -47,7 +47,7 @@ public interface ReflectClass<D> extends Type, ReflectEntity, Modifiable {
 	@NotNull
 	Type getType();
 
-	@Nullable
+	@NotNull
 	Class<?> getInternal();
 
 	@NotNull
@@ -72,7 +72,7 @@ public interface ReflectClass<D> extends Type, ReflectEntity, Modifiable {
 
 
 	@Nullable
-	ReflectClass<?> getParentClass();
+	<T> ReflectClass<T> getParentClass();
 
 	@NotNull
 	ReflectPackage getPackage();
