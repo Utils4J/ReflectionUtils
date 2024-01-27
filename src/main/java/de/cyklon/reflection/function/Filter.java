@@ -1,6 +1,7 @@
 package de.cyklon.reflection.function;
 
 import de.cyklon.reflection.entities.ReflectPackage;
+import de.cyklon.reflection.entities.members.ReflectMember;
 import de.cyklon.reflection.types.*;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -56,6 +57,10 @@ public interface Filter<T> {
 	@NotNull
 	static <T extends Class<?>> Filter<T> isSubClass(@NotNull Class<T> clazz) {
 		return clazz::isAssignableFrom;
+	}
+
+	static <T, D extends ReflectMember<T, ?>> Filter<D> isDeclaredIn(@NotNull Class<T> clazz) {
+		return obj -> obj.getDeclaringClass().getType().equals(clazz);
 	}
 
 	@NotNull

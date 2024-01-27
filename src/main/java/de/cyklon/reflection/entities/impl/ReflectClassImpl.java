@@ -150,9 +150,8 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 
 	@NotNull
 	@Override
-	@Unmodifiable
 	@SuppressWarnings("unchecked")
-	public Set<? extends ReflectConstructor<D>> getConstructors(@NotNull Filter<ReflectConstructor<D>> filter) {
+	public Set<ReflectConstructor<D>> getConstructors(@NotNull Filter<ReflectConstructor<? extends D>> filter) {
 		if (clazz == null) return Collections.emptySet();
 		return Arrays.stream(clazz.getDeclaredConstructors())
 				.map(c -> new ReflectConstructorImpl<>(this, (Constructor<D>) c))
@@ -162,8 +161,7 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 
 	@NotNull
 	@Override
-	@Unmodifiable
-	public Set<? extends ReflectField<D, ?>> getFields(@NotNull Filter<ReflectField<D, ?>> filter) {
+	public Set<ReflectField<D, ?>> getFields(@NotNull Filter<ReflectField<? extends D, ?>> filter) {
 		if (clazz == null) return Collections.emptySet();
 		return Arrays.stream(clazz.getDeclaredFields())
 				.map(f -> new ReflectFieldImpl<>(this, f))
@@ -173,8 +171,7 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 
 	@NotNull
 	@Override
-	@Unmodifiable
-	public Set<? extends ReflectMethod<D, ?>> getMethods(@NotNull Filter<ReflectMethod<D, ?>> filter) {
+	public Set<ReflectMethod<D, ?>> getMethods(@NotNull Filter<ReflectMethod<? extends D, ?>> filter) {
 		if (clazz == null) return Collections.emptySet();
 		return Arrays.stream(clazz.getDeclaredMethods())
 				.map(m -> new ReflectMethodImpl<>(this, m))

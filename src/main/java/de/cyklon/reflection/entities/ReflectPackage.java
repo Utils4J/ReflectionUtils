@@ -1,8 +1,10 @@
 package de.cyklon.reflection.entities;
 
 import de.cyklon.reflection.entities.impl.ReflectPackageImpl;
+import de.cyklon.reflection.entities.members.ReflectConstructor;
+import de.cyklon.reflection.entities.members.ReflectField;
+import de.cyklon.reflection.entities.members.ReflectMethod;
 import de.cyklon.reflection.function.Filter;
-import de.cyklon.reflection.types.MemberContainer;
 import de.cyklon.reflection.types.ReflectEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
@@ -10,7 +12,7 @@ import org.jetbrains.annotations.Unmodifiable;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public interface ReflectPackage extends MemberContainer<Object>, ReflectEntity {
+public interface ReflectPackage extends ReflectEntity {
 
 	ReflectPackage BASE_PACKAGE = get("");
 
@@ -35,6 +37,18 @@ public interface ReflectPackage extends MemberContainer<Object>, ReflectEntity {
 				.filter(filter::filter)
 				.collect(Collectors.toUnmodifiableSet());
 	}
+
+	@NotNull
+	@Unmodifiable
+	<D> Set<? extends ReflectConstructor<D>> getConstructors(@NotNull Filter<ReflectConstructor<? extends D>> filter);
+
+	@NotNull
+	@Unmodifiable
+	<D> Set<? extends ReflectMethod<D, ?>> getMethods(@NotNull Filter<ReflectMethod<? extends D, ?>> filter);
+
+	@NotNull
+	@Unmodifiable
+	<D> Set<? extends ReflectField<D, ?>> getFields(@NotNull Filter<ReflectField<? extends D, ?>> filter);
 
 	@NotNull
 	@Unmodifiable

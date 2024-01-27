@@ -58,30 +58,27 @@ public class ReflectPackageImpl implements ReflectPackage {
 
 	@NotNull
 	@Override
-	@Unmodifiable
 	@SuppressWarnings({"unchecked", "rawtypes"})
-	public Set<? extends ReflectConstructor<Object>> getConstructors(@NotNull Filter<ReflectConstructor<Object>> filter) {
-		return (Set<? extends ReflectConstructor<Object>>) getClasses().stream()
+	public <D> Set<ReflectConstructor<D>> getConstructors(@NotNull Filter<ReflectConstructor<? extends D>> filter) {
+		return(Set<ReflectConstructor<D>>)  getClasses().stream()
 				.flatMap(c -> c.getConstructors((Filter) filter).stream())
 				.collect(Collectors.toUnmodifiableSet());
 	}
 
 	@NotNull
 	@Override
-	@Unmodifiable
 	@SuppressWarnings({"unchecked", "rawtypes"})
-	public Set<? extends ReflectMethod<Object, ?>> getMethods(@NotNull Filter<ReflectMethod<Object, ?>> filter) {
-		return (Set<? extends ReflectMethod<Object, ?>>) getClasses().stream()
+	public <D> Set<ReflectMethod<D, ?>> getMethods(@NotNull Filter<ReflectMethod<? extends D, ?>> filter) {
+		return (Set<ReflectMethod<D, ?>>) getClasses().stream()
 				.flatMap(c -> c.getMethods((Filter) filter).stream())
 				.collect(Collectors.toUnmodifiableSet());
 	}
 
 	@NotNull
 	@Override
-	@Unmodifiable
 	@SuppressWarnings({"unchecked", "rawtypes"})
-	public Set<? extends ReflectField<Object, ?>> getFields(@NotNull Filter<ReflectField<Object, ?>> filter) {
-		return (Set<? extends ReflectField<Object, ?>>) getClasses().stream()
+	public <D> Set<ReflectField<D, ?>> getFields(@NotNull Filter<ReflectField<? extends D, ?>> filter) {
+		return (Set<ReflectField<D, ?>>) getClasses().stream()
 				.flatMap(c -> c.getFields((Filter) filter).stream())
 				.collect(Collectors.toUnmodifiableSet());
 	}
