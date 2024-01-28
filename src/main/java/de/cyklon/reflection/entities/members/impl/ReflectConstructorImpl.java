@@ -23,6 +23,11 @@ public class ReflectConstructorImpl<D> extends ReflectMemberImpl<D, D> implement
 		this.constructor = constructor;
 	}
 
+	@NotNull
+	public static <D> ReflectConstructor<D> wrap(@NotNull Constructor<D> constructor) {
+		return new ReflectConstructorImpl<>(ReflectClass.wrap(constructor.getDeclaringClass()), constructor);
+	}
+
 	@Override
 	public @NotNull String getName() {
 		return constructor.getName();
@@ -44,7 +49,7 @@ public class ReflectConstructorImpl<D> extends ReflectMemberImpl<D, D> implement
 
 	@NotNull
 	@Override
-	public D newInstance(@NotNull Object... args) {
+	public D invoke(@NotNull D obj, @NotNull Object... args) throws ExecutionException {
 		try {
 			return constructor.newInstance(args);
 		} catch (IllegalAccessException | InstantiationException e) {
