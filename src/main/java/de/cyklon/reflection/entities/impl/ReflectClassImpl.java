@@ -254,14 +254,18 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@NotNull
 	@Override
 	public String getName() {
-		if (clazz != null) return clazz.getSimpleName();
+		if (clazz != null) return clazz.getName();
 		else return getArrayInfo().component().getName() + "[]";
 	}
 
-	@NotNull
 	@Override
-	public String getFullName() {
-		return getTypeName();
+	public String getSimpleName() {
+		return clazz.getSimpleName();
+	}
+
+	@Override
+	public String getPackageName() {
+		return getPackage().getName();
 	}
 
 	@Override
@@ -271,6 +275,6 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 
 	@Override
 	public String toString() {
-		return getFullName();
+		return getName();
 	}
 }
