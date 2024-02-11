@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Unmodifiable;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public interface ReflectPackage extends MemberContainer<Object>, ReflectEntity {
+public interface ReflectPackage extends OfflinePackage, MemberContainer<Object>, ReflectEntity {
 
 	ReflectPackage BASE_PACKAGE = get("");
 
@@ -18,8 +18,6 @@ public interface ReflectPackage extends MemberContainer<Object>, ReflectEntity {
 	static ReflectPackage get(@NotNull String packageName) {
 		return ReflectPackageImpl.get(packageName);
 	}
-
-	boolean isLoaded();
 
 	@NotNull
 	Package getPackage();
