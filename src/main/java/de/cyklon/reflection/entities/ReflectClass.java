@@ -66,10 +66,6 @@ public interface ReflectClass<D> extends MemberContainer<D>, Type, ReflectEntity
 	boolean isEnum();
 
 
-	@NotNull
-	String getFullName();
-
-
 	@Nullable
 	ReflectClass<?> getParentClass();
 
