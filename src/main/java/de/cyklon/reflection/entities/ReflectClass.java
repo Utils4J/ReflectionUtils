@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-public interface ReflectClass<D> extends MemberContainer<D>, Type, ReflectEntity, Modifiable {
+public interface ReflectClass<D> extends ClassFile, MemberContainer<D>, Type, ReflectEntity, Modifiable {
 	@NotNull
 	static <D> ReflectClass<D> wrap(@NotNull Class<D> clazz) {
 		return ReflectClassImpl.wrap(clazz);
