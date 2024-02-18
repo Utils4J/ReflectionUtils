@@ -2,24 +2,25 @@ package de.cyklon.reflection.entities;
 
 import de.cyklon.reflection.ReflectionUtils;
 import de.cyklon.reflection.entities.impl.ReflectClassImpl;
+import de.cyklon.reflection.entities.members.ReflectConstructor;
 import de.cyklon.reflection.entities.members.ReflectField;
 import de.cyklon.reflection.entities.members.ReflectMethod;
 import de.cyklon.reflection.exception.ExecutionException;
 import de.cyklon.reflection.exception.FieldNotFoundException;
 import de.cyklon.reflection.exception.MethodNotFoundException;
 import de.cyklon.reflection.function.Filter;
-import de.cyklon.reflection.types.MemberContainer;
 import de.cyklon.reflection.types.Modifiable;
 import de.cyklon.reflection.types.ReflectEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Unmodifiable;
 
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-public interface ReflectClass<D> extends ClassFile, MemberContainer<D>, Type, ReflectEntity, Modifiable {
+public interface ReflectClass<D> extends ClassFile, Type, ReflectEntity, Modifiable {
 	@NotNull
 	static <D> ReflectClass<D> wrap(@NotNull Class<D> clazz) {
 		return ReflectClassImpl.wrap(clazz);
@@ -32,13 +33,13 @@ public interface ReflectClass<D> extends ClassFile, MemberContainer<D>, Type, Re
 
 	@NotNull
 	@SuppressWarnings("unchecked")
-	static <D> ReflectClass<D> getClass(D obj) {
+	static <D> ReflectClass<D> getClass(@NotNull D obj) {
 		return wrap((Class<D>) obj.getClass());
 	}
 
 	@NotNull
 	@SuppressWarnings("unchecked")
-	static <D> ReflectClass<D> forName(String className) {
+	static <D> ReflectClass<D> forName(@NotNull String className) {
 		return wrap((Class<D>) ReflectionUtils.getClass(className));
 	}
 
@@ -46,7 +47,7 @@ public interface ReflectClass<D> extends ClassFile, MemberContainer<D>, Type, Re
 	@NotNull
 	Type getType();
 
-	@Nullable
+	@NotNull
 	Class<?> getInternal();
 
 	@NotNull
@@ -68,7 +69,7 @@ public interface ReflectClass<D> extends ClassFile, MemberContainer<D>, Type, Re
 
 
 	@Nullable
-	ReflectClass<?> getParentClass();
+	<T> ReflectClass<T> getParentClass();
 
 	@NotNull
 	@Override
@@ -82,6 +83,20 @@ public interface ReflectClass<D> extends ClassFile, MemberContainer<D>, Type, Re
 
 	@NotNull
 	D newInstance(@NotNull Object... params) throws ExecutionException, IllegalStateException;
+
+
+	@NotNull
+	@Unmodifiable
+	Set<? extends ReflectConstructor<D>> getConstructors(@NotNull Filter<ReflectConstructor<? extends D>> filter);
+
+	@NotNull
+	@Unmodifiable
+	Set<? extends ReflectMethod<D, ?>> getMethods(@NotNull Filter<ReflectMethod<? extends D, ?>> filter);
+
+	@NotNull
+	@Unmodifiable
+	Set<? extends ReflectField<D, ?>> getFields(@NotNull Filter<ReflectField<? extends D, ?>> filter);
+
 
 	@NotNull <R> Optional<ReflectField<D, R>> getOptionalField(@NotNull Class<R> returnType, @NotNull String fieldName);
 
