@@ -20,33 +20,35 @@ public interface ReflectPackage extends OfflinePackage, MemberContainer<Object>,
 	}
 
 	@NotNull
+	@Unmodifiable
+	Set<? extends ReflectClass<?>> getLoadedClasses();
+
+	@NotNull
+	@Unmodifiable
+	default Set<? extends ReflectClass<?>> getLoadedClasses(@NotNull Filter<ReflectClass<?>> filter) {
+		return getLoadedClasses().stream()
+				.filter(filter::filter)
+				.collect(Collectors.toUnmodifiableSet());
+	}
+
+
+	@NotNull
 	Package getPackage();
 
 	@NotNull
 	@Unmodifiable
-	Set<? extends ReflectClass<?>> getClasses();
+	Set<? extends ReflectPackage> getLoadedPackages();
 
 	@NotNull
 	@Unmodifiable
-	default Set<? extends ReflectClass<?>> getClasses(@NotNull Filter<ReflectClass<?>> filter) {
-		return getClasses().stream()
+	default Set<? extends ReflectPackage> getLoadedPackages(@NotNull Filter<ReflectPackage> filter) {
+		return getLoadedPackages().stream()
 				.filter(filter::filter)
 				.collect(Collectors.toUnmodifiableSet());
 	}
 
 	@NotNull
-	@Unmodifiable
-	Set<? extends ReflectPackage> getPackages();
-
-	@NotNull
-	@Unmodifiable
-	default Set<? extends ReflectPackage> getPackages(@NotNull Filter<ReflectPackage> filter) {
-		return getPackages().stream()
-				.filter(filter::filter)
-				.collect(Collectors.toUnmodifiableSet());
-	}
-
-	@NotNull
+	@Override
 	ReflectPackage getParent();
 
 
