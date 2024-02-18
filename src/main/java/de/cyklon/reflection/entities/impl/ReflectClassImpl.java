@@ -258,15 +258,12 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 		else return getArrayInfo().component().getName() + "[]";
 	}
 
+	@NotNull
 	@Override
 	public String getSimpleName() {
 		return clazz.getSimpleName();
 	}
 
-	@Override
-	public String getPackageName() {
-		return getPackage().getName();
-	}
 
 	@Override
 	public boolean equals(Object obj) {
@@ -276,5 +273,16 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@Override
 	public String toString() {
 		return getName();
+	}
+
+
+	@Override
+	public boolean isLoaded() {
+		return true;
+	}
+
+	@Override
+	public ReflectClass<D> load() {
+		return this;
 	}
 }
