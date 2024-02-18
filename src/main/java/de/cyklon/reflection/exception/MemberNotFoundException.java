@@ -7,7 +7,7 @@ public class MemberNotFoundException extends NotFoundException {
 	private final ReflectClass<?> parent;
 
 	public MemberNotFoundException(@NotNull ReflectClass<?> parent, @NotNull String name, @NotNull String type) {
-		super(name, type, parent.getFullName());
+		super(name, type, parent.getName());
 		this.parent = parent;
 	}
 
