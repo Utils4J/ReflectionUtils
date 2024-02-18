@@ -56,7 +56,8 @@ public interface ReflectClass<D> extends ClassFile, MemberContainer<D>, Type, Re
 	List<? extends ReflectClass<?>> getTypeParameters();
 
 
-	@NotNull <E extends Enum<E>> List<E> getEnumConstants() throws IllegalStateException;
+	@NotNull
+	<E extends Enum<E>> List<E> getEnumConstants() throws IllegalStateException;
 
 
 	boolean isPrimitive();
@@ -70,6 +71,7 @@ public interface ReflectClass<D> extends ClassFile, MemberContainer<D>, Type, Re
 	ReflectClass<?> getParentClass();
 
 	@NotNull
+	@Override
 	ReflectPackage getPackage();
 
 	@NotNull
@@ -106,10 +108,12 @@ public interface ReflectClass<D> extends ClassFile, MemberContainer<D>, Type, Re
 		return getOptionalMethod(Object.class, methodName, paramTypes);
 	}
 
+	@NotNull
 	default <R> ReflectMethod<D, R> getMethod(@NotNull Class<R> returnType, @NotNull String methodName, @NotNull Class<?>... paramTypes) throws MethodNotFoundException {
 		return getOptionalMethod(returnType, methodName, paramTypes).orElseThrow(() -> new MethodNotFoundException(this, methodName));
 	}
 
+	@NotNull
 	default ReflectMethod<D, Object> getMethod(@NotNull String methodName, @NotNull Class<?>... paramTypes) throws MethodNotFoundException {
 		return getMethod(Object.class, methodName, paramTypes);
 	}
