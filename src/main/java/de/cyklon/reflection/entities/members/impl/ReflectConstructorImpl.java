@@ -49,7 +49,7 @@ public class ReflectConstructorImpl<D> extends ReflectMemberImpl<D, D> implement
 
 	@NotNull
 	@Override
-	public D invoke(@NotNull D obj, @NotNull Object... args) throws ExecutionException {
+	public D invoke(@NotNull Object obj, @NotNull Object... args) throws ExecutionException {
 		try {
 			return constructor.newInstance(args);
 		} catch (IllegalAccessException | InstantiationException e) {

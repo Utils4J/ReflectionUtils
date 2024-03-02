@@ -35,7 +35,7 @@ public class ReflectFieldImpl<D, R> extends ReflectMemberImpl<D, R> implements R
 	@Override
 	@Nullable
 	@SuppressWarnings("unchecked")
-	public R getValue(@Nullable D obj) {
+	public R getValue(@Nullable Object obj) {
 		try {
 			return (R) field.get(obj);
 		} catch (IllegalAccessException e) {
@@ -44,7 +44,7 @@ public class ReflectFieldImpl<D, R> extends ReflectMemberImpl<D, R> implements R
 	}
 
 	@Override
-	public void setValue(@NotNull D obj, R value) {
+	public void setValue(@NotNull Object obj, R value) {
 		try {
 			field.set(obj, value);
 		} catch (IllegalAccessException e) {

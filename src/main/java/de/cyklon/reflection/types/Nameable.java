@@ -7,4 +7,9 @@ public interface Nameable {
 	@NotNull
 	String getName();
 
+	@NotNull
+	default String getFullName() {
+		return getName();
+	}
+
 }

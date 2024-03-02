@@ -13,7 +13,7 @@ public interface AbstractMethod<D, R> extends ReflectMember<D, R> {
 	List<? extends ReflectParameter<D, ?>> getParameters();
 
 	@Nullable
-	R invoke(@NotNull D obj, @NotNull Object... args) throws ExecutionException;
+	R invoke(@NotNull Object obj, @NotNull Object... args) throws ExecutionException;
 
 	@Nullable
 	default R invokeStatic(@NotNull Object... args) throws ExecutionException {
