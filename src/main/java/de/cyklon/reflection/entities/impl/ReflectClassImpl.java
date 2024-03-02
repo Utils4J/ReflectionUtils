@@ -30,8 +30,9 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 		if (type instanceof Class<?> c) return (Class<D>) c;
 		if (type instanceof ParameterizedType pt) return getClazz(pt.getRawType());
 		if (type instanceof GenericArrayType gt) return (Class<D>) Array.newInstance(getClazz(gt.getGenericComponentType()), 0).getClass();
+		if (type instanceof WildcardType) return (Class<D>) void.class;
 
-		throw new IllegalArgumentException();
+		throw new IllegalArgumentException("Cannot find Class for " + type);
 	}
 
 	private ReflectClassImpl(@NotNull Type type, @NotNull Class<D> clazz) {
@@ -103,6 +104,20 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 				.toList();
 	}
 
+	@NotNull
+	@Override
+	public List<? extends ReflectClass<?>> getUpperWildcardBounds() throws IllegalStateException {
+		if (!(type instanceof WildcardType t)) throw new IllegalStateException();
+		return Arrays.stream(t.getUpperBounds()).map(ReflectClass::wrap).toList();
+	}
+
+	@NotNull
+	@Override
+	public List<? extends ReflectClass<?>> getLowerWildcardBounds() throws IllegalStateException {
+		if (!(type instanceof WildcardType t)) throw new IllegalStateException();
+		return Arrays.stream(t.getLowerBounds()).map(ReflectClass::wrap).toList();
+	}
+
 	@Override
 	public boolean isPrimitive() {
 		return clazz.isPrimitive();
@@ -116,6 +131,11 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@Override
 	public boolean isEnum() {
 		return clazz.isEnum();
+	}
+
+	@Override
+	public boolean isWildcard() {
+		return type instanceof WildcardType;
 	}
 
 	@NotNull
