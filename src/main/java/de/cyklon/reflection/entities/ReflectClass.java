@@ -57,7 +57,14 @@ public interface ReflectClass<D> extends Type, ReflectEntity, Modifiable {
 	List<? extends ReflectClass<?>> getTypeParameters();
 
 
-	@NotNull <E extends Enum<E>> List<E> getEnumConstants() throws IllegalStateException;
+	@NotNull
+	<E extends Enum<E>> List<E> getEnumConstants() throws IllegalStateException;
+
+	@NotNull
+	List<? extends ReflectClass<?>> getUpperWildcardBounds() throws IllegalStateException;
+
+	@NotNull
+	List<? extends ReflectClass<?>> getLowerWildcardBounds() throws IllegalStateException;
 
 
 	boolean isPrimitive();
@@ -65,6 +72,8 @@ public interface ReflectClass<D> extends Type, ReflectEntity, Modifiable {
 	boolean isArray();
 
 	boolean isEnum();
+
+	boolean isWildcard();
 
 
 	@NotNull
