@@ -43,6 +43,8 @@ public interface ReflectClass<D> extends ClassFile, Type, ReflectEntity, Modifia
 		return wrap((Class<D>) ReflectionUtils.getClass(className));
 	}
 
+	@NotNull
+	String getFullName();
 
 	@NotNull
 	Type getType();

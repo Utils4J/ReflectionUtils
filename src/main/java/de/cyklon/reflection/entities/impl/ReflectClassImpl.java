@@ -51,6 +51,16 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 
 	@NotNull
 	@Override
+	public String getFullName() {
+		List<? extends ReflectClass<?>> typeParameters = getTypeParameters();
+		if (typeParameters.isEmpty()) return getName();
+		return String.format("%s<%s>", getName(), typeParameters.stream()
+				.map(ReflectClass::getFullName)
+				.collect(Collectors.joining(", ")));
+	}
+
+	@NotNull
+	@Override
 	public Type getType() {
 		return type;
 	}
@@ -263,7 +273,7 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 
 	@Override
 	public String toString() {
-		return getName();
+		return getFullName();
 	}
 
 
