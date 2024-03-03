@@ -34,7 +34,7 @@ public interface ReflectClass<D> extends Type, ReflectEntity, Modifiable {
 
 	@NotNull
 	@SuppressWarnings("unchecked")
-	static <D> ReflectClass<D> getSubclass(@NotNull D obj) {
+	static <D> ReflectClass<D> getClass(@NotNull D obj) {
 		return wrap((Class<D>) obj.getClass());
 	}
 
@@ -99,7 +99,7 @@ public interface ReflectClass<D> extends Type, ReflectEntity, Modifiable {
 	}
 
 	@NotNull
-	default ReflectClass<?> getSubclass(@NotNull String name) throws ClassNotFoundException {
+	default ReflectClass<?> getClass(@NotNull String name) throws ClassNotFoundException {
 		return getOptionalSubclass(name).orElseThrow(() -> new ClassNotFoundException(this, name));
 	}
 
