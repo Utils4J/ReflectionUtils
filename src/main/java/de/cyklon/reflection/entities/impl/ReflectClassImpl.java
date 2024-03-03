@@ -247,7 +247,7 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@Override
 	public @NotNull <R> Optional<ReflectMethod<D, R>> getOptionalMethod(@NotNull Class<R> returnType, @NotNull String methodName, @NotNull Class<?>... paramTypes) {
 		try {
-			return Optional.of(new ReflectMethodImpl<>(this, clazz.getMethod(methodName, paramTypes)));
+			return Optional.of(new ReflectMethodImpl<>(this, clazz.getDeclaredMethod(methodName, paramTypes)));
 		} catch (NoSuchMethodException e) {
 			return Optional.empty();
 		}
