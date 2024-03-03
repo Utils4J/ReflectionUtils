@@ -5,6 +5,7 @@ import de.cyklon.reflection.entities.impl.ReflectClassImpl;
 import de.cyklon.reflection.entities.members.ReflectConstructor;
 import de.cyklon.reflection.entities.members.ReflectField;
 import de.cyklon.reflection.entities.members.ReflectMethod;
+import de.cyklon.reflection.exception.ClassNotFoundException;
 import de.cyklon.reflection.exception.ExecutionException;
 import de.cyklon.reflection.exception.FieldNotFoundException;
 import de.cyklon.reflection.exception.MethodNotFoundException;
@@ -79,12 +80,25 @@ public interface ReflectClass<D> extends ClassFile, Type, ReflectEntity, Modifia
 	@Nullable
 	<T> ReflectClass<T> getParentClass();
 
+	@Nullable
+	<T> ReflectClass<T> getNestParent();
+
 	@NotNull
 	@Override
 	ReflectPackage getPackage();
 
 	@NotNull
 	Set<? extends ReflectClass<?>> getSubclasses(@NotNull Filter<ReflectClass<?>> filter);
+
+	@NotNull
+	default Optional<? extends ReflectClass<?>> getOptionalSubclass(@NotNull String name) {
+		return getSubclasses(Filter.hasName(name)).stream().findFirst();
+	}
+
+	@NotNull
+	default ReflectClass<?> getClass(@NotNull String name) throws ClassNotFoundException {
+		return getOptionalSubclass(name).orElseThrow(() -> new ClassNotFoundException(this, name));
+	}
 
 	@NotNull
 	D[] newArrayInstance(int... dimensions) throws IllegalStateException;

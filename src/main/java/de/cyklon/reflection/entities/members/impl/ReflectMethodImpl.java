@@ -47,7 +47,7 @@ public class ReflectMethodImpl<D, R> extends ReflectMemberImpl<D, R> implements 
 	@Override
 	@Nullable
 	@SuppressWarnings("unchecked")
-	public R invoke(@Nullable D obj, @NotNull Object... args) throws ExecutionException {
+	public R invoke(@Nullable Object obj, @NotNull Object... args) throws ExecutionException {
 		try {
 			return (R) method.invoke(obj, args);
 		} catch (IllegalAccessException e) {

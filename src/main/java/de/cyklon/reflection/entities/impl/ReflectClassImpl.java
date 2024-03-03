@@ -8,6 +8,7 @@ import de.cyklon.reflection.entities.members.ReflectMethod;
 import de.cyklon.reflection.entities.members.impl.ReflectConstructorImpl;
 import de.cyklon.reflection.entities.members.impl.ReflectFieldImpl;
 import de.cyklon.reflection.entities.members.impl.ReflectMethodImpl;
+import de.cyklon.reflection.exception.ConstructorNotFoundException;
 import de.cyklon.reflection.exception.ExecutionException;
 import de.cyklon.reflection.function.Filter;
 import de.cyklon.reflection.types.Modifier;
@@ -120,7 +121,7 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 
 	@Override
 	public boolean isPrimitive() {
-		return clazz.isPrimitive();
+		return clazz.isPrimitive() && !isWildcard();
 	}
 
 	@Override
@@ -149,6 +150,14 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@SuppressWarnings("unchecked")
 	public <T> ReflectClass<T> getParentClass() {
 		Class<T> temp = (Class<T>) clazz.getSuperclass();
+		return temp == null ? null : wrap(temp);
+	}
+
+	@Nullable
+	@Override
+	@SuppressWarnings("unchecked")
+	public <T> ReflectClass<T> getNestParent() {
+		Class<T> temp = (Class<T>) clazz.getNestHost();
 		return temp == null ? null : wrap(temp);
 	}
 
@@ -196,14 +205,6 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 				.collect(Collectors.toUnmodifiableSet());
 	}
 
-	private Constructor<D> getConstructor(Object[] params) {
-		try {
-			return clazz.getConstructor(Arrays.stream(params).map(Object::getClass).toArray(Class[]::new));
-		} catch (NoSuchMethodException e) {
-			throw new RuntimeException();
-		}
-	}
-
 	@NotNull
 	@Override
 	@SuppressWarnings("unchecked")
@@ -220,10 +221,15 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	public D newInstance(@NotNull Object... params) throws ExecutionException, IllegalStateException {
 		if (isArray()) throw new IllegalStateException("Cannot use newInstance on array type. Use newArrayInstance instead!");
 
+		Class<?>[] types = Arrays.stream(params).map(o -> {
+			if (o != null) return o.getClass();
+			else throw new IllegalArgumentException("Cannot pass 'null' as parameter to newInstance. If you have nullable parameters use getConstructor instead!");
+		}).toArray(Class[]::new);
+
 		try {
-			return getConstructor(params).newInstance(params);
-		} catch (InstantiationException | IllegalAccessException e) {
-			throw new RuntimeException();
+			return clazz.getConstructor(types).newInstance(params);
+		} catch (NoSuchMethodException | InstantiationException | IllegalAccessException e) {
+			throw new ConstructorNotFoundException(this, types);
 		} catch (InvocationTargetException e) {
 			throw new ExecutionException(e);
 		}
@@ -265,6 +271,8 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@NotNull
 	@Override
 	public String getName() {
+		if (isWildcard()) return "?";
+
 		if (!clazz.isArray()) return clazz.getName();
 		else return getArrayInfo().component().getName() + "[]";
 	}
