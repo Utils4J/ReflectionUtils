@@ -43,6 +43,15 @@ public class ReflectFieldImpl<D, R> extends ReflectMemberImpl<D, R> implements R
 		}
 	}
 
+	@Override
+	public void setValue(@NotNull D obj, R value) {
+		try {
+			field.set(obj, value);
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	@NotNull
 	@Override
 	public EnumSet<Modifier> getModifiers() {

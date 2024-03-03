@@ -16,10 +16,17 @@ public interface ReflectField<D, R> extends ReflectMember<D, R> {
 
 	@Nullable R getValue(@NotNull D obj);
 
+	void setValue(@NotNull D obj, R value);
+
 	@Nullable
 	@SuppressWarnings("ConstantConditions")
 	default R getStaticValue() {
 		return getValue(null);
+	}
+
+	@SuppressWarnings("ConstantConditions")
+	default void setStaticValue(R value) {
+		setValue(null, value);
 	}
 
 }

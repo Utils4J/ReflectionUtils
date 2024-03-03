@@ -60,12 +60,20 @@ public interface ReflectClass<D> extends ClassFile, Type, ReflectEntity, Modifia
 	@NotNull
 	<E extends Enum<E>> List<E> getEnumConstants() throws IllegalStateException;
 
+	@NotNull
+	List<? extends ReflectClass<?>> getUpperWildcardBounds() throws IllegalStateException;
+
+	@NotNull
+	List<? extends ReflectClass<?>> getLowerWildcardBounds() throws IllegalStateException;
+
 
 	boolean isPrimitive();
 
 	boolean isArray();
 
 	boolean isEnum();
+
+	boolean isWildcard();
 
 
 	@Nullable
