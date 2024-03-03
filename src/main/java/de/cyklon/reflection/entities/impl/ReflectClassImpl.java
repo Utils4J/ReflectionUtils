@@ -121,7 +121,7 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 
 	@Override
 	public boolean isPrimitive() {
-		return clazz.isPrimitive() && !(type instanceof WildcardType);
+		return clazz.isPrimitive() && !isWildcard();
 	}
 
 	@Override
@@ -271,7 +271,7 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@NotNull
 	@Override
 	public String getName() {
-		if (type instanceof WildcardType) return "?";
+		if (isWildcard()) return "?";
 
 		if (!clazz.isArray()) return clazz.getSimpleName();
 		else return getArrayInfo().component().getName() + "[]";
