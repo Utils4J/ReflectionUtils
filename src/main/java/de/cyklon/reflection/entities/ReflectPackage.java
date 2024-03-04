@@ -5,7 +5,6 @@ import de.cyklon.reflection.entities.members.ReflectConstructor;
 import de.cyklon.reflection.entities.members.ReflectField;
 import de.cyklon.reflection.entities.members.ReflectMethod;
 import de.cyklon.reflection.exception.ClassNotFoundException;
-import de.cyklon.reflection.exception.FieldNotFoundException;
 import de.cyklon.reflection.function.Filter;
 import de.cyklon.reflection.types.ReflectEntity;
 import org.jetbrains.annotations.NotNull;
@@ -42,7 +41,7 @@ public interface ReflectPackage extends OfflinePackage, ReflectEntity {
 
 	@NotNull
 	default Optional<? extends ReflectClass<?>> getOptionalClass(@NotNull String name) {
-		return getClasses(Filter.hasName(name)).stream().findFirst();
+		return getLoadedClasses(Filter.hasName(name)).stream().findFirst();
 	}
 
 	@NotNull
