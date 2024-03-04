@@ -291,7 +291,7 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 
 	@Override
 	public String toString() {
-		return getName();
+		return getTypeName();
 	}
 
 
