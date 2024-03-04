@@ -96,7 +96,7 @@ public interface ReflectClass<D> extends ClassFile, Type, ReflectEntity, Modifia
 	}
 
 	@NotNull
-	default ReflectClass<?> getClass(@NotNull String name) throws ClassNotFoundException {
+	default ReflectClass<?> getSubclass(@NotNull String name) throws ClassNotFoundException {
 		return getOptionalSubclass(name).orElseThrow(() -> new ClassNotFoundException(this, name));
 	}
 
