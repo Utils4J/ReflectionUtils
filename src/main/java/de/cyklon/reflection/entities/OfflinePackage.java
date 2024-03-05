@@ -18,6 +18,10 @@ public interface OfflinePackage extends Nameable, Loadable<ReflectPackage> {
     }
 
 
+    default boolean isBasePackage() {
+        return ReflectPackage.BASE_PACKAGE.equals(this);
+    }
+
     @NotNull
     @Unmodifiable
     Set<? extends ClassFile> getClasses();
