@@ -150,6 +150,6 @@ public class OfflinePackageImpl implements OfflinePackage {
 
 	@Override
 	public String toString() {
-		return String.format("package %s", packageName);
+		return isBasePackage() ? "base package" : String.format("package %s", packageName);
 	}
 }
