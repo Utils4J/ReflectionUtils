@@ -43,7 +43,7 @@ public class ClassTest {
 
 	@Test
 	public void subclassInstance() {
-		ReflectClass<?> clazz = ReflectClass.wrap(ClassTest.class).getSubclass("TestClass");
+		ReflectClass<?> clazz = ReflectClass.wrap(ClassTest.class).getSubclass("ClassTest$TestClass");
 
 		Object test = clazz.newInstance(this, "test");
 		ReflectClass<?> type = ReflectClass.wrap(test.getClass());
@@ -54,7 +54,7 @@ public class ClassTest {
 
 	@Test
 	public void staticSubclassTest() {
-		ReflectClass<?> clazz = ReflectClass.wrap(ClassTest.class).getSubclass("StaticTestClass");
+		ReflectClass<?> clazz = ReflectClass.wrap(ClassTest.class).getSubclass("ClassTest$StaticTestClass");
 
 		Object test = clazz.newInstance("test");
 		ReflectClass<?> type = ReflectClass.wrap(test.getClass());
