@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class ClassFileImpl implements ClassFile {
-	
+
 	private final String className;
 
 	ClassFileImpl(String className) {
