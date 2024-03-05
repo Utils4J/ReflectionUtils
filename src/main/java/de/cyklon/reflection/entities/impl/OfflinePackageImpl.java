@@ -118,7 +118,9 @@ public class OfflinePackageImpl implements OfflinePackage {
 	public OfflinePackage getParent() {
 		if (isBasePackage()) return null;
 		String currentName = getName();
-		return get(currentName.substring(0, currentName.lastIndexOf('.')));
+		int i = currentName.lastIndexOf('.');
+		if (i==-1) return ReflectPackage.BASE_PACKAGE;
+		return get(currentName.substring(0, i));
 	}
 
 	@Override
