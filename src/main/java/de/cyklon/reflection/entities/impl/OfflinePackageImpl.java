@@ -49,11 +49,11 @@ public class OfflinePackageImpl implements OfflinePackage {
 
 	@Override
 	public ReflectPackage load() {
-		getClasses().stream()
+		return getClasses().stream()
 				.findFirst()
 				.orElseThrow(() -> new NotFoundException("any", "class", String.format("package %s, therefore this package cannot be loaded!", getName())))
-				.load();
-		return ReflectPackage.get(packageName);
+				.load()
+				.getPackage();
 	}
 
 	@NotNull
