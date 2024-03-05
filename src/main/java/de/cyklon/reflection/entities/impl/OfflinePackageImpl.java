@@ -74,7 +74,7 @@ public class OfflinePackageImpl implements OfflinePackage {
 				String line;
 				while ((line = reader.readLine()) != null) {
 					if (line.endsWith(".class")) result.add(getClassName(packageName, line));
-					else if (!line.contains(".")) result.addAll(getClasses(String.format("%s.%s", packageName, line)));
+					else if (!line.contains(".")) result.addAll(getClasses(getMemberName(packageName, line)));
 				}
 				return result;
 			}
