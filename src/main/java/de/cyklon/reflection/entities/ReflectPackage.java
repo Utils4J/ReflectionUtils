@@ -25,7 +25,11 @@ public interface ReflectPackage extends OfflinePackage, ReflectEntity {
 
 	@NotNull
 	@Unmodifiable
-	Set<? extends ReflectClass<?>> getLoadedClasses();
+	default Set<? extends ReflectClass<?>> getLoadedClasses() {
+		return getClasses().stream()
+				.map(ClassFile::load)
+				.collect(Collectors.toUnmodifiableSet());
+	}
 
 	@NotNull
 	@Unmodifiable
