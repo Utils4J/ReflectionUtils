@@ -83,6 +83,11 @@ public class OfflinePackageImpl implements OfflinePackage {
 		}
 	}
 
+	protected static String getMemberName(String packageName, String packageMember) {
+		if (packageName.isBlank()) return packageMember;
+		return String.format("%s.%s", packageName, packageMember);
+	}
+
 	private static String getClassName(String packageName, String className) {
 		int i = className.endsWith(".class") ? className.lastIndexOf(".") : -1;
 		return String.format("%s.%s", packageName.replace("/", "."), i!=-1 ? className.substring(0, i) : className);
