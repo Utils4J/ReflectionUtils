@@ -8,6 +8,7 @@ import de.cyklon.reflection.exception.ClassNotFoundException;
 import de.cyklon.reflection.function.Filter;
 import de.cyklon.reflection.types.ReflectEntity;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 
 import java.util.Optional;
@@ -77,8 +78,8 @@ public interface ReflectPackage extends OfflinePackage, ReflectEntity {
 				.collect(Collectors.toUnmodifiableSet());
 	}
 
-	@NotNull
 	@Override
+	@Nullable
 	ReflectPackage getParent();
 
 
