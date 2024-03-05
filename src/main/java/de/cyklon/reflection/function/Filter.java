@@ -64,8 +64,8 @@ public interface Filter<T> {
 	}
 
 	@NotNull
-	static <T extends ReflectPackage> Filter<T> isLoaded() {
-		return ReflectPackage::isLoaded;
+	static <T, D extends Loadable<T>> Filter<D> isLoaded() {
+		return Loadable::isLoaded;
 	}
 
 	@NotNull
