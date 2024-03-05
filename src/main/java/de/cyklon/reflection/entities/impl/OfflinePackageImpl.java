@@ -134,6 +134,15 @@ public class OfflinePackageImpl implements OfflinePackage {
 		return packageName;
 	}
 
+	@NotNull
+	@Override
+	public String getSimpleName() {
+		OfflinePackage parent = getParent();
+		if (parent==null || parent.isBasePackage()) return getName();
+		String name = getName();
+		return name.substring(name.lastIndexOf('.')+1);
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		return obj instanceof OfflinePackage pkg && pkg.getName().equals(getName());
