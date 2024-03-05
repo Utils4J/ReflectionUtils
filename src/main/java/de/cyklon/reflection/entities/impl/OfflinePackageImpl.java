@@ -27,6 +27,7 @@ public class OfflinePackageImpl implements OfflinePackage {
 	@NotNull
 	@SuppressWarnings("ConstantConditions")
 	public static OfflinePackage get(@NotNull String packageName) {
+		packageName = packageName.strip();
 		if (checkPackage(packageName)) throw new NotFoundException(packageName, "package", "");
 		if (ReflectPackage.BASE_PACKAGE == null) return new OfflinePackageImpl(packageName);
 		return packageName.isBlank() ? ReflectPackage.BASE_PACKAGE : new OfflinePackageImpl(packageName);
