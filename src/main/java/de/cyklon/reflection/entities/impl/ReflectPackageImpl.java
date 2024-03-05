@@ -154,6 +154,6 @@ public class ReflectPackageImpl extends OfflinePackageImpl implements ReflectPac
 
 	@Override
 	public String toString() {
-		return pkg.toString();
+		return isBasePackage() ? "base package" : pkg.toString();
 	}
 }
