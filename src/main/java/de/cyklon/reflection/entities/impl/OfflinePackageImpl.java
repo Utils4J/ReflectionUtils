@@ -6,6 +6,7 @@ import de.cyklon.reflection.entities.ReflectPackage;
 import de.cyklon.reflection.exception.NotFoundException;
 import de.cyklon.reflection.function.Filter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 
 import java.io.BufferedReader;
@@ -112,8 +113,8 @@ public class OfflinePackageImpl implements OfflinePackage {
 		}
 	}
 
-	@NotNull
 	@Override
+	@Nullable
 	public OfflinePackage getParent() {
 		if (this.equals(ReflectPackage.BASE_PACKAGE)) throw new IllegalStateException("Base Package has no parent!");
 		String currentName = getName();
