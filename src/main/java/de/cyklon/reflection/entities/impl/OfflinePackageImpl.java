@@ -104,7 +104,7 @@ public class OfflinePackageImpl implements OfflinePackage {
 			try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
 				return reader.lines()
 						.filter(l -> !l.contains("."))
-						.map(l -> get(String.format("%s.%s", packageName, l)))
+						.map(l -> get(getMemberName(packageName, l)))
 						.collect(Collectors.toUnmodifiableSet());
 			}
 		} catch (IOException e) {
