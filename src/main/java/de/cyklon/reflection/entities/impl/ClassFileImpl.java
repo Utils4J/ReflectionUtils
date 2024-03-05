@@ -3,7 +3,6 @@ package de.cyklon.reflection.entities.impl;
 import de.cyklon.reflection.entities.ClassFile;
 import de.cyklon.reflection.entities.OfflinePackage;
 import de.cyklon.reflection.entities.ReflectClass;
-import de.cyklon.reflection.entities.members.ReflectMethod;
 import de.cyklon.reflection.exception.NotFoundException;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,10 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class ClassFileImpl implements ClassFile {
-
-	@SuppressWarnings("rawtypes")
-	private static final ReflectMethod<ClassLoader, Class> findLoadedClass = ReflectClass.wrap(ClassLoader.class).getMethod(Class.class, "findLoadedClass", String.class);
-
+	
 	private final String className;
 
 	ClassFileImpl(String className) {
@@ -55,7 +51,7 @@ public class ClassFileImpl implements ClassFile {
 
 	@Override
 	public boolean isLoaded() {
-		return findLoadedClass.invoke(ClassLoader.getSystemClassLoader(), className)!=null;
+		return false;
 	}
 
 	@Override
