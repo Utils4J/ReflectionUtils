@@ -130,8 +130,9 @@ public class ReflectPackageImpl extends OfflinePackageImpl implements ReflectPac
 	}
 
 	@Override
-	public @NotNull ReflectPackage getParent() {
-		if (this.equals(BASE_PACKAGE)) throw new IllegalStateException("Base Package has no parent!");
+	@Nullable
+	public ReflectPackage getParent() {
+		if (isBasePackage()) return null;
 		String currentName = getName();
 		return get(currentName.substring(0, currentName.lastIndexOf('.')));
 	}
