@@ -116,7 +116,7 @@ public class OfflinePackageImpl implements OfflinePackage {
 	@Override
 	@Nullable
 	public OfflinePackage getParent() {
-		if (this.equals(ReflectPackage.BASE_PACKAGE)) throw new IllegalStateException("Base Package has no parent!");
+		if (isBasePackage()) return null;
 		String currentName = getName();
 		return get(currentName.substring(0, currentName.lastIndexOf('.')));
 	}
