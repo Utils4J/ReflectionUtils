@@ -27,8 +27,8 @@ public class ClassTest {
 	public void subclass() {
 		ReflectClass<?> clazz = ReflectClass.wrap(ClassTest.class);
 
-		assertEquals("TestClass", clazz.getSubclass("TestClass").getName());
-		assertEquals("StaticTestClass", clazz.getSubclass("StaticTestClass").getName());
+		assertEquals("TestClass", clazz.getSubclass("ClassTest$TestClass").getSimpleName());
+		assertEquals("StaticTestClass", clazz.getSubclass("ClassTest$StaticTestClass").getSimpleName());
 
 		assertThrows(ClassNotFoundException.class, () -> clazz.getSubclass("Test"));
 	}
