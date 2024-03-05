@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 public class OfflinePackageImpl implements OfflinePackage {
 
-	final String packageName;
+	private final String packageName;
 
 	OfflinePackageImpl(String packageName) {
 		this.packageName = packageName;
