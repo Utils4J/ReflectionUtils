@@ -5,6 +5,7 @@ import de.cyklon.reflection.function.Filter;
 import de.cyklon.reflection.types.Loadable;
 import de.cyklon.reflection.types.Nameable;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 
 import java.util.Set;
@@ -46,7 +47,7 @@ public interface OfflinePackage extends Nameable, Loadable<ReflectPackage> {
                 .collect(Collectors.toUnmodifiableSet());
     }
 
-    @NotNull
+    @Nullable
     OfflinePackage getParent();
 
     default void loadClasses() {
