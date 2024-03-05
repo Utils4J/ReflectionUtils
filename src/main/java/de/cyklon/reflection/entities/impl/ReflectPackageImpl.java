@@ -39,16 +39,6 @@ public class ReflectPackageImpl extends OfflinePackageImpl implements ReflectPac
 		return packageName.isBlank() ? ReflectPackage.BASE_PACKAGE : new ReflectPackageImpl(packageName);
 	}
 
-	@NotNull
-	@Override
-	@Unmodifiable
-	public Set<? extends ReflectClass<?>> getLoadedClasses() {
-		return getClasses().stream()
-				.filter(ClassFile::isLoaded)
-				.map(c -> ReflectClass.forName(c.getName()))
-				.collect(Collectors.toUnmodifiableSet());
-	}
-
 	@Nullable
 	static Package getPackage(@NotNull String packageName) {
 		return ClassLoader.getSystemClassLoader().getDefinedPackage(packageName);
