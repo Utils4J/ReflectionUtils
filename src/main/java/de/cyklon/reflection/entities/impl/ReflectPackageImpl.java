@@ -121,7 +121,7 @@ public class ReflectPackageImpl extends OfflinePackageImpl implements ReflectPac
 			try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
 				return reader.lines()
 						.filter(l -> !l.contains("."))
-						.map(l -> OfflinePackage.get(String.format("%s.%s", packageName, l)))
+						.map(l -> OfflinePackage.get(getMemberName(packageName, l)))
 						.collect(Collectors.toUnmodifiableSet());
 			}
 		} catch (IOException e) {
