@@ -37,7 +37,7 @@ public class OfflinePackageImpl implements OfflinePackage {
 	//returns true if package was not found
 	static boolean checkPackage(@NotNull String packageName) {
 		try (InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream(packageName.replaceAll("\\.", "/"))) {
-			return in==null;
+			return in == null;
 		} catch (IOException e) {
 			return true;
 		}
@@ -45,7 +45,7 @@ public class OfflinePackageImpl implements OfflinePackage {
 
 	@Override
 	public boolean isLoaded() {
-		return ReflectPackageImpl.getPackage(packageName)!=null;
+		return ReflectPackageImpl.getPackage(packageName) != null;
 	}
 
 	@Override
@@ -91,7 +91,7 @@ public class OfflinePackageImpl implements OfflinePackage {
 
 	private static String getClassName(String packageName, String className) {
 		int i = className.endsWith(".class") ? className.lastIndexOf(".") : -1;
-		return getMemberName(packageName.replace("/", "."), i!=-1 ? className.substring(0, i) : className);
+		return getMemberName(packageName.replace("/", "."), i != -1 ? className.substring(0, i) : className);
 	}
 
 	@NotNull
@@ -119,7 +119,7 @@ public class OfflinePackageImpl implements OfflinePackage {
 		if (isBasePackage()) return null;
 		String currentName = getName();
 		int i = currentName.lastIndexOf('.');
-		if (i==-1) return ReflectPackage.BASE_PACKAGE;
+		if (i == -1) return ReflectPackage.BASE_PACKAGE;
 		return get(currentName.substring(0, i));
 	}
 
@@ -138,9 +138,9 @@ public class OfflinePackageImpl implements OfflinePackage {
 	@Override
 	public String getSimpleName() {
 		OfflinePackage parent = getParent();
-		if (parent==null || parent.isBasePackage()) return getName();
+		if (parent == null || parent.isBasePackage()) return getName();
 		String name = getName();
-		return name.substring(name.lastIndexOf('.')+1);
+		return name.substring(name.lastIndexOf('.') + 1);
 	}
 
 	@Override

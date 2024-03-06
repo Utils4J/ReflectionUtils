@@ -1,6 +1,5 @@
 package de.cyklon.reflection.function;
 
-import de.cyklon.reflection.entities.ReflectPackage;
 import de.cyklon.reflection.entities.members.ReflectMember;
 import de.cyklon.reflection.types.*;
 import org.jetbrains.annotations.Contract;

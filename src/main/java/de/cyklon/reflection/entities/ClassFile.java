@@ -6,15 +6,15 @@ import de.cyklon.reflection.types.Nameable;
 import org.jetbrains.annotations.NotNull;
 
 public interface ClassFile extends Nameable, Loadable<ReflectClass<?>> {
-    @NotNull
-    static ClassFile forName(String className) {
-        return ClassFileImpl.wrap(className);
-    }
+	@NotNull
+	static ClassFile forName(String className) {
+		return ClassFileImpl.wrap(className);
+	}
 
-    @NotNull
-    String getSimpleName();
+	@NotNull
+	String getSimpleName();
 
-    @NotNull
-    OfflinePackage getPackage();
+	@NotNull
+	OfflinePackage getPackage();
 
 }

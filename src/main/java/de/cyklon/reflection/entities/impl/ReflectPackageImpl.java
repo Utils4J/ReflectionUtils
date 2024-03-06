@@ -1,8 +1,6 @@
 package de.cyklon.reflection.entities.impl;
 
-import de.cyklon.reflection.entities.ClassFile;
 import de.cyklon.reflection.entities.OfflinePackage;
-import de.cyklon.reflection.entities.ReflectClass;
 import de.cyklon.reflection.entities.ReflectPackage;
 import de.cyklon.reflection.entities.members.ReflectConstructor;
 import de.cyklon.reflection.entities.members.ReflectField;
@@ -59,7 +57,7 @@ public class ReflectPackageImpl extends OfflinePackageImpl implements ReflectPac
 	@Unmodifiable
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public <D> Set<ReflectConstructor<D>> getConstructors(@NotNull Filter<ReflectConstructor<? extends D>> filter) {
-		return (Set<ReflectConstructor<D>>)  getLoadedClasses().stream()
+		return (Set<ReflectConstructor<D>>) getLoadedClasses().stream()
 				.flatMap(c -> c.getConstructors((Filter) filter).stream())
 				.collect(Collectors.toUnmodifiableSet());
 	}
@@ -125,7 +123,7 @@ public class ReflectPackageImpl extends OfflinePackageImpl implements ReflectPac
 		if (isBasePackage()) return null;
 		String currentName = getName();
 		int i = currentName.lastIndexOf('.');
-		if (i==-1) return ReflectPackage.BASE_PACKAGE;
+		if (i == -1) return ReflectPackage.BASE_PACKAGE;
 		return get(currentName.substring(0, i));
 	}
 

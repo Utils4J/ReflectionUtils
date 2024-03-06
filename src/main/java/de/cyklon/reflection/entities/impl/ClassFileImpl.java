@@ -20,7 +20,7 @@ public class ClassFileImpl implements ClassFile {
 
 	private static boolean checkClass(@NotNull String className) {
 		try (InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream(className.replaceAll("\\.", "/") + ".class")) {
-			return in==null;
+			return in == null;
 		} catch (IOException e) {
 			return true;
 		}

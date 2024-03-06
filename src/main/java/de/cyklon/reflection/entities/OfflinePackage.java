@@ -13,47 +13,47 @@ import java.util.stream.Collectors;
 
 public interface OfflinePackage extends Nameable, Loadable<ReflectPackage> {
 
-    @NotNull
-    static OfflinePackage get(@NotNull String packageName) {
-        return OfflinePackageImpl.get(packageName);
-    }
+	@NotNull
+	static OfflinePackage get(@NotNull String packageName) {
+		return OfflinePackageImpl.get(packageName);
+	}
 
 
-    default boolean isBasePackage() {
-        return ReflectPackage.BASE_PACKAGE.equals(this);
-    }
+	default boolean isBasePackage() {
+		return ReflectPackage.BASE_PACKAGE.equals(this);
+	}
 
-    @NotNull
-    @Unmodifiable
-    Set<? extends ClassFile> getClasses();
+	@NotNull
+	@Unmodifiable
+	Set<? extends ClassFile> getClasses();
 
-    @NotNull
-    @Unmodifiable
-    default Set<? extends ClassFile> getClasses(@NotNull Filter<ClassFile> filter) {
-        return getClasses().stream()
-                .filter(filter::filter)
-                .collect(Collectors.toUnmodifiableSet());
-    }
+	@NotNull
+	@Unmodifiable
+	default Set<? extends ClassFile> getClasses(@NotNull Filter<ClassFile> filter) {
+		return getClasses().stream()
+				.filter(filter::filter)
+				.collect(Collectors.toUnmodifiableSet());
+	}
 
-    @NotNull
-    @Unmodifiable
-    Set<? extends OfflinePackage> getPackages();
+	@NotNull
+	@Unmodifiable
+	Set<? extends OfflinePackage> getPackages();
 
-    @NotNull
-    @Unmodifiable
-    default Set<? extends OfflinePackage> getPackages(@NotNull Filter<OfflinePackage> filter) {
-        return getPackages().stream()
-                .filter(filter::filter)
-                .collect(Collectors.toUnmodifiableSet());
-    }
+	@NotNull
+	@Unmodifiable
+	default Set<? extends OfflinePackage> getPackages(@NotNull Filter<OfflinePackage> filter) {
+		return getPackages().stream()
+				.filter(filter::filter)
+				.collect(Collectors.toUnmodifiableSet());
+	}
 
-    @Nullable
-    OfflinePackage getParent();
+	@Nullable
+	OfflinePackage getParent();
 
-    default void loadClasses() {
-        loadClasses(Filter.all());
-    }
+	default void loadClasses() {
+		loadClasses(Filter.all());
+	}
 
-    void loadClasses(Filter<ClassFile> filter);
+	void loadClasses(Filter<ClassFile> filter);
 
 }
