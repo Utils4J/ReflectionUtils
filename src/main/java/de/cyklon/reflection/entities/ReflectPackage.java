@@ -5,6 +5,7 @@ import de.cyklon.reflection.entities.members.ReflectConstructor;
 import de.cyklon.reflection.entities.members.ReflectField;
 import de.cyklon.reflection.entities.members.ReflectMethod;
 import de.cyklon.reflection.exception.ClassNotFoundException;
+import de.cyklon.reflection.exception.PackageNotFoundException;
 import de.cyklon.reflection.function.Filter;
 import de.cyklon.reflection.types.ReflectEntity;
 import org.jetbrains.annotations.NotNull;
@@ -76,6 +77,16 @@ public interface ReflectPackage extends OfflinePackage, ReflectEntity {
 		return getLoadedPackages().stream()
 				.filter(filter::filter)
 				.collect(Collectors.toUnmodifiableSet());
+	}
+
+	@NotNull
+	default Optional<? extends ReflectPackage> getOptionalLoadedPackage(String name) {
+		return getLoadedPackages(Filter.hasName(name)).stream().findFirst();
+	}
+
+	@NotNull
+	default ReflectPackage getLoadedPackage(String name) throws PackageNotFoundException {
+		return getOptionalLoadedPackage(name).orElseThrow(() -> new PackageNotFoundException(this, name));
 	}
 
 	@Override
