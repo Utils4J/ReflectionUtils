@@ -35,12 +35,12 @@ public class OfflinePackageImpl implements OfflinePackage {
 		return packageName.isBlank() ? ReflectPackage.BASE_PACKAGE : new OfflinePackageImpl(packageName);
 	}
 
-	//returns true if package was not found
+	//returns false if package was not found
 	static boolean checkPackage(@NotNull String packageName) {
 		try (InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream(packageName.replaceAll("\\.", "/"))) {
-			return in == null;
+			return in != null;
 		} catch (IOException e) {
-			return true;
+			return false;
 		}
 	}
 
