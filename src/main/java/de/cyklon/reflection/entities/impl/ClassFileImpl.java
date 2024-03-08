@@ -15,14 +15,14 @@ public class ClassFileImpl implements ClassFile {
 
 	ClassFileImpl(String className) {
 		this.className = className;
-		if (checkClass(className)) throw new NotFoundException(className, "class", "");
+		if (!checkClass(className)) throw new NotFoundException(className, "class", "");
 	}
 
 	private static boolean checkClass(@NotNull String className) {
 		try (InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream(className.replaceAll("\\.", "/") + ".class")) {
-			return in == null;
+			return in != null;
 		} catch (IOException e) {
-			return true;
+			return false;
 		}
 	}
 
