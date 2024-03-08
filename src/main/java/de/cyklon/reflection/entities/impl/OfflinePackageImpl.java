@@ -45,7 +45,7 @@ public class OfflinePackageImpl implements OfflinePackage {
 
 	@Override
 	public boolean isLoaded() {
-		return ReflectPackageImpl.getPackage(packageName) != null;
+		return ReflectPackageImpl.getDefinedPackage(packageName) != null;
 	}
 
 	@Override

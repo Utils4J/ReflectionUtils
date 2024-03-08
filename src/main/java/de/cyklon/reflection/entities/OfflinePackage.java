@@ -2,6 +2,7 @@ package de.cyklon.reflection.entities;
 
 import de.cyklon.reflection.entities.impl.OfflinePackageImpl;
 import de.cyklon.reflection.exception.ClassNotFoundException;
+import de.cyklon.reflection.exception.PackageNotFoundException;
 import de.cyklon.reflection.function.Filter;
 import de.cyklon.reflection.types.Loadable;
 import de.cyklon.reflection.types.Nameable;
@@ -57,6 +58,16 @@ public interface OfflinePackage extends Nameable, Loadable<ReflectPackage> {
 		return getPackages().stream()
 				.filter(filter::filter)
 				.collect(Collectors.toUnmodifiableSet());
+	}
+
+	@NotNull
+	default Optional<? extends OfflinePackage> getOptionalPackage(String name) {
+		return getPackages(Filter.hasName(name)).stream().findFirst();
+	}
+
+	@NotNull
+	default OfflinePackage getPackage(String name) throws PackageNotFoundException {
+		return getOptionalPackage(name).orElseThrow(() -> new PackageNotFoundException(this, name));
 	}
 
 	@Nullable
