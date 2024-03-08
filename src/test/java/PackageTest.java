@@ -28,7 +28,7 @@ public class PackageTest {
 
 	@Test
 	public void classes() {
-		assertDoesNotThrow(() -> pkg.getClass(getClass().getName()));
+		assertDoesNotThrow(() -> pkg.getLoadedClass(getClass().getName()));
 	}
 
 	@Test

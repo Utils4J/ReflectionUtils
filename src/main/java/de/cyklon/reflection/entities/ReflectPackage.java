@@ -45,13 +45,13 @@ public interface ReflectPackage extends OfflinePackage, ReflectEntity {
 	Package getPackage();
 
 	@NotNull
-	default Optional<? extends ReflectClass<?>> getOptionalClass(@NotNull String name) {
+	default Optional<? extends ReflectClass<?>> getOptionalLoadedClass(@NotNull String name) {
 		return getLoadedClasses(Filter.hasName(name)).stream().findFirst();
 	}
 
 	@NotNull
-	default ReflectClass<?> getClass(@NotNull String name) throws ClassNotFoundException {
-		return getOptionalClass(name).orElseThrow(() -> new ClassNotFoundException(this, name));
+	default ReflectClass<?> getLoadedClass(@NotNull String name) throws ClassNotFoundException {
+		return getOptionalLoadedClass(name).orElseThrow(() -> new ClassNotFoundException(this, name));
 	}
 
 	@NotNull
