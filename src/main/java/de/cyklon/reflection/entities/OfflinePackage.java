@@ -1,6 +1,7 @@
 package de.cyklon.reflection.entities;
 
 import de.cyklon.reflection.entities.impl.OfflinePackageImpl;
+import de.cyklon.reflection.exception.ClassNotFoundException;
 import de.cyklon.reflection.function.Filter;
 import de.cyklon.reflection.types.Loadable;
 import de.cyklon.reflection.types.Nameable;
@@ -8,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -33,6 +35,16 @@ public interface OfflinePackage extends Nameable, Loadable<ReflectPackage> {
 		return getClasses().stream()
 				.filter(filter::filter)
 				.collect(Collectors.toUnmodifiableSet());
+	}
+
+	@NotNull
+	default Optional<? extends ClassFile> getOptionalClass(String name) {
+		return getClasses(Filter.hasName(name)).stream().findFirst();
+	}
+
+	@NotNull
+	default ClassFile getClass(String name) throws ClassNotFoundException {
+		return getOptionalClass(name).orElseThrow(() -> new ClassNotFoundException(this, name));
 	}
 
 	@NotNull
