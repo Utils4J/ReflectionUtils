@@ -4,6 +4,7 @@ import de.cyklon.reflection.entities.ClassFile;
 import de.cyklon.reflection.entities.OfflinePackage;
 import de.cyklon.reflection.entities.ReflectPackage;
 import de.cyklon.reflection.exception.NotFoundException;
+import de.cyklon.reflection.exception.PackageNotFoundException;
 import de.cyklon.reflection.function.Filter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -29,7 +30,7 @@ public class OfflinePackageImpl implements OfflinePackage {
 	@SuppressWarnings("ConstantConditions")
 	public static OfflinePackage get(@NotNull String packageName) {
 		packageName = packageName.strip();
-		if (checkPackage(packageName)) throw new NotFoundException(packageName, "package", "");
+		if (checkPackage(packageName)) throw new PackageNotFoundException(null, packageName);
 		if (ReflectPackage.BASE_PACKAGE == null) return new OfflinePackageImpl(packageName);
 		return packageName.isBlank() ? ReflectPackage.BASE_PACKAGE : new OfflinePackageImpl(packageName);
 	}

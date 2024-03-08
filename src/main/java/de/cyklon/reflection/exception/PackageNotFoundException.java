@@ -4,7 +4,8 @@ import de.cyklon.reflection.types.Nameable;
 import org.jetbrains.annotations.NotNull;
 
 public class PackageNotFoundException extends NotFoundException {
+
     public PackageNotFoundException(Nameable parent, @NotNull String name) {
-        super(name, "package", parent.getName());
+        super(name, "package", parent==null ? "" : parent.getName());
     }
 }
