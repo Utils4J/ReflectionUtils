@@ -101,7 +101,7 @@ public class OfflinePackageImpl implements OfflinePackage {
 	public Set<? extends OfflinePackage> getPackages() {
 		String packageName = getName();
 		try (InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream(packageName.replaceAll("\\.", "/"))) {
-			if (in == null) throw new NotFoundException(packageName, "package", "");
+			if (in == null) throw new PackageNotFoundException(this, packageName);
 
 			try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
 				return reader.lines()
