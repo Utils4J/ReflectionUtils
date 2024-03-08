@@ -27,7 +27,7 @@ public class ReflectPackageImpl extends OfflinePackageImpl implements ReflectPac
 		super(packageName);
 		this.pkg = getDefinedPackage(packageName);
 		if (!isLoaded()) throw new NotLoadedException(packageName, "package", "");
-		if (checkPackage(packageName)) throw new NotFoundException(packageName, "package", "");
+		if (!checkPackage(packageName)) throw new NotFoundException(packageName, "package", "");
 	}
 
 	@NotNull
