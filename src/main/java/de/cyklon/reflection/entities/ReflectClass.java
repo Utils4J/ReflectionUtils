@@ -95,7 +95,7 @@ public interface ReflectClass<D> extends ClassFile, Type, ReflectEntity, Modifia
 		return getSubclasses(c -> {
 			String n = c.getName();
 			n = n.substring(n.indexOf('$')+1);
-			return n.equals(name);
+			return n.equals(name) || c.getName().equals(name);
 		}).stream().findFirst();
 	}
 
