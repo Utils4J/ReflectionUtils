@@ -5,6 +5,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class ClassNotFoundException extends NotFoundException {
+
+	public ClassNotFoundException(@NotNull String name) {
+		this(null, name);
+	}
+
 	public ClassNotFoundException(@Nullable Nameable parent, @NotNull String name) {
 		super(name, "class", parent==null ? "" : parent.getName());
 	}
