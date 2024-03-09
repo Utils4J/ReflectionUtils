@@ -47,7 +47,11 @@ public interface ReflectPackage extends OfflinePackage, ReflectEntity {
 
 	@NotNull
 	default Optional<? extends ReflectClass<?>> getOptionalLoadedClass(@NotNull String name) {
-		return getLoadedClasses(Filter.hasName(name)).stream().findFirst();
+		return getLoadedClasses(isBasePackage() ? Filter.hasName(name) : c -> {
+			String n = c.getName();
+			n = n.substring(getName().length()+1);
+			return n.equals(name) || c.getName().equals(name);
+		}).stream().findFirst();
 	}
 
 	@NotNull

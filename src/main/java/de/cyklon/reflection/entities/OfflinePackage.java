@@ -62,7 +62,11 @@ public interface OfflinePackage extends Nameable, Loadable<ReflectPackage> {
 
 	@NotNull
 	default Optional<? extends OfflinePackage> getOptionalPackage(String name) {
-		return getPackages(Filter.hasName(name)).stream().findFirst();
+		return getPackages(isBasePackage() ? Filter.hasName(name) : c -> {
+			String n = c.getName();
+			n = n.substring(getName().length()+1);
+			return n.equals(name) || c.getName().equals(name);
+		}).stream().findFirst();
 	}
 
 	@NotNull
