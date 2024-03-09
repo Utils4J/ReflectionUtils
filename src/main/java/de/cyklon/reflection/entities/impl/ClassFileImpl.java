@@ -3,7 +3,7 @@ package de.cyklon.reflection.entities.impl;
 import de.cyklon.reflection.entities.ClassFile;
 import de.cyklon.reflection.entities.OfflinePackage;
 import de.cyklon.reflection.entities.ReflectClass;
-import de.cyklon.reflection.exception.NotFoundException;
+import de.cyklon.reflection.exception.ClassNotFoundException;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -15,7 +15,7 @@ public class ClassFileImpl implements ClassFile {
 
 	ClassFileImpl(String className) {
 		this.className = className;
-		if (!checkClass(className)) throw new NotFoundException(className, "class", "");
+		if (!checkClass(className)) throw new ClassNotFoundException(null, className);
 	}
 
 	private static boolean checkClass(@NotNull String className) {
