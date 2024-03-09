@@ -1,5 +1,6 @@
 package de.cyklon.reflection.entities.impl;
 
+import de.cyklon.reflection.entities.ClassFile;
 import de.cyklon.reflection.entities.ReflectClass;
 import de.cyklon.reflection.entities.ReflectPackage;
 import de.cyklon.reflection.entities.members.ReflectConstructor;
@@ -286,7 +287,7 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 
 	@Override
 	public boolean equals(Object obj) {
-		return obj instanceof ReflectClass<?> rc && rc.getType().equals(type);
+		return (obj instanceof ReflectClass<?> rc && rc.getType().equals(type)) || (obj instanceof ClassFile c && c.equals(this));
 	}
 
 	@Override
