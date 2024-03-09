@@ -294,14 +294,4 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 		return getTypeName();
 	}
 
-
-	@Override
-	public boolean isLoaded() {
-		return true;
-	}
-
-	@Override
-	public ReflectClass<D> load() {
-		return this;
-	}
 }

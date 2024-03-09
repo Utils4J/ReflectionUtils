@@ -155,6 +155,16 @@ public interface ReflectClass<D> extends ClassFile, Type, ReflectEntity, Modifia
 		return getMethod(Object.class, methodName, paramTypes);
 	}
 
+	@Override
+	default boolean isLoaded() {
+		return true;
+	}
+
+	@Override
+	default ReflectClass<?> load() {
+		return this;
+	}
+
 	record ArrayInfo(@NotNull ReflectClass<?> component, int depth) {
 	}
 }
