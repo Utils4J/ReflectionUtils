@@ -15,7 +15,7 @@ public class ClassFileImpl implements ClassFile {
 
 	ClassFileImpl(String className) {
 		this.className = className;
-		if (!checkClass(className)) throw new ClassNotFoundException(null, className);
+		if (!checkClass(className)) throw new ClassNotFoundException(className);
 	}
 
 	private static boolean checkClass(@NotNull String className) {
