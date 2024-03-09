@@ -11,6 +11,6 @@ public class ClassNotFoundException extends NotFoundException {
 	}
 
 	public ClassNotFoundException(@Nullable Nameable parent, @NotNull String name) {
-		super(name, "class", parent==null ? "" : parent.getName());
+		super(name, "class", parent == null ? "" : parent.getName());
 	}
 }

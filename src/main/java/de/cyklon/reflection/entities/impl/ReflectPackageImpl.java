@@ -5,7 +5,6 @@ import de.cyklon.reflection.entities.ReflectPackage;
 import de.cyklon.reflection.entities.members.ReflectConstructor;
 import de.cyklon.reflection.entities.members.ReflectField;
 import de.cyklon.reflection.entities.members.ReflectMethod;
-import de.cyklon.reflection.exception.NotFoundException;
 import de.cyklon.reflection.exception.NotLoadedException;
 import de.cyklon.reflection.exception.PackageNotFoundException;
 import de.cyklon.reflection.function.Filter;

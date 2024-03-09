@@ -49,7 +49,7 @@ public interface ReflectPackage extends OfflinePackage, ReflectEntity {
 	default Optional<? extends ReflectClass<?>> getOptionalLoadedClass(@NotNull String name) {
 		return getLoadedClasses(isBasePackage() ? Filter.hasName(name) : c -> {
 			String n = c.getName();
-			n = n.substring(getName().length()+1);
+			n = n.substring(getName().length() + 1);
 			return n.equals(name) || c.getName().equals(name);
 		}).stream().findFirst();
 	}
