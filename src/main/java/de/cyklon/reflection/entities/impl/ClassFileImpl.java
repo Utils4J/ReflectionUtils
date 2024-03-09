@@ -54,6 +54,7 @@ public class ClassFileImpl implements ClassFile {
 		return false;
 	}
 
+	@NotNull
 	@Override
 	public ReflectClass<?> load() {
 		return ReflectClass.forName(className);

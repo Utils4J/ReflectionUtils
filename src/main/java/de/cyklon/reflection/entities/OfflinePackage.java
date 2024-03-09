@@ -39,13 +39,35 @@ public interface OfflinePackage extends Nameable, Loadable<ReflectPackage> {
 	}
 
 	@NotNull
-	default Optional<? extends ClassFile> getOptionalClass(String name) {
+	default Optional<? extends ClassFile> getOptionalClass(@NotNull String name) {
 		return getClasses(Filter.hasName(name)).stream().findFirst();
 	}
 
 	@NotNull
-	default ClassFile getClass(String name) throws ClassNotFoundException {
+	default ClassFile getClass(@NotNull String name) throws ClassNotFoundException {
 		return getOptionalClass(name).orElseThrow(() -> new ClassNotFoundException(this, name));
+	}
+
+	@NotNull
+	@Unmodifiable
+	Set<? extends ClassFile> getDirectClasses();
+
+	@NotNull
+	@Unmodifiable
+	default Set<? extends ClassFile> getDirectClasses(@NotNull Filter<ClassFile> filter) {
+		return getDirectClasses().stream()
+				.filter(filter::filter)
+				.collect(Collectors.toUnmodifiableSet());
+	}
+
+	@NotNull
+	default Optional<? extends ClassFile> getDirectOptionalClass(@NotNull String name) {
+		return getDirectClasses(Filter.hasName(name)).stream().findFirst();
+	}
+
+	@NotNull
+	default ClassFile getDirectClass(@NotNull String name) throws ClassNotFoundException {
+		return getDirectOptionalClass(name).orElseThrow(() -> new ClassNotFoundException(this, name));
 	}
 
 	@NotNull
@@ -64,7 +86,7 @@ public interface OfflinePackage extends Nameable, Loadable<ReflectPackage> {
 	default Optional<? extends OfflinePackage> getOptionalPackage(String name) {
 		return getPackages(isBasePackage() ? Filter.hasName(name) : c -> {
 			String n = c.getName();
-			n = n.substring(getName().length()+1);
+			n = n.substring(getName().length() + 1);
 			return n.equals(name) || c.getName().equals(name);
 		}).stream().findFirst();
 	}
