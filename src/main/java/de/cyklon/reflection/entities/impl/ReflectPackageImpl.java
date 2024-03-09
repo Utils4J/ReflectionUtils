@@ -7,6 +7,7 @@ import de.cyklon.reflection.entities.members.ReflectField;
 import de.cyklon.reflection.entities.members.ReflectMethod;
 import de.cyklon.reflection.exception.NotFoundException;
 import de.cyklon.reflection.exception.NotLoadedException;
+import de.cyklon.reflection.exception.PackageNotFoundException;
 import de.cyklon.reflection.function.Filter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -27,7 +28,7 @@ public class ReflectPackageImpl extends OfflinePackageImpl implements ReflectPac
 		super(packageName);
 		this.pkg = getDefinedPackage(packageName);
 		if (!isLoaded()) throw new NotLoadedException(packageName, "package", "");
-		if (!checkPackage(packageName)) throw new NotFoundException(packageName, "package", "");
+		if (!checkPackage(packageName)) throw new PackageNotFoundException(packageName);
 	}
 
 	@NotNull
@@ -104,7 +105,7 @@ public class ReflectPackageImpl extends OfflinePackageImpl implements ReflectPac
 	public Set<? extends OfflinePackage> getPackages() {
 		String packageName = getName();
 		try (InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream(packageName.replaceAll("\\.", "/"))) {
-			if (in == null) throw new NotFoundException(packageName, "package", "");
+			if (in == null) throw new PackageNotFoundException(this, packageName);
 
 			try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
 				return reader.lines()
