@@ -47,11 +47,6 @@ public class ReflectPackageImpl extends OfflinePackageImpl implements ReflectPac
 		return pkg != null;
 	}
 
-	@Override
-	public ReflectPackage load() {
-		return this;
-	}
-
 	@NotNull
 	@Override
 	@Unmodifiable

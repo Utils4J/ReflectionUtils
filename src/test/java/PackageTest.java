@@ -53,7 +53,7 @@ public class PackageTest {
 	}
 
 	@Test
-	@Order(2)
+	@Order(1)
 	public void child() {
 		ReflectPackage tp = testPkg.load();
 
@@ -62,5 +62,9 @@ public class PackageTest {
 		assertNotNull(p, "child package not found");
 		assertEquals("test.t1", p.getName());
 		assertEquals("t1", p.getSimpleName());
+
+		assertEquals(2, tp.getDirectClasses().size());
+		assertEquals(3, tp.getClasses().size());
+		assertEquals(1, p.getClasses().size());
 	}
 }

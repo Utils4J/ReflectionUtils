@@ -97,5 +97,9 @@ public interface ReflectPackage extends OfflinePackage, ReflectEntity {
 	@Nullable
 	ReflectPackage getParent();
 
-
+	@NotNull
+	@Override
+	default ReflectPackage load() {
+		return this;
+	}
 }

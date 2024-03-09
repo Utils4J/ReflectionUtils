@@ -14,6 +14,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -49,9 +50,10 @@ public class OfflinePackageImpl implements OfflinePackage {
 		return ReflectPackageImpl.getDefinedPackage(packageName) != null;
 	}
 
+	@NotNull
 	@Override
 	public ReflectPackage load() {
-		return getClasses().stream()
+		return getDirectClasses().stream()
 				.findFirst()
 				.orElseThrow(() -> new NotFoundException("any", "class", String.format("package %s, therefore this package cannot be loaded!", getName())))
 				.load()
@@ -60,14 +62,22 @@ public class OfflinePackageImpl implements OfflinePackage {
 
 	@NotNull
 	@Override
-	@Unmodifiable
 	public Set<? extends ClassFile> getClasses() {
-		return getClasses(getName()).stream()
+		return getClasses(getName(), Integer.MAX_VALUE).stream()
 				.map(ClassFile::forName)
 				.collect(Collectors.toUnmodifiableSet());
 	}
 
-	private static Set<String> getClasses(String packageName) {
+	@NotNull
+	@Override
+	public Set<? extends ClassFile> getDirectClasses() {
+		return getClasses(getName(), 1).stream()
+				.map(ClassFile::forName)
+				.collect(Collectors.toUnmodifiableSet());
+	}
+
+	private static Set<String> getClasses(String packageName, int maxDepth) {
+		if(maxDepth <= 0) return Collections.emptySet();
 		try (InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream(packageName.replaceAll("\\.", "/"))) {
 			if (in == null) throw new PackageNotFoundException(packageName);
 
@@ -75,8 +85,10 @@ public class OfflinePackageImpl implements OfflinePackage {
 				Set<String> result = new HashSet<>();
 				String line;
 				while ((line = reader.readLine()) != null) {
+					if(line.equals("package-info.class") || line.equals("module-info.class")) continue;
+
 					if (line.endsWith(".class")) result.add(getClassName(packageName, line));
-					else if (!line.contains(".")) result.addAll(getClasses(getMemberName(packageName, line)));
+					else if (!line.contains(".")) result.addAll(getClasses(getMemberName(packageName, line), maxDepth - 1));
 				}
 				return result;
 			}

@@ -164,6 +164,7 @@ public interface ReflectClass<D> extends ClassFile, Type, ReflectEntity, Modifia
 		return true;
 	}
 
+	@NotNull
 	@Override
 	default ReflectClass<?> load() {
 		return this;
