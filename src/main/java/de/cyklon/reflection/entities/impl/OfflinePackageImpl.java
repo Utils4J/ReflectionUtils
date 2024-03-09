@@ -69,7 +69,7 @@ public class OfflinePackageImpl implements OfflinePackage {
 
 	private static Set<String> getClasses(String packageName) {
 		try (InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream(packageName.replaceAll("\\.", "/"))) {
-			if (in == null) throw new NotFoundException(packageName, "package", "");
+			if (in == null) throw new PackageNotFoundException(packageName);
 
 			try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
 				Set<String> result = new HashSet<>();
