@@ -2,7 +2,6 @@ import de.cyklon.reflection.entities.OfflinePackage;
 import de.cyklon.reflection.entities.ReflectClass;
 import de.cyklon.reflection.entities.ReflectPackage;
 import de.cyklon.reflection.exception.ClassNotFoundException;
-import de.cyklon.reflection.function.Filter;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -14,8 +13,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class PackageTest {
 
-	private static ReflectPackage pkg = ReflectClass.wrap(PackageTest.class).getPackage();
-	private static OfflinePackage testPkg = pkg.getOptionalPackage("test").orElse(null);
+	private static final ReflectPackage pkg = ReflectClass.wrap(PackageTest.class).getPackage();
+	private static final OfflinePackage testPkg = pkg.getPackage("test");
 
 	@Test
 	public void base() {
@@ -58,7 +57,7 @@ public class PackageTest {
 	public void child() {
 		ReflectPackage tp = testPkg.load();
 
-		OfflinePackage p = tp.getPackages(Filter.hasSimpleName("t1")).stream().findFirst().orElse(null);
+		OfflinePackage p = tp.getPackage("t1");
 
 		assertNotNull(p, "child package not found");
 		assertEquals("test.t1", p.getName());
