@@ -58,4 +58,14 @@ public class ClassFileImpl implements ClassFile {
 	public ReflectClass<?> load() {
 		return ReflectClass.forName(className);
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return obj instanceof ClassFile c && c.getName().equals(getName());
+	}
+
+	@Override
+	public String toString() {
+		return getName();
+	}
 }
