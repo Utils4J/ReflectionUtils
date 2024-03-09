@@ -27,8 +27,8 @@ public class ClassTest {
 	public void subclass() {
 		ReflectClass<?> clazz = ReflectClass.wrap(ClassTest.class);
 
-		assertEquals("TestClass", clazz.getSubclass("ClassTest$TestClass").getSimpleName());
-		assertEquals("StaticTestClass", clazz.getSubclass("ClassTest$StaticTestClass").getSimpleName());
+		assertEquals("TestClass", clazz.getSubclass("TestClass").getSimpleName());
+		assertEquals("StaticTestClass", clazz.getSubclass("StaticTestClass").getSimpleName());
 
 		assertThrows(ClassNotFoundException.class, () -> clazz.getSubclass("Test"));
 	}
@@ -43,7 +43,7 @@ public class ClassTest {
 
 	@Test
 	public void subclassInstance() {
-		ReflectClass<?> clazz = ReflectClass.wrap(ClassTest.class).getSubclass("ClassTest$TestClass");
+		ReflectClass<?> clazz = ReflectClass.wrap(ClassTest.class).getSubclass("TestClass");
 
 		Object test = clazz.newInstance(this, "test");
 		ReflectClass<?> type = ReflectClass.wrap(test.getClass());
@@ -54,7 +54,7 @@ public class ClassTest {
 
 	@Test
 	public void staticSubclassTest() {
-		ReflectClass<?> clazz = ReflectClass.wrap(ClassTest.class).getSubclass("ClassTest$StaticTestClass");
+		ReflectClass<?> clazz = ReflectClass.wrap(ClassTest.class).getSubclass("StaticTestClass");
 
 		Object test = clazz.newInstance("test");
 		ReflectClass<?> type = ReflectClass.wrap(test.getClass());
