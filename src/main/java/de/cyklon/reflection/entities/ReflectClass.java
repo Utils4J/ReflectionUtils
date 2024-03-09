@@ -92,7 +92,11 @@ public interface ReflectClass<D> extends ClassFile, Type, ReflectEntity, Modifia
 
 	@NotNull
 	default Optional<? extends ReflectClass<?>> getOptionalSubclass(@NotNull String name) {
-		return getSubclasses(Filter.hasName(name)).stream().findFirst();
+		return getSubclasses(c -> {
+			String n = c.getName();
+			n = n.substring(n.indexOf('$')+1);
+			return n.equals(name);
+		}).stream().findFirst();
 	}
 
 	@NotNull
