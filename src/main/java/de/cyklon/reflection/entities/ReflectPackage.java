@@ -5,17 +5,18 @@ import de.cyklon.reflection.entities.members.ReflectConstructor;
 import de.cyklon.reflection.entities.members.ReflectField;
 import de.cyklon.reflection.entities.members.ReflectMethod;
 import de.cyklon.reflection.exception.ClassNotFoundException;
-import de.cyklon.reflection.exception.FieldNotFoundException;
+import de.cyklon.reflection.exception.PackageNotFoundException;
 import de.cyklon.reflection.function.Filter;
 import de.cyklon.reflection.types.ReflectEntity;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public interface ReflectPackage extends ReflectEntity {
+public interface ReflectPackage extends OfflinePackage, ReflectEntity {
 
 	ReflectPackage BASE_PACKAGE = get("");
 
@@ -24,31 +25,38 @@ public interface ReflectPackage extends ReflectEntity {
 		return ReflectPackageImpl.get(packageName);
 	}
 
-	boolean isLoaded();
+	@NotNull
+	@Unmodifiable
+	default Set<? extends ReflectClass<?>> getLoadedClasses() {
+		return getClasses().stream()
+				.map(ClassFile::load)
+				.collect(Collectors.toUnmodifiableSet());
+	}
+
+	@NotNull
+	@Unmodifiable
+	default Set<? extends ReflectClass<?>> getLoadedClasses(@NotNull Filter<ReflectClass<?>> filter) {
+		return getLoadedClasses().stream()
+				.filter(filter::filter)
+				.collect(Collectors.toUnmodifiableSet());
+	}
+
 
 	@NotNull
 	Package getPackage();
 
 	@NotNull
-	@Unmodifiable
-	Set<? extends ReflectClass<?>> getClasses();
-
-	@NotNull
-	@Unmodifiable
-	default Set<? extends ReflectClass<?>> getClasses(@NotNull Filter<ReflectClass<?>> filter) {
-		return getClasses().stream()
-				.filter(filter::filter)
-				.collect(Collectors.toUnmodifiableSet());
+	default Optional<? extends ReflectClass<?>> getOptionalLoadedClass(@NotNull String name) {
+		return getLoadedClasses(isBasePackage() ? Filter.hasName(name) : c -> {
+			String n = c.getName();
+			n = n.substring(getName().length() + 1);
+			return n.equals(name) || c.getName().equals(name);
+		}).stream().findFirst();
 	}
 
 	@NotNull
-	default Optional<? extends ReflectClass<?>> getOptionalClass(@NotNull String name) {
-		return getClasses(Filter.hasName(name)).stream().findFirst();
-	}
-
-	@NotNull
-	default ReflectClass<?> getClass(@NotNull String name) throws ClassNotFoundException {
-		return getOptionalClass(name).orElseThrow(() -> new ClassNotFoundException(this, name));
+	default ReflectClass<?> getLoadedClass(@NotNull String name) throws ClassNotFoundException {
+		return getOptionalLoadedClass(name).orElseThrow(() -> new ClassNotFoundException(this, name));
 	}
 
 	@NotNull
@@ -65,18 +73,33 @@ public interface ReflectPackage extends ReflectEntity {
 
 	@NotNull
 	@Unmodifiable
-	Set<? extends ReflectPackage> getPackages();
+	Set<? extends ReflectPackage> getLoadedPackages();
 
 	@NotNull
 	@Unmodifiable
-	default Set<? extends ReflectPackage> getPackages(@NotNull Filter<ReflectPackage> filter) {
-		return getPackages().stream()
+	default Set<? extends ReflectPackage> getLoadedPackages(@NotNull Filter<ReflectPackage> filter) {
+		return getLoadedPackages().stream()
 				.filter(filter::filter)
 				.collect(Collectors.toUnmodifiableSet());
 	}
 
 	@NotNull
+	default Optional<? extends ReflectPackage> getOptionalLoadedPackage(String name) {
+		return getLoadedPackages(Filter.hasName(name)).stream().findFirst();
+	}
+
+	@NotNull
+	default ReflectPackage getLoadedPackage(String name) throws PackageNotFoundException {
+		return getOptionalLoadedPackage(name).orElseThrow(() -> new PackageNotFoundException(this, name));
+	}
+
+	@Override
+	@Nullable
 	ReflectPackage getParent();
 
-
+	@NotNull
+	@Override
+	default ReflectPackage load() {
+		return this;
+	}
 }

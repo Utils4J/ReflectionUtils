@@ -1,6 +1,5 @@
 package de.cyklon.reflection.function;
 
-import de.cyklon.reflection.entities.ReflectPackage;
 import de.cyklon.reflection.entities.members.ReflectMember;
 import de.cyklon.reflection.types.*;
 import org.jetbrains.annotations.Contract;
@@ -50,8 +49,18 @@ public interface Filter<T> {
 	}
 
 	@NotNull
+	static <T extends Nameable> Filter<T> hasSimpleName(@NotNull String simpleName) {
+		return n -> n.getSimpleName().equals(simpleName);
+	}
+
+	@NotNull
 	static <T extends Nameable> Filter<T> matchesName(@NotNull String regex) {
 		return n -> n.getName().matches(regex);
+	}
+
+	@NotNull
+	static <T extends Nameable> Filter<T> matchesSimpleName(@NotNull String regex) {
+		return n -> n.getSimpleName().matches(regex);
 	}
 
 	@NotNull
@@ -64,8 +73,8 @@ public interface Filter<T> {
 	}
 
 	@NotNull
-	static <T extends ReflectPackage> Filter<T> isLoaded() {
-		return ReflectPackage::isLoaded;
+	static <T, D extends Loadable<T>> Filter<D> isLoaded() {
+		return Loadable::isLoaded;
 	}
 
 	@NotNull

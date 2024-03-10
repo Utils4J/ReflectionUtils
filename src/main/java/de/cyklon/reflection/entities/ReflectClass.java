@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-public interface ReflectClass<D> extends Type, ReflectEntity, Modifiable {
+public interface ReflectClass<D> extends ClassFile, Type, ReflectEntity, Modifiable {
 	@NotNull
 	static <D> ReflectClass<D> wrap(@NotNull Class<D> clazz) {
 		return ReflectClassImpl.wrap(clazz);
@@ -77,17 +77,12 @@ public interface ReflectClass<D> extends Type, ReflectEntity, Modifiable {
 	boolean isWildcard();
 
 
-	@NotNull
-	String getFullName();
+	@Nullable <T> ReflectClass<T> getParentClass();
 
-
-	@Nullable
-	<T> ReflectClass<T> getParentClass();
-
-	@Nullable
-	<T> ReflectClass<T> getNestParent();
+	@Nullable <T> ReflectClass<T> getNestParent();
 
 	@NotNull
+	@Override
 	ReflectPackage getPackage();
 
 	@NotNull
@@ -95,7 +90,11 @@ public interface ReflectClass<D> extends Type, ReflectEntity, Modifiable {
 
 	@NotNull
 	default Optional<? extends ReflectClass<?>> getOptionalSubclass(@NotNull String name) {
-		return getSubclasses(Filter.hasName(name)).stream().findFirst();
+		return getSubclasses(c -> {
+			String n = c.getName();
+			n = n.substring(n.indexOf('$') + 1);
+			return n.equals(name) || c.getName().equals(name);
+		}).stream().findFirst();
 	}
 
 	@NotNull
@@ -148,12 +147,25 @@ public interface ReflectClass<D> extends Type, ReflectEntity, Modifiable {
 		return getOptionalMethod(Object.class, methodName, paramTypes);
 	}
 
+	@NotNull
 	default <R> ReflectMethod<D, R> getMethod(@NotNull Class<R> returnType, @NotNull String methodName, @NotNull Class<?>... paramTypes) throws MethodNotFoundException {
 		return getOptionalMethod(returnType, methodName, paramTypes).orElseThrow(() -> new MethodNotFoundException(this, methodName));
 	}
 
+	@NotNull
 	default ReflectMethod<D, Object> getMethod(@NotNull String methodName, @NotNull Class<?>... paramTypes) throws MethodNotFoundException {
 		return getMethod(Object.class, methodName, paramTypes);
+	}
+
+	@Override
+	default boolean isLoaded() {
+		return true;
+	}
+
+	@NotNull
+	@Override
+	default ReflectClass<?> load() {
+		return this;
 	}
 
 	record ArrayInfo(@NotNull ReflectClass<?> component, int depth) {

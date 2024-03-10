@@ -247,7 +247,7 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@Override
 	public @NotNull <R> Optional<ReflectMethod<D, R>> getOptionalMethod(@NotNull Class<R> returnType, @NotNull String methodName, @NotNull Class<?>... paramTypes) {
 		try {
-			return Optional.of(new ReflectMethodImpl<>(this, clazz.getMethod(methodName, paramTypes)));
+			return Optional.of(new ReflectMethodImpl<>(this, clazz.getDeclaredMethod(methodName, paramTypes)));
 		} catch (NoSuchMethodException e) {
 			return Optional.empty();
 		}
@@ -273,23 +273,25 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	public String getName() {
 		if (isWildcard()) return "?";
 
-		if (!clazz.isArray()) return clazz.getSimpleName();
+		if (!clazz.isArray()) return clazz.getName();
 		else return getArrayInfo().component().getName() + "[]";
 	}
 
 	@NotNull
 	@Override
-	public String getFullName() {
-		return getTypeName();
+	public String getSimpleName() {
+		return clazz.getSimpleName();
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
-		return obj instanceof ReflectClass<?> rc && rc.getType().equals(type);
+		return (obj instanceof ReflectClass<?> rc && rc.getType().equals(type)) || (obj instanceof ClassFileImpl c && c.equals(this));
 	}
 
 	@Override
 	public String toString() {
-		return getFullName();
+		return getTypeName();
 	}
+
 }
