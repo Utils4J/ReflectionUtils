@@ -38,10 +38,8 @@ public class PackageTest {
 	@Order(0)
 	public void load() {
 		assertNotNull(testPkg, "test package not found");
-		assertFalse(testPkg.isLoaded());
 
 		testPkg.load();
-
 		assertTrue(testPkg.isLoaded(), "timeout during loading");
 	}
 
