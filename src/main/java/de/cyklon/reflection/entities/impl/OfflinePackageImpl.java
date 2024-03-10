@@ -4,6 +4,7 @@ import de.cyklon.reflection.entities.ClassFile;
 import de.cyklon.reflection.entities.OfflinePackage;
 import de.cyklon.reflection.entities.ReflectPackage;
 import de.cyklon.reflection.exception.NotFoundException;
+import de.cyklon.reflection.exception.PackageLoadException;
 import de.cyklon.reflection.exception.PackageNotFoundException;
 import de.cyklon.reflection.function.Filter;
 import org.jetbrains.annotations.NotNull;
@@ -55,7 +56,7 @@ public class OfflinePackageImpl implements OfflinePackage {
 	public ReflectPackage load() {
 		return getDirectClasses().stream()
 				.findFirst()
-				.orElseThrow(() -> new NotFoundException("any", "class", String.format("package %s, therefore this package cannot be loaded!", getName())))
+				.orElseThrow(() -> new PackageLoadException(getName()))
 				.load()
 				.getPackage();
 	}
