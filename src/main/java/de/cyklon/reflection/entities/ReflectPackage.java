@@ -5,6 +5,7 @@ import de.cyklon.reflection.entities.members.ReflectConstructor;
 import de.cyklon.reflection.entities.members.ReflectField;
 import de.cyklon.reflection.entities.members.ReflectMethod;
 import de.cyklon.reflection.exception.ClassNotFoundException;
+import de.cyklon.reflection.exception.NotLoadedException;
 import de.cyklon.reflection.exception.PackageNotFoundException;
 import de.cyklon.reflection.function.Filter;
 import de.cyklon.reflection.types.ReflectEntity;
@@ -18,13 +19,34 @@ import java.util.stream.Collectors;
 
 public interface ReflectPackage extends OfflinePackage, ReflectEntity {
 
+	/**
+	 * the java base package
+	 */
 	ReflectPackage BASE_PACKAGE = get("");
 
+	/**
+	 * get a ReflectPackage by the name
+	 * @param packageName the package name
+	 * @return the ReflectPackage
+	 * @throws NotLoadedException if the package matches the given name is not loaded yet
+	 * @throws PackageNotFoundException if no package matches the given name
+	 */
 	@NotNull
-	static ReflectPackage get(@NotNull String packageName) {
+	static ReflectPackage get(@NotNull String packageName) throws NotLoadedException, PackageNotFoundException {
 		return ReflectPackageImpl.get(packageName);
 	}
 
+	/**
+	 * @return the default java reflect Package
+	 * @see Package
+	 */
+	@NotNull
+	Package getPackage();
+
+	/**
+	 * @return all classes in the package as ReflectClass. Unloaded packages will be automatically loaded
+	 * @see ReflectClass
+	 */
 	@NotNull
 	@Unmodifiable
 	default Set<? extends ReflectClass<?>> getLoadedClasses() {
@@ -33,6 +55,12 @@ public interface ReflectPackage extends OfflinePackage, ReflectEntity {
 				.collect(Collectors.toUnmodifiableSet());
 	}
 
+	/**
+	 * @param filter the filter to search for specific classes
+	 * @return all classes matches the filter in the package as ReflectClass. Unloaded packages will be automatically loaded
+	 * @see Filter
+	 * @see ReflectClass
+	 */
 	@NotNull
 	@Unmodifiable
 	default Set<? extends ReflectClass<?>> getLoadedClasses(@NotNull Filter<ReflectClass<?>> filter) {
@@ -41,10 +69,15 @@ public interface ReflectPackage extends OfflinePackage, ReflectEntity {
 				.collect(Collectors.toUnmodifiableSet());
 	}
 
-
-	@NotNull
-	Package getPackage();
-
+	/**
+	 * search for a class in this package matches the given name
+	 * <p>
+	 * the class name can be the full class name: java.lang.reflect.Field
+	 * <p>
+	 * or the relativ name (as example, the reflect package is java.lang): reflect.Field
+	 * @param name the full class name or relativ class name
+	 * @return a Optional with a reflect class if a matching class was found or a empty Optional
+	 */
 	@NotNull
 	default Optional<? extends ReflectClass<?>> getOptionalLoadedClass(@NotNull String name) {
 		return getLoadedClasses(isBasePackage() ? Filter.hasName(name) : c -> {
@@ -54,6 +87,16 @@ public interface ReflectPackage extends OfflinePackage, ReflectEntity {
 		}).stream().findFirst();
 	}
 
+	/**
+	 * search for a class in this package matches the given name
+	 * <p>
+	 * the class name can be the full class name: java.lang.reflect.Field
+	 * <p>
+	 * or the relativ name (as example, the reflect package is java.lang): reflect.Field
+	 * @param name the full class name or relativ class name
+	 * @return the ReflectClass if a matching class was found
+	 * @throws ClassNotFoundException if no class was found with the given name
+	 */
 	@NotNull
 	default ReflectClass<?> getLoadedClass(@NotNull String name) throws ClassNotFoundException {
 		return getOptionalLoadedClass(name).orElseThrow(() -> new ClassNotFoundException(this, name));
