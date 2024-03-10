@@ -1,6 +1,5 @@
 package de.cyklon.reflection.entities.impl;
 
-import de.cyklon.reflection.entities.ClassFile;
 import de.cyklon.reflection.entities.ReflectClass;
 import de.cyklon.reflection.entities.ReflectPackage;
 import de.cyklon.reflection.entities.members.ReflectConstructor;

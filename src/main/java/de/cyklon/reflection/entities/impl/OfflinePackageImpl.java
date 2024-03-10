@@ -3,7 +3,6 @@ package de.cyklon.reflection.entities.impl;
 import de.cyklon.reflection.entities.ClassFile;
 import de.cyklon.reflection.entities.OfflinePackage;
 import de.cyklon.reflection.entities.ReflectPackage;
-import de.cyklon.reflection.exception.NotFoundException;
 import de.cyklon.reflection.exception.PackageLoadException;
 import de.cyklon.reflection.exception.PackageNotFoundException;
 import de.cyklon.reflection.function.Filter;
@@ -78,7 +77,7 @@ public class OfflinePackageImpl implements OfflinePackage {
 	}
 
 	private static Set<String> getClasses(String packageName, int maxDepth) {
-		if(maxDepth <= 0) return Collections.emptySet();
+		if (maxDepth <= 0) return Collections.emptySet();
 		try (InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream(packageName.replaceAll("\\.", "/"))) {
 			if (in == null) throw new PackageNotFoundException(packageName);
 
@@ -86,7 +85,7 @@ public class OfflinePackageImpl implements OfflinePackage {
 				Set<String> result = new HashSet<>();
 				String line;
 				while ((line = reader.readLine()) != null) {
-					if(line.equals("package-info.class") || line.equals("module-info.class")) continue;
+					if (line.equals("package-info.class") || line.equals("module-info.class")) continue;
 
 					if (line.endsWith(".class")) result.add(getClassName(packageName, line));
 					else if (!line.contains(".")) result.addAll(getClasses(getMemberName(packageName, line), maxDepth - 1));

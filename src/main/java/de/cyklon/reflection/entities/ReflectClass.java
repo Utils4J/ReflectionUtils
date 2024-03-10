@@ -77,11 +77,9 @@ public interface ReflectClass<D> extends ClassFile, Type, ReflectEntity, Modifia
 	boolean isWildcard();
 
 
-	@Nullable
-	<T> ReflectClass<T> getParentClass();
+	@Nullable <T> ReflectClass<T> getParentClass();
 
-	@Nullable
-	<T> ReflectClass<T> getNestParent();
+	@Nullable <T> ReflectClass<T> getNestParent();
 
 	@NotNull
 	@Override
