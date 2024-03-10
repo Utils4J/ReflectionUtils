@@ -287,7 +287,7 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 
 	@Override
 	public boolean equals(Object obj) {
-		return (obj instanceof ReflectClass<?> rc && rc.getType().equals(type)) || (obj instanceof ClassFile c && c.equals(this));
+		return (obj instanceof ReflectClass<?> rc && rc.getType().equals(type)) || (obj instanceof ClassFileImpl c && c.equals(this));
 	}
 
 	@Override
