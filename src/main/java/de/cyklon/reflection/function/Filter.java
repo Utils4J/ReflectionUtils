@@ -130,17 +130,17 @@ public interface Filter<T> {
 	}
 
 	@NotNull
-	default Filter<T> and(@NotNull Filter<T> other) {
+	default <E extends T> Filter<E> and(@NotNull Filter<E> other) {
 		return filterNullable(obj -> filter(obj) && other.filter(obj));
 	}
 
 	@NotNull
-	default Filter<T> or(@NotNull Filter<T> other) {
+	default <E extends T> Filter<E> or(@NotNull Filter<E> other) {
 		return filterNullable(obj -> filter(obj) || other.filter(obj));
 	}
 
 	@NotNull
-	default Filter<T> xOr(@NotNull Filter<T> other) {
+	default <E extends T> Filter<E> xOr(@NotNull Filter<E> other) {
 		return filterNullable(obj -> filter(obj) ^ other.filter(obj));
 	}
 }
