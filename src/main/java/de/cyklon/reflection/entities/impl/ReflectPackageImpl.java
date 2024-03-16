@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class ReflectPackageImpl extends OfflinePackageImpl implements ReflectPackage {
 	private final Package pkg;
 
-	private ReflectPackageImpl(@NotNull String packageName) {
+	private ReflectPackageImpl(@NotNull String packageName) throws NotLoadedException, PackageNotFoundException {
 		super(packageName);
 		this.pkg = getDefinedPackage(packageName);
 		if (!checkPackage(packageName)) throw new PackageNotFoundException(packageName);
@@ -32,7 +32,7 @@ public class ReflectPackageImpl extends OfflinePackageImpl implements ReflectPac
 
 	@NotNull
 	@SuppressWarnings("ConstantConditions")
-	public static ReflectPackage get(@NotNull String packageName) {
+	public static ReflectPackage get(@NotNull String packageName) throws NotLoadedException, PackageNotFoundException {
 		if (ReflectPackage.BASE_PACKAGE == null) return new ReflectPackageImpl(packageName);
 		return packageName.isBlank() ? ReflectPackage.BASE_PACKAGE : new ReflectPackageImpl(packageName);
 	}
