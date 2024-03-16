@@ -118,7 +118,7 @@ public class ReflectPackageImpl extends OfflinePackageImpl implements ReflectPac
 		if (isBasePackage()) return null;
 		String currentName = getName();
 		int i = currentName.lastIndexOf('.');
-		if (i == -1) return ReflectPackage.BASE_PACKAGE;
+		if (i == -1) return BASE_PACKAGE;
 		return get(currentName.substring(0, i));
 	}
 
