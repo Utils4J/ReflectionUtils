@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
 
 public interface OfflinePackage extends Nameable, Loadable<ReflectPackage> {
 
+	OfflinePackage BASE_PACKAGE = get("");
+
 	@NotNull
 	static OfflinePackage get(@NotNull String packageName) {
 		return OfflinePackageImpl.get(packageName);
