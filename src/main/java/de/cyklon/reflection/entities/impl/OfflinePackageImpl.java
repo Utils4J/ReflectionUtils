@@ -32,8 +32,8 @@ public class OfflinePackageImpl implements OfflinePackage {
 	public static OfflinePackage get(@NotNull String packageName) {
 		packageName = packageName.strip();
 		if (!checkPackage(packageName)) throw new PackageNotFoundException(packageName);
-		if (ReflectPackage.BASE_PACKAGE == null) return new OfflinePackageImpl(packageName);
-		return packageName.isBlank() ? ReflectPackage.BASE_PACKAGE : new OfflinePackageImpl(packageName);
+		if (BASE_PACKAGE == null) return new OfflinePackageImpl(packageName);
+		return packageName.isBlank() ? BASE_PACKAGE : new OfflinePackageImpl(packageName);
 	}
 
 	//returns false if package was not found
@@ -132,7 +132,7 @@ public class OfflinePackageImpl implements OfflinePackage {
 		if (isBasePackage()) return null;
 		String currentName = getName();
 		int i = currentName.lastIndexOf('.');
-		if (i == -1) return ReflectPackage.BASE_PACKAGE;
+		if (i == -1) return BASE_PACKAGE;
 		return get(currentName.substring(0, i));
 	}
 

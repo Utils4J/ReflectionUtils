@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
 
 public interface OfflinePackage extends Nameable, Loadable<ReflectPackage> {
 
+	OfflinePackage BASE_PACKAGE = get("");
+
 	@NotNull
 	static OfflinePackage get(@NotNull String packageName) {
 		return OfflinePackageImpl.get(packageName);
@@ -23,7 +25,7 @@ public interface OfflinePackage extends Nameable, Loadable<ReflectPackage> {
 
 
 	default boolean isBasePackage() {
-		return ReflectPackage.BASE_PACKAGE.equals(this);
+		return BASE_PACKAGE.equals(this);
 	}
 
 	@NotNull
