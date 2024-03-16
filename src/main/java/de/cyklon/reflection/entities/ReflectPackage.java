@@ -18,8 +18,6 @@ import java.util.stream.Collectors;
 
 public interface ReflectPackage extends OfflinePackage, ReflectEntity {
 
-	ReflectPackage BASE_PACKAGE = get("");
-
 	@NotNull
 	static ReflectPackage get(@NotNull String packageName) {
 		return ReflectPackageImpl.get(packageName);
@@ -95,7 +93,7 @@ public interface ReflectPackage extends OfflinePackage, ReflectEntity {
 
 	@Override
 	@Nullable
-	ReflectPackage getParent();
+	OfflinePackage getParent();
 
 	@NotNull
 	@Override

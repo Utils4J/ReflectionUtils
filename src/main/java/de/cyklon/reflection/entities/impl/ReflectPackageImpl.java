@@ -23,18 +23,17 @@ import java.util.stream.Collectors;
 public class ReflectPackageImpl extends OfflinePackageImpl implements ReflectPackage {
 	private final Package pkg;
 
-	private ReflectPackageImpl(@NotNull String packageName) {
+	private ReflectPackageImpl(@NotNull String packageName) throws NotLoadedException, PackageNotFoundException {
 		super(packageName);
 		this.pkg = getDefinedPackage(packageName);
-		if (!isLoaded()) throw new NotLoadedException(packageName, "package", "");
 		if (!checkPackage(packageName)) throw new PackageNotFoundException(packageName);
+		if (!isLoaded()) throw new NotLoadedException(packageName, "package", "");
 	}
 
 	@NotNull
 	@SuppressWarnings("ConstantConditions")
-	public static ReflectPackage get(@NotNull String packageName) {
-		if (ReflectPackage.BASE_PACKAGE == null) return new ReflectPackageImpl(packageName);
-		return packageName.isBlank() ? ReflectPackage.BASE_PACKAGE : new ReflectPackageImpl(packageName);
+	public static ReflectPackage get(@NotNull String packageName) throws NotLoadedException, PackageNotFoundException {
+		return new ReflectPackageImpl(packageName);
 	}
 
 	@Nullable
@@ -114,11 +113,11 @@ public class ReflectPackageImpl extends OfflinePackageImpl implements ReflectPac
 
 	@Override
 	@Nullable
-	public ReflectPackage getParent() {
+	public OfflinePackage getParent() {
 		if (isBasePackage()) return null;
 		String currentName = getName();
 		int i = currentName.lastIndexOf('.');
-		if (i == -1) return ReflectPackage.BASE_PACKAGE;
+		if (i == -1) return BASE_PACKAGE;
 		return get(currentName.substring(0, i));
 	}
 
