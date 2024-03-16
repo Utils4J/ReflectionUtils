@@ -33,8 +33,7 @@ public class ReflectPackageImpl extends OfflinePackageImpl implements ReflectPac
 	@NotNull
 	@SuppressWarnings("ConstantConditions")
 	public static ReflectPackage get(@NotNull String packageName) throws NotLoadedException, PackageNotFoundException {
-		if (ReflectPackage.BASE_PACKAGE == null) return new ReflectPackageImpl(packageName);
-		return packageName.isBlank() ? ReflectPackage.BASE_PACKAGE : new ReflectPackageImpl(packageName);
+		return new ReflectPackageImpl(packageName);
 	}
 
 	@Nullable
