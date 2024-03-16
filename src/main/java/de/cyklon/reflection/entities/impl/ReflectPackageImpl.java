@@ -114,7 +114,7 @@ public class ReflectPackageImpl extends OfflinePackageImpl implements ReflectPac
 
 	@Override
 	@Nullable
-	public ReflectPackage getParent() {
+	public OfflinePackage getParent() {
 		if (isBasePackage()) return null;
 		String currentName = getName();
 		int i = currentName.lastIndexOf('.');
