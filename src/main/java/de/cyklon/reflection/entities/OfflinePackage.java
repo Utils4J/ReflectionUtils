@@ -30,7 +30,7 @@ public interface OfflinePackage extends Nameable, Loadable<ReflectPackage> {
 
 	@NotNull
 	@Unmodifiable
-	Set<? extends ReflectPackage> loadReflective();
+	Set<? extends ReflectPackage> loadRecursive();
 
 	@NotNull
 	@Unmodifiable

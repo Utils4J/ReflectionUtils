@@ -62,7 +62,7 @@ public class OfflinePackageImpl implements OfflinePackage {
 
 	@NotNull
 	@Override
-	public Set<? extends ReflectPackage> loadReflective() {
+	public Set<? extends ReflectPackage> loadRecursive() {
 		return Collections.unmodifiableSet(loadSubPackages(this));
 	}
 
