@@ -3,12 +3,10 @@ package de.cyklon.reflection.entities.members.impl;
 import de.cyklon.reflection.entities.ReflectClass;
 import de.cyklon.reflection.entities.members.ReflectParameter;
 import de.cyklon.reflection.types.AbstractMethod;
-import de.cyklon.reflection.types.Modifier;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Parameter;
-import java.util.EnumSet;
 
 public class ReflectParameterImpl<D, R> extends ReflectMemberImpl<D, R> implements ReflectParameter<D, R> {
 	private final Parameter parameter;
@@ -33,10 +31,9 @@ public class ReflectParameterImpl<D, R> extends ReflectMemberImpl<D, R> implemen
 		return method;
 	}
 
-	@NotNull
 	@Override
-	public EnumSet<Modifier> getModifiers() {
-		return Modifier.parse(parameter.getModifiers());
+	public int getEncodedModifiers() {
+		return parameter.getModifiers();
 	}
 
 	@NotNull

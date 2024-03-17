@@ -2,13 +2,11 @@ package de.cyklon.reflection.entities.members.impl;
 
 import de.cyklon.reflection.entities.ReflectClass;
 import de.cyklon.reflection.entities.members.ReflectField;
-import de.cyklon.reflection.types.Modifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.EnumSet;
 
 public class ReflectFieldImpl<D, R> extends ReflectMemberImpl<D, R> implements ReflectField<D, R> {
 	private final Field field;
@@ -52,10 +50,9 @@ public class ReflectFieldImpl<D, R> extends ReflectMemberImpl<D, R> implements R
 		}
 	}
 
-	@NotNull
 	@Override
-	public EnumSet<Modifier> getModifiers() {
-		return Modifier.parse(field.getModifiers());
+	public int getEncodedModifiers() {
+		return field.getModifiers();
 	}
 
 	@Override
