@@ -8,10 +8,6 @@ import java.util.Comparator;
 
 public interface Sorter<T> extends Comparator<T> {
 
-	static <T> Sorter<T> random() {
-		return (o1, o2) -> Math.round((float) (Math.random()*3-2));
-	}
-
 	static <T extends Loadable<?>> Sorter<T> byLoadingState() {
 		return (l1, l2) -> Boolean.compare(l1.isLoaded(), l2.isLoaded());
 	}
