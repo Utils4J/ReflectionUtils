@@ -81,6 +81,11 @@ public class ReflectMethodImpl<D, R> extends ReflectMemberImpl<D, R> implements 
 	}
 
 	@Override
+	public int hashCode() {
+		return method.hashCode();
+	}
+
+	@Override
 	public String toString() {
 		return method.toString();
 	}

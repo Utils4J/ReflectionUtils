@@ -62,6 +62,19 @@ public class OfflinePackageImpl implements OfflinePackage {
 
 	@NotNull
 	@Override
+	public Set<? extends ReflectPackage> loadRecursive() {
+		return Collections.unmodifiableSet(loadSubPackages(this));
+	}
+
+	private Set<? extends ReflectPackage> loadSubPackages(OfflinePackage pkg) {
+		Set<ReflectPackage> result = new HashSet<>();
+		if (!pkg.getDirectClasses().isEmpty()) result.add(pkg.load());
+		pkg.getPackages().forEach(p -> result.addAll(loadSubPackages(p)));
+		return result;
+	}
+
+	@NotNull
+	@Override
 	public Set<? extends ClassFile> getClasses() {
 		return getClasses(getName(), Integer.MAX_VALUE).stream()
 				.map(ClassFile::forName)
@@ -159,6 +172,11 @@ public class OfflinePackageImpl implements OfflinePackage {
 	@Override
 	public boolean equals(Object obj) {
 		return obj instanceof OfflinePackage pkg && pkg.getName().equals(getName());
+	}
+
+	@Override
+	public int hashCode() {
+		return packageName.hashCode();
 	}
 
 	@Override

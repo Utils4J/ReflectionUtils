@@ -138,6 +138,11 @@ public class ReflectPackageImpl extends OfflinePackageImpl implements ReflectPac
 	}
 
 	@Override
+	public int hashCode() {
+		return getName().hashCode();
+	}
+
+	@Override
 	public String toString() {
 		return isBasePackage() ? "base package" : pkg.toString();
 	}

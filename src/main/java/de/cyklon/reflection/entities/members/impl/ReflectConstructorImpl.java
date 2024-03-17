@@ -80,6 +80,11 @@ public class ReflectConstructorImpl<D> extends ReflectMemberImpl<D, D> implement
 	}
 
 	@Override
+	public int hashCode() {
+		return constructor.hashCode();
+	}
+
+	@Override
 	public String toString() {
 		return constructor.toString();
 	}

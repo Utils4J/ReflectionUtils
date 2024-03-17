@@ -288,6 +288,11 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	}
 
 	@Override
+	public int hashCode() {
+		return getName().hashCode();
+	}
+
+	@Override
 	public String toString() {
 		return getTypeName();
 	}

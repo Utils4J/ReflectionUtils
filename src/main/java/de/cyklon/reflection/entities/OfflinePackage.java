@@ -30,6 +30,10 @@ public interface OfflinePackage extends Nameable, Loadable<ReflectPackage> {
 
 	@NotNull
 	@Unmodifiable
+	Set<? extends ReflectPackage> loadRecursive();
+
+	@NotNull
+	@Unmodifiable
 	Set<? extends ClassFile> getClasses();
 
 	@NotNull
