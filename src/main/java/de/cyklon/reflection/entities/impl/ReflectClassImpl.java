@@ -11,6 +11,7 @@ import de.cyklon.reflection.entities.members.impl.ReflectMethodImpl;
 import de.cyklon.reflection.exception.ConstructorNotFoundException;
 import de.cyklon.reflection.exception.ExecutionException;
 import de.cyklon.reflection.function.Filter;
+import de.cyklon.reflection.function.Sorter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
@@ -90,6 +91,7 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 		if (!(type instanceof ParameterizedType pt)) return Collections.emptyList();
 		return Arrays.stream(pt.getActualTypeArguments())
 				.map(ReflectClass::wrap)
+				.sorted(Sorter.bySimpleName())
 				.toList();
 	}
 
@@ -108,14 +110,20 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	@Override
 	public List<? extends ReflectClass<?>> getUpperWildcardBounds() throws IllegalStateException {
 		if (!(type instanceof WildcardType t)) throw new IllegalStateException();
-		return Arrays.stream(t.getUpperBounds()).map(ReflectClass::wrap).toList();
+		return Arrays.stream(t.getUpperBounds())
+				.map(ReflectClass::wrap)
+				.sorted(Sorter.bySimpleName())
+				.toList();
 	}
 
 	@NotNull
 	@Override
 	public List<? extends ReflectClass<?>> getLowerWildcardBounds() throws IllegalStateException {
 		if (!(type instanceof WildcardType t)) throw new IllegalStateException();
-		return Arrays.stream(t.getLowerBounds()).map(ReflectClass::wrap).toList();
+		return Arrays.stream(t.getLowerBounds())
+				.map(ReflectClass::wrap)
+				.sorted(Sorter.bySimpleName())
+				.toList();
 	}
 
 	@Override
