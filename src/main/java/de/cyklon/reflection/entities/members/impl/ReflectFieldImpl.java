@@ -51,7 +51,7 @@ public class ReflectFieldImpl<D, R> extends ReflectMemberImpl<D, R> implements R
 	}
 
 	@Override
-	public int getIntModifiers() {
+	public int getEncodedModifiers() {
 		return field.getModifiers();
 	}
 

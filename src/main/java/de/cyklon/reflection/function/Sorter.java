@@ -17,7 +17,7 @@ public interface Sorter<T> extends Comparator<T> {
 	}
 
 	static <T extends Modifiable> Sorter<T> byModifier() {
-		return (m1, m2) -> Integer.compare(m1.getIntModifiers(), m2.getIntModifiers());
+		return (m1, m2) -> Integer.compare(m1.getEncodedModifiers(), m2.getEncodedModifiers());
 	}
 
 	static <T extends Nameable> Sorter<T> byName() {

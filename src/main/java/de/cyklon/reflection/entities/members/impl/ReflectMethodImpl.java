@@ -56,7 +56,7 @@ public class ReflectMethodImpl<D, R> extends ReflectMemberImpl<D, R> implements 
 	}
 
 	@Override
-	public int getIntModifiers() {
+	public int getEncodedModifiers() {
 		return method.getModifiers();
 	}
 

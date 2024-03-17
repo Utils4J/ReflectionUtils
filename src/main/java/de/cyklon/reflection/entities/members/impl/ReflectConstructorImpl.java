@@ -58,7 +58,7 @@ public class ReflectConstructorImpl<D> extends ReflectMemberImpl<D, D> implement
 	}
 
 	@Override
-	public int getIntModifiers() {
+	public int getEncodedModifiers() {
 		return constructor.getModifiers();
 	}
 

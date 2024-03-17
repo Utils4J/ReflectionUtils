@@ -32,7 +32,7 @@ public class ReflectParameterImpl<D, R> extends ReflectMemberImpl<D, R> implemen
 	}
 
 	@Override
-	public int getIntModifiers() {
+	public int getEncodedModifiers() {
 		return parameter.getModifiers();
 	}
 

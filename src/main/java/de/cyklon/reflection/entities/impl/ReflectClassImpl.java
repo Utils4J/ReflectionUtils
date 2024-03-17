@@ -139,7 +139,7 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	}
 
 	@Override
-	public int getIntModifiers() {
+	public int getEncodedModifiers() {
 		return clazz.getModifiers();
 	}
 

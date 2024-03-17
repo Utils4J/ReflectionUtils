@@ -6,11 +6,11 @@ import java.util.EnumSet;
 
 public interface Modifiable {
 
-	int getIntModifiers();
+	int getEncodedModifiers();
 
 	@NotNull
 	default EnumSet<Modifier> getModifiers() {
-		return Modifier.parse(getIntModifiers());
+		return Modifier.parse(getEncodedModifiers());
 	}
 
 	default boolean hasModifier(@NotNull Modifier modifier) {
