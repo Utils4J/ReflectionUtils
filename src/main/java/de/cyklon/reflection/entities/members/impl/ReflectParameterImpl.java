@@ -62,6 +62,11 @@ public class ReflectParameterImpl<D, R> extends ReflectMemberImpl<D, R> implemen
 	}
 
 	@Override
+	public int hashCode() {
+		return parameter.hashCode() ^ method.hashCode();
+	}
+
+	@Override
 	public String toString() {
 		return parameter.toString();
 	}

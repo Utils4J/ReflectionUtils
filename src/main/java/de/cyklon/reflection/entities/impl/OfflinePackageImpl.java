@@ -175,6 +175,11 @@ public class OfflinePackageImpl implements OfflinePackage {
 	}
 
 	@Override
+	public int hashCode() {
+		return packageName.hashCode();
+	}
+
+	@Override
 	public String toString() {
 		return isBasePackage() ? "base package" : String.format("package %s", packageName);
 	}

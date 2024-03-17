@@ -66,6 +66,11 @@ public class ClassFileImpl implements ClassFile {
 	}
 
 	@Override
+	public int hashCode() {
+		return className.hashCode();
+	}
+
+	@Override
 	public String toString() {
 		return getName();
 	}
