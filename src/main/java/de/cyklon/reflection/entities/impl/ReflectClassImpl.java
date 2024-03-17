@@ -11,7 +11,6 @@ import de.cyklon.reflection.entities.members.impl.ReflectMethodImpl;
 import de.cyklon.reflection.exception.ConstructorNotFoundException;
 import de.cyklon.reflection.exception.ExecutionException;
 import de.cyklon.reflection.function.Filter;
-import de.cyklon.reflection.types.Modifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
@@ -139,10 +138,9 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 		return type instanceof WildcardType;
 	}
 
-	@NotNull
 	@Override
-	public EnumSet<Modifier> getModifiers() {
-		return Modifier.parse(clazz.getModifiers());
+	public int getIntModifiers() {
+		return clazz.getModifiers();
 	}
 
 	@Nullable

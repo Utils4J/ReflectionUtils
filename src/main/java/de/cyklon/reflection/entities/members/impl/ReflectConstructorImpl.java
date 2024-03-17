@@ -4,13 +4,11 @@ import de.cyklon.reflection.entities.ReflectClass;
 import de.cyklon.reflection.entities.members.ReflectConstructor;
 import de.cyklon.reflection.entities.members.ReflectParameter;
 import de.cyklon.reflection.exception.ExecutionException;
-import de.cyklon.reflection.types.Modifier;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -59,10 +57,9 @@ public class ReflectConstructorImpl<D> extends ReflectMemberImpl<D, D> implement
 		}
 	}
 
-	@NotNull
 	@Override
-	public EnumSet<Modifier> getModifiers() {
-		return Modifier.parse(constructor.getModifiers());
+	public int getIntModifiers() {
+		return constructor.getModifiers();
 	}
 
 	@NotNull
