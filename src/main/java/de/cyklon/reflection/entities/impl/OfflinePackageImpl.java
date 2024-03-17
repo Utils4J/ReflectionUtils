@@ -6,7 +6,6 @@ import de.cyklon.reflection.entities.ReflectPackage;
 import de.cyklon.reflection.exception.PackageLoadException;
 import de.cyklon.reflection.exception.PackageNotFoundException;
 import de.cyklon.reflection.function.Filter;
-import de.cyklon.reflection.function.Sorter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
@@ -66,7 +65,6 @@ public class OfflinePackageImpl implements OfflinePackage {
 	public Set<? extends ClassFile> getClasses() {
 		return getClasses(getName(), Integer.MAX_VALUE).stream()
 				.map(ClassFile::forName)
-				.sorted(Sorter.bySimpleName())
 				.collect(Collectors.toUnmodifiableSet());
 	}
 

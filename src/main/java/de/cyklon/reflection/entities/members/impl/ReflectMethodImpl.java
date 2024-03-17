@@ -4,7 +4,6 @@ import de.cyklon.reflection.entities.ReflectClass;
 import de.cyklon.reflection.entities.members.ReflectMethod;
 import de.cyklon.reflection.entities.members.ReflectParameter;
 import de.cyklon.reflection.exception.ExecutionException;
-import de.cyklon.reflection.function.Sorter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -40,7 +39,6 @@ public class ReflectMethodImpl<D, R> extends ReflectMemberImpl<D, R> implements 
 	public List<? extends ReflectParameter<D, Object>> getParameters() {
 		return IntStream.range(0, method.getParameterCount())
 				.mapToObj(i -> new ReflectParameterImpl<>(method.getParameters()[i], ReflectClass.wrap(method.getGenericParameterTypes()[i]), this))
-				.sorted(Sorter.bySimpleName())
 				.toList();
 	}
 
