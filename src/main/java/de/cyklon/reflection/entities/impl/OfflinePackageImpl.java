@@ -38,6 +38,7 @@ public class OfflinePackageImpl implements OfflinePackage {
 
 	//returns false if package was not found
 	static boolean checkPackage(@NotNull String packageName) {
+		if (packageName.isBlank()) return true;
 		try (InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream(packageName.replaceAll("\\.", "/"))) {
 			return in != null;
 		} catch (IOException e) {
