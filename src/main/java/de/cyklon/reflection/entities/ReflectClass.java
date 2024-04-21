@@ -1,6 +1,5 @@
 package de.cyklon.reflection.entities;
 
-import de.cyklon.reflection.ReflectionUtils;
 import de.cyklon.reflection.entities.impl.ReflectClassImpl;
 import de.cyklon.reflection.entities.members.ReflectConstructor;
 import de.cyklon.reflection.entities.members.ReflectField;
@@ -11,6 +10,7 @@ import de.cyklon.reflection.exception.FieldNotFoundException;
 import de.cyklon.reflection.exception.MethodNotFoundException;
 import de.cyklon.reflection.function.Filter;
 import de.cyklon.reflection.types.Modifiable;
+import de.cyklon.reflection.types.Nameable;
 import de.cyklon.reflection.types.ReflectEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -41,8 +41,18 @@ public interface ReflectClass<D> extends ClassFile, Type, ReflectEntity, Modifia
 	@NotNull
 	@SuppressWarnings("unchecked")
 	static <D> ReflectClass<D> forName(@NotNull String className) {
-		return wrap((Class<D>) ReflectionUtils.getClass(className));
+		return wrap((Class<D>) getClass(className));
 	}
+
+	@NotNull
+	private static Class<?> getClass(@NotNull String className) throws ClassNotFoundException {
+		try {
+			return Class.forName(className);
+		} catch (java.lang.ClassNotFoundException e) {
+			throw new ClassNotFoundException(Nameable.wrap(className.substring(0, className.lastIndexOf('.'))), className);
+		}
+	}
+
 
 
 	@NotNull
