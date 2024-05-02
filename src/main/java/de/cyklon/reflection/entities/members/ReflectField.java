@@ -16,7 +16,7 @@ public interface ReflectField<D, R> extends ReflectMember<D, R> {
 
 	@Nullable R getValue(@NotNull Object obj);
 
-	void setValue(@NotNull Object obj, R value);
+	void setValue(@NotNull Object obj, @Nullable Object value);
 
 	@Nullable
 	@SuppressWarnings("ConstantConditions")
