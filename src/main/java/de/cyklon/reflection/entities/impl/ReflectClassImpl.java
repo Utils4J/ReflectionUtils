@@ -29,7 +29,7 @@ public class ReflectClassImpl<D> implements ReflectClass<D> {
 	private static <D> Class<D> getClazz(@NotNull Type type) {
 		if (type instanceof Class<?> c) return (Class<D>) c;
 		if (type instanceof ParameterizedType pt) return getClazz(pt.getRawType());
-		if (type instanceof GenericArrayType gt) return (Class<D>) Array.newInstance(getClazz(gt.getGenericComponentType()), 0).getClass();
+		if (type instanceof GenericArrayType gt) return (Class<D>) getClazz(gt.getGenericComponentType()).arrayType();
 		if (type instanceof WildcardType) return (Class<D>) void.class;
 
 		throw new IllegalArgumentException("Cannot find Class for " + type);
