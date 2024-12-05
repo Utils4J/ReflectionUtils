@@ -42,7 +42,7 @@ public class ReflectFieldImpl<D, R> extends ReflectMemberImpl<D, R> implements R
 	}
 
 	@Override
-	public void setValue(@NotNull Object obj, R value) {
+	public void setValue(@NotNull Object obj, @Nullable Object value) {
 		try {
 			field.set(obj, value);
 		} catch (IllegalAccessException e) {
