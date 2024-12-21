@@ -1,5 +1,5 @@
 ![[Java CI]](https://github.com/Utils4J/ReflectionUtils/actions/workflows/check.yml/badge.svg)
-![[Latest Version]](https://maven.mineking.dev/api/badge/latest/releases/de/cyklon/ReflectionUtils?prefix=v&name=Latest%20Version&color=0374b5)
+![[Latest Version]](https://maven.cyklon.dev/api/badge/latest/releases/de/cyklon/ReflectionUtils?prefix=v&name=Latest%20Version&color=0374b5)
 
 # Installation
 
@@ -10,7 +10,7 @@ Alternatively, you can download the artifacts from jitpack (not recommended).
 
 ```groovy
 repositories {
-  maven { url "https://maven.mineking.dev/releases" }
+  maven { url "https://maven.cyklon.dev/releases" }
 }
 
 dependencies {
@@ -23,8 +23,8 @@ dependencies {
 ```xml
 <repositories>
   <repository>
-    <id>Utils4J</id>
-    <url>https://maven.mineking.dev/releases</url>
+    <id>cyklon</id>
+    <url>https://maven.cyklon.dev/releases</url>
   </repository>
 </repositories>
 
